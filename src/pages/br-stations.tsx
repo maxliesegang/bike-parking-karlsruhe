@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import DataTable from "../components/DataTable";
-import { BRStation } from "../models/br-station";
-import { generateBRStationsData } from "../lib/dataProcessor";
+import DataTable, { Column } from "@/components/DataTable";
+import { BRStation } from "@/models/br-station";
+import { generateBRStationsData } from "@/lib/dataProcessor";
 import { getAbstellanlagen } from "@/lib/staticDataCache";
 import { Typography, Box } from "@mui/material";
 
@@ -10,14 +10,14 @@ interface BRStationsProps {
   brStations: BRStation[];
 }
 
-export default function BRStations({ brStations }: BRStationsProps) {
-  const columns = [
-    { key: "name", label: "Station", type: "text" },
-    { key: "gemeinde", label: "Gemeinde", type: "text" }, // Add this line
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "abstellanlagen", label: "Abstellanlagen", type: "number" },
-  ];
+const columns: Column[] = [
+  { key: "name", label: "Station", type: "text" },
+  { key: "gemeinde", label: "Gemeinde", type: "text" },
+  { key: "stellplaetze", label: "Stellplätze", type: "number" },
+  { key: "abstellanlagen", label: "Abstellanlagen", type: "number" },
+];
 
+export default function BRStations({ brStations }: BRStationsProps) {
   const totalStellplaetze = brStations.reduce(
     (sum, station) => sum + station.stellplaetze,
     0,
@@ -45,7 +45,7 @@ export default function BRStations({ brStations }: BRStationsProps) {
       </Typography>
       <Box sx={{ width: "100%", overflowX: "auto", mb: 4 }}>
         <DataTable
-          data={brStations}
+          data={brStations as unknown as Record<string, unknown>[]}
           columns={columns}
           id="brStationTable"
           ariaLabel="Bike and Ride Stationen Übersicht"

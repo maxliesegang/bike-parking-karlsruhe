@@ -2,8 +2,8 @@ import { getAbstellanlagen } from "@/lib/staticDataCache";
 import { Typography } from "@mui/material";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import AbstellanlagenTable from "../components/AbstellanlagenTable";
-import { Abstellanlage } from "../models/abstellanlage";
+import AbstellanlagenTable from "@/components/AbstellanlagenTable";
+import { Abstellanlage } from "@/models/abstellanlage";
 
 interface HomeProps {
   abstellanlagen: Abstellanlage[];

@@ -1,20 +1,19 @@
 import { useState } from "react";
 import AbstellanlagenTable from "@/components/AbstellanlagenTable";
+import DataTable, { Column } from "@/components/DataTable";
+import DevelopmentChart from "@/components/DevelopmentChart";
 import { getAbstellanlagen } from "@/lib/staticDataCache";
-import { Abstellanlage } from "@/models/abstellanlage";
-import { Stadtteil } from "@/models/stadtteil";
-import { Box, Typography, Tabs, Tab, styled } from "@mui/material";
-import { GetStaticPaths, GetStaticProps } from "next";
-import Head from "next/head";
-import DataTable from "../../components/DataTable";
 import {
   generateStadtteileData,
   generateBRStationsData,
-} from "../../lib/dataProcessor";
+} from "@/lib/dataProcessor";
+import { Abstellanlage } from "@/models/abstellanlage";
+import { Stadtteil } from "@/models/stadtteil";
 import { BRStation } from "@/models/br-station";
-import DevelopmentChart from "@/components/DevelopmentChart";
+import { Box, Typography, Tabs, Tab, styled } from "@mui/material";
+import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 
-// Styled components for custom tabs
 const StyledTabs = styled(Tabs)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
   marginBottom: theme.spacing(4),
@@ -38,6 +37,23 @@ const StyledTab = styled(Tab)(({ theme }) => ({
   },
 }));
 
+const stadtteileColumns: Column[] = [
+  { key: "name", label: "Stadtteil", type: "text" },
+  { key: "stellplaetze", label: "Stellplätze", type: "number" },
+  { key: "anlagen", label: "Anlagen", type: "number" },
+  {
+    key: "anlagenOhneStellplatzangabe",
+    label: "Anlagen ohne Stellplatzangabe",
+    type: "number",
+  },
+];
+
+const brStationsColumns: Column[] = [
+  { key: "name", label: "Station", type: "text" },
+  { key: "stellplaetze", label: "Stellplätze", type: "number" },
+  { key: "abstellanlagen", label: "Abstellanlagen", type: "number" },
+];
+
 interface GemeindeDetailProps {
   gemeindeName: string;
   abstellanlagen: Abstellanlage[];
@@ -52,27 +68,6 @@ export default function GemeindeDetail({
   brStations,
 }: GemeindeDetailProps) {
   const [tabValue, setTabValue] = useState(0);
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
-
-  const stadtteileColumns = [
-    { key: "name", label: "Stadtteil", type: "text" },
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "anlagen", label: "Anlagen", type: "number" },
-    {
-      key: "anlagenOhneStellplatzangabe",
-      label: "Anlagen ohne Stellplatzangabe",
-      type: "number",
-    },
-  ];
-
-  const brStationsColumns = [
-    { key: "name", label: "Station", type: "text" },
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "abstellanlagen", label: "Abstellanlagen", type: "number" },
-  ];
 
   return (
     <>
@@ -92,7 +87,7 @@ export default function GemeindeDetail({
       <Box sx={{ width: "100%" }}>
         <StyledTabs
           value={tabValue}
-          onChange={handleTabChange}
+          onChange={(_event, newValue: number) => setTabValue(newValue)}
           aria-label="Gemeinde tabs"
         >
           <StyledTab label="Stadtteile" />
@@ -104,7 +99,7 @@ export default function GemeindeDetail({
 
       {tabValue === 0 && (
         <DataTable
-          data={stadtteile}
+          data={stadtteile as unknown as Record<string, unknown>[]}
           columns={stadtteileColumns}
           id="stadtteileTable"
           ariaLabel={`Stadtteile in ${gemeindeName}`}
@@ -117,7 +112,7 @@ export default function GemeindeDetail({
 
       {tabValue === 2 && (
         <DataTable
-          data={brStations}
+          data={brStations as unknown as Record<string, unknown>[]}
           columns={brStationsColumns}
           id="brStationsTable"
           ariaLabel={`B+R Stationen in ${gemeindeName}`}
@@ -131,9 +126,9 @@ export default function GemeindeDetail({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const abstellanlagen = await getAbstellanlagen();
-  const gemeinden = abstellanlagen.map((a) => a.gemeinde);
+  const uniqueGemeinden = [...new Set(abstellanlagen.map((a) => a.gemeinde))];
 
-  const paths = gemeinden.map((gemeinde) => ({
+  const paths = uniqueGemeinden.map((gemeinde) => ({
     params: { name: encodeURIComponent(gemeinde) },
   }));
 

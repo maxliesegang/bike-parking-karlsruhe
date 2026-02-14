@@ -1,5 +1,3 @@
-// File: src/lib/firstFetchedManager.ts
-
 import fs from "fs";
 import path from "path";
 
@@ -15,7 +13,6 @@ export class FirstFetchedManager {
   private loadDates(): Record<number, string> {
     if (fs.existsSync(FIRST_FETCHED_FILE)) {
       const data = JSON.parse(fs.readFileSync(FIRST_FETCHED_FILE, "utf8"));
-      // Convert string keys back to numbers
       return Object.fromEntries(
         Object.entries(data).map(([key, value]) => [
           Number(key),

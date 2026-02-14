@@ -1,5 +1,4 @@
-// File: src/components/Layout.tsx
-import React from "react";
+import { ReactNode, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -17,50 +16,22 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
+const navItems = [
+  { href: "/", label: "Übersicht" },
+  { href: "/gemeinden", label: "Gemeinden" },
+  { href: "/br-stations", label: "B+R Stationen" },
+  { href: "/about", label: "Über die Daten" },
+];
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navItems = [
-    { href: "/", label: "Übersicht" },
-    { href: "/gemeinden", label: "Gemeinden" },
-    { href: "/br-stations", label: "B+R Stationen" },
-    { href: "/about", label: "Über die Daten" },
-  ];
+  const isActive = (href: string) =>
+    href === "/" ? router.pathname === href : router.pathname.startsWith(href);
 
-  const isActive = (href: string) => {
-    if (href === "/") {
-      return router.pathname === href;
-    }
-    return router.pathname.startsWith(href);
-  };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const drawer = (
-    <List>
-      {navItems.map((item) => (
-        <ListItem key={item.href} disablePadding>
-          <ListItemButton
-            component={Link}
-            href={item.href}
-            onClick={handleDrawerToggle}
-            selected={isActive(item.href)}
-          >
-            <ListItemText primary={item.label} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-  );
+  const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
 
   return (
     <>
@@ -112,15 +83,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
           }}
         >
-          {drawer}
+          <List>
+            {navItems.map((item) => (
+              <ListItem key={item.href} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  href={item.href}
+                  onClick={handleDrawerToggle}
+                  selected={isActive(item.href)}
+                >
+                  <ListItemText primary={item.label} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
         </Drawer>
       </Box>
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -128,6 +110,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Container>
     </>
   );
-};
-
-export default Layout;
+}

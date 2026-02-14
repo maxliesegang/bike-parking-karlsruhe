@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import {
   LineChart,
@@ -16,51 +16,45 @@ interface DevelopmentChartProps {
   abstellanlagen: Abstellanlage[];
 }
 
-const DevelopmentChart: React.FC<DevelopmentChartProps> = ({
+function getEarliestDate(anlage: Abstellanlage): number {
+  return Math.min(
+    new Date(anlage.firstFetched).getTime(),
+    new Date(anlage.lastUpdated).getTime(),
+  );
+}
+
+export default function DevelopmentChart({
   abstellanlagen,
-}) => {
+}: DevelopmentChartProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const timelineData = React.useMemo(() => {
-    const data: {
-      [key: string]: { date: string; stellplaetze: number; anlagen: number };
-    } = {};
+  const timelineData = useMemo(() => {
+    const dataByDate: Record<
+      string,
+      { date: string; stellplaetze: number; anlagen: number }
+    > = {};
     let cumulativeStellplaetze = 0;
     let cumulativeAnlagen = 0;
 
-    abstellanlagen
-      .sort((a, b) => {
-        const dateA = Math.min(
-          new Date(a.firstFetched).getTime(),
-          new Date(a.lastUpdated).getTime(),
-        );
-        const dateB = Math.min(
-          new Date(b.firstFetched).getTime(),
-          new Date(b.lastUpdated).getTime(),
-        );
-        return dateA - dateB;
-      })
+    [...abstellanlagen]
+      .sort((a, b) => getEarliestDate(a) - getEarliestDate(b))
       .forEach((anlage) => {
-        const date = new Date(
-          Math.min(
-            new Date(anlage.firstFetched).getTime(),
-            new Date(anlage.lastUpdated).getTime(),
-          ),
-        );
-        const dateString = date.toISOString().split("T")[0];
+        const dateString = new Date(getEarliestDate(anlage))
+          .toISOString()
+          .split("T")[0];
 
         cumulativeStellplaetze += anlage.stellplaetze || 0;
         cumulativeAnlagen += 1;
 
-        data[dateString] = {
+        dataByDate[dateString] = {
           date: dateString,
           stellplaetze: cumulativeStellplaetze,
           anlagen: cumulativeAnlagen,
         };
       });
 
-    return Object.values(data);
+    return Object.values(dataByDate);
   }, [abstellanlagen]);
 
   return (
@@ -71,12 +65,7 @@ const DevelopmentChart: React.FC<DevelopmentChartProps> = ({
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={timelineData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
@@ -113,6 +102,4 @@ const DevelopmentChart: React.FC<DevelopmentChartProps> = ({
       </ResponsiveContainer>
     </Box>
   );
-};
-
-export default DevelopmentChart;
+}

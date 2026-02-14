@@ -3,27 +3,27 @@ import { Box, Typography } from "@mui/material";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import DataTable from "../components/DataTable";
-import { generateGemeindenData } from "../lib/dataProcessor";
-import { Gemeinde } from "../models/gemeinde";
+import DataTable, { Column } from "@/components/DataTable";
+import { generateGemeindenData } from "@/lib/dataProcessor";
+import { Gemeinde } from "@/models/gemeinde";
 
 interface GemeindenProps {
   gemeinden: Gemeinde[];
 }
 
-export default function Gemeinden({ gemeinden }: GemeindenProps) {
-  const columns = [
-    { key: "name", label: "Gemeinde", type: "text" },
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "anlagen", label: "Anlagen", type: "number" },
-    {
-      key: "anlagenOhneStellplatzangabe",
-      label: "Anlagen ohne Stellplatzangabe",
-      type: "number",
-    },
-    { key: "stadtteile", label: "Anzahl Stadtteile", type: "number" },
-  ];
+const columns: Column[] = [
+  { key: "name", label: "Gemeinde", type: "text" },
+  { key: "stellplaetze", label: "Stellplätze", type: "number" },
+  { key: "anlagen", label: "Anlagen", type: "number" },
+  {
+    key: "anlagenOhneStellplatzangabe",
+    label: "Anlagen ohne Stellplatzangabe",
+    type: "number",
+  },
+  { key: "stadtteile", label: "Anzahl Stadtteile", type: "number" },
+];
 
+export default function Gemeinden({ gemeinden }: GemeindenProps) {
   const gemeindenData = gemeinden.map((gemeinde) => ({
     ...gemeinde,
     stadtteile: gemeinde.stadtteile.length,
@@ -35,15 +35,12 @@ export default function Gemeinden({ gemeinden }: GemeindenProps) {
   }));
 
   const totalStellplaetze = gemeinden.reduce(
-    (sum, gemeinde) => sum + gemeinde.stellplaetze,
+    (sum, g) => sum + g.stellplaetze,
     0,
   );
-  const totalAnlagen = gemeinden.reduce(
-    (sum, gemeinde) => sum + gemeinde.anlagen,
-    0,
-  );
-  const totalAnlagenOhneStellplatzangabe = gemeinden.reduce(
-    (sum, gemeinde) => sum + gemeinde.anlagenOhneStellplatzangabe,
+  const totalAnlagen = gemeinden.reduce((sum, g) => sum + g.anlagen, 0);
+  const totalOhneStellplatzangabe = gemeinden.reduce(
+    (sum, g) => sum + g.anlagenOhneStellplatzangabe,
     0,
   );
 
@@ -63,7 +60,7 @@ export default function Gemeinden({ gemeinden }: GemeindenProps) {
       </Typography>
       <Box sx={{ width: "100%", overflowX: "auto" }}>
         <DataTable
-          data={gemeindenData}
+          data={gemeindenData as unknown as Record<string, unknown>[]}
           columns={columns}
           id="gemeindenTable"
           ariaLabel="Gemeinden Übersicht"
@@ -74,8 +71,7 @@ export default function Gemeinden({ gemeinden }: GemeindenProps) {
         <Typography>Gesamtstellplätze: {totalStellplaetze}</Typography>
         <Typography>Gesamtanlagen: {totalAnlagen}</Typography>
         <Typography>
-          Gesamtanlagen ohne Stellplatzangabe:{" "}
-          {totalAnlagenOhneStellplatzangabe}
+          Gesamtanlagen ohne Stellplatzangabe: {totalOhneStellplatzangabe}
         </Typography>
       </Box>
     </>

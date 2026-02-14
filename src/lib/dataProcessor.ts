@@ -1,8 +1,8 @@
 import { FeatureCollection, Feature, Point } from "geojson";
-import { Abstellanlage } from "../models/abstellanlage";
-import { Stadtteil } from "../models/stadtteil";
-import { BRStation } from "../models/br-station";
-import { FeatureProperties } from "../models/feature-properties";
+import { Abstellanlage } from "@/models/abstellanlage";
+import { Stadtteil } from "@/models/stadtteil";
+import { BRStation } from "@/models/br-station";
+import { FeatureProperties } from "@/models/feature-properties";
 import { Gemeinde } from "@/models/gemeinde";
 import { firstFetchedManager } from "./firstFetchedMapper";
 
@@ -38,7 +38,7 @@ function mapFeatureToAbstellanlage(
     link: properties.link || "",
     bemerkung: properties.bemerkung,
     firstFetched: firstFetchedManager.getFirstFetchedDate(properties.id),
-    lastUpdated: new Date(properties.stand).toISOString(), // Convert to ISO string
+    lastUpdated: new Date(properties.stand).toISOString(),
   };
 }
 
@@ -87,7 +87,7 @@ export function generateBRStationsData(
               name: trimmedName,
               stellplaetze: 0,
               abstellanlagen: 0,
-              gemeinde: item.gemeinde, // Add this line
+              gemeinde: item.gemeinde,
             };
           }
           acc[trimmedName].stellplaetze += item.stellplaetze || 0;

@@ -1,4 +1,4 @@
-import { Abstellanlage } from "../models/abstellanlage";
+import { Abstellanlage } from "@/models/abstellanlage";
 import { fetchAbstellanlagenData } from "./dataFetcher";
 import { processGeoJsonToAbstellanlagen } from "./dataProcessor";
 
