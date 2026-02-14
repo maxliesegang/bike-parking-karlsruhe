@@ -11,6 +11,7 @@ import {
   Drawer,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -47,15 +48,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const drawer = (
     <List>
       {navItems.map((item) => (
-        <Link key={item.href} href={item.href} passHref>
-          <ListItem
-            button
+        <ListItem key={item.href} disablePadding>
+          <ListItemButton
+            component={Link}
+            href={item.href}
             onClick={handleDrawerToggle}
             selected={isActive(item.href)}
           >
             <ListItemText primary={item.label} />
-          </ListItem>
-        </Link>
+          </ListItemButton>
+        </ListItem>
       ))}
     </List>
   );
@@ -82,24 +84,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 2 }}>
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href} passHref>
-                <Button
-                  sx={{
-                    color: "white",
-                    fontWeight: "bold",
-                    borderRadius: 2,
-                    padding: "6px 16px",
-                    backgroundColor: isActive(item.href)
-                      ? "rgba(255, 255, 255, 0.2)"
-                      : "transparent",
-                    "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    },
-                  }}
-                >
-                  {item.label}
-                </Button>
-              </Link>
+              <Button
+                key={item.href}
+                component={Link}
+                href={item.href}
+                sx={{
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: 2,
+                  padding: "6px 16px",
+                  backgroundColor: isActive(item.href)
+                    ? "rgba(255, 255, 255, 0.2)"
+                    : "transparent",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  },
+                }}
+              >
+                {item.label}
+              </Button>
             ))}
           </Box>
         </Toolbar>
