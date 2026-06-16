@@ -131,3 +131,14 @@ dist
 
 # Custom
 merged_output.txt
+
+# OSM generated data
+data/osm-bike-parking.geojson
+data/karlsruhe-stadtteile.geojson
+
+# Agent configs
+.agents/
+.claude/
+.junie/
+.opencode/
+skills-lock.json
