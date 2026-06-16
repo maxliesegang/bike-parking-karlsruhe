@@ -9,7 +9,7 @@ export default function About() {
         <title>Über die Daten - Fahrrad-Abstellanlagen</title>
         <meta
           name="description"
-          content="Informationen über die Datenquelle der Fahrrad-Abstellanlagen"
+          content="Informationen über die Datenquellen der Fahrrad-Abstellanlagen"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -19,16 +19,41 @@ export default function About() {
       </Typography>
 
       <Box sx={{ mb: 4 }}>
+        <Typography variant="h2" gutterBottom>
+          OpenStreetMap
+        </Typography>
         <Typography paragraph>
-          Datensatz{" "}
+          Die Hauptdatenquelle dieser Anwendung sind die{" "}
+          <Link href="https://www.openstreetmap.org">
+            OpenStreetMap
+          </Link>{" "}
+          Fahrrad-Abstellanlagen (amenity=bicycle_parking). Die Daten werden
+          regelmäßig über die Overpass API bezogen und decken ein größeres
+          Gebiet um Karlsruhe ab.
+        </Typography>
+        <Typography paragraph>
+          © OpenStreetMap-Mitwirkende. Veröffentlicht unter der{" "}
+          <Link href="https://opendatacommons.org/licenses/odbl/">
+            Open Data Commons Open Database License (ODbL)
+          </Link>
+          .
+        </Typography>
+      </Box>
+
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h2" gutterBottom>
+          Stadt Karlsruhe (Offene Daten)
+        </Typography>
+        <Typography paragraph>
+          Zusätzlich werden Daten aus dem Datensatz{" "}
           <Link href="https://transparenz.karlsruhe.de/dataset/fahrrad-abstellanlagen">
             Fahrrad Abstellanlagen
-          </Link>
-          ,{" "}
+          </Link>{" "}
+          der{" "}
           <Link href="https://transparenz.karlsruhe.de/organization/47f81b28-f494-4bca-a36c-b636924ad0c3">
             Stadt Karlsruhe
-          </Link>
-          . Veröffentlicht unter der Lizenz{" "}
+          </Link>{" "}
+          angezeigt. Veröffentlicht unter der Lizenz{" "}
           <Link href="http://creativecommons.org/licenses/by/4.0/">
             Creative Commons Namensnennung - 4.0 International (CC-BY 4.0)
           </Link>
