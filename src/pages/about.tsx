@@ -22,7 +22,7 @@ export default function About() {
         <Typography variant="h2" gutterBottom>
           OpenStreetMap
         </Typography>
-        <Typography paragraph>
+        <Typography sx={{ mb: 2 }}>
           Die Hauptdatenquelle dieser Anwendung sind die{" "}
           <Link href="https://www.openstreetmap.org">
             OpenStreetMap
@@ -31,7 +31,7 @@ export default function About() {
           regelmäßig über die Overpass API bezogen und decken ein größeres
           Gebiet um Karlsruhe ab.
         </Typography>
-        <Typography paragraph>
+        <Typography sx={{ mb: 2 }}>
           © OpenStreetMap-Mitwirkende. Veröffentlicht unter der{" "}
           <Link href="https://opendatacommons.org/licenses/odbl/">
             Open Data Commons Open Database License (ODbL)
@@ -44,7 +44,7 @@ export default function About() {
         <Typography variant="h2" gutterBottom>
           Stadt Karlsruhe (Offene Daten)
         </Typography>
-        <Typography paragraph>
+        <Typography sx={{ mb: 2 }}>
           Zusätzlich werden Daten aus dem Datensatz{" "}
           <Link href="https://transparenz.karlsruhe.de/dataset/fahrrad-abstellanlagen">
             Fahrrad Abstellanlagen
@@ -65,7 +65,7 @@ export default function About() {
         <Typography variant="h2" gutterBottom>
           Interaktive Karte
         </Typography>
-        <Typography paragraph>
+        <Typography sx={{ mb: 2 }}>
           Für eine interaktive Kartenansicht der Fahrrad-Abstellanlagen besuchen
           Sie bitte das Mobilitätsportal der Technologie Region Karlsruhe:
         </Typography>
