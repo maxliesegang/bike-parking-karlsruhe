@@ -2,60 +2,32 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import { Typography, Grid, Box, Paper } from "@mui/material";
 import { getOsmData } from "@/lib/osmDataCache";
-import { getAbstellanlagen } from "@/lib/staticDataCache";
-import { OsmBikeParking } from "@/models/osm-bike-parking";
+import { writeMapData } from "@/lib/mapDataWriter";
 import {
-  generateAllgemeineStats,
-  generateVersorgungAnalyse,
+  generateOverviewStats,
   generateTopFacilities,
-  generateVergleichDaten,
-  AllgemeineStats,
-  VersorgungEintrag,
+  OverviewStats,
   TopFacility,
-  VergleichEintrag,
-} from "@/lib/osmDataProcessor";
+} from "@/lib/osm/analytics";
 import { StatCard } from "@/components/StatCard";
 import ParkingMap from "@/components/ParkingMap";
+import TopFacilitiesMap from "@/components/TopFacilitiesMap";
 import DataTable, { Column } from "@/components/DataTable";
 
 interface HomeProps {
-  parkings: OsmBikeParking[];
-  boundaries: GeoJSON.FeatureCollection;
-  versorgung: VersorgungEintrag[];
-  stats: AllgemeineStats;
+  stats: OverviewStats;
   topFacilities: TopFacility[];
-  vergleich: VergleichEintrag[];
 }
 
-const topColumns: Column[] = [
-  { key: "standort", label: "Standort", type: "text" },
-  { key: "region", label: "Region", type: "text" },
-  { key: "art", label: "Art", type: "text" },
-  { key: "stellplaetze", label: "Stellplätze", type: "number" },
+const topColumns: Column<TopFacility>[] = [
+  { key: "rank", label: "#", type: "number" },
+  { key: "name", label: "Standort", type: "text" },
+  { key: "type", label: "Art", type: "text" },
+  { key: "covered", label: "Überdacht", type: "boolean" },
+  { key: "capacity", label: "Stellplätze", type: "number" },
 ];
 
-const vergleichColumns: Column[] = [
-  { key: "kategorie", label: "Kategorie", type: "text" },
-  { key: "osm", label: "OpenStreetMap", type: "number" },
-  { key: "stadt", label: "Stadt Karlsruhe", type: "number" },
-];
-
-export default function Home({
-  parkings,
-  boundaries,
-  versorgung,
-  stats,
-  topFacilities,
-  vergleich,
-}: HomeProps) {
-  const osmTotal = vergleich.find(
-    (v) => v.kategorie === "Erfasste Anlagen (gesamt)",
-  );
-  const faktor =
-    osmTotal && osmTotal.stadt > 0
-      ? Math.round((osmTotal.osm / osmTotal.stadt) * 10) / 10
-      : 0;
-
+export default function Home({ stats, topFacilities }: HomeProps) {
   return (
     <>
       <Head>
@@ -80,27 +52,27 @@ export default function Home({
         <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
             label="Erfasste Anlagen"
-            value={stats.totalAnlagen.toLocaleString("de-DE")}
+            value={stats.totalFacilities.toLocaleString("de-DE")}
+            sub="Karlsruhe & Umgebung"
           />
         </Grid>
         <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
             label="Stellplätze gesamt"
-            value={stats.totalStellplaetze.toLocaleString("de-DE")}
+            value={stats.totalCapacity.toLocaleString("de-DE")}
+            sub="Karlsruhe & Umgebung"
           />
         </Grid>
         <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
-            label="Überdacht"
-            value={`${stats.ueberdachtProzent}%`}
-            sub={`${stats.ueberdacht.toLocaleString("de-DE")} Anlagen`}
+            label="Anlagen in Karlsruhe"
+            value={stats.karlsruheFacilities.toLocaleString("de-DE")}
           />
         </Grid>
         <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
-            label="Regionen abgedeckt"
-            value={stats.regionenAbgedeckt.toLocaleString("de-DE")}
-            sub="Stadtteile & Gemeinden"
+            label="Stellplätze in Karlsruhe"
+            value={stats.karlsruheCapacity.toLocaleString("de-DE")}
           />
         </Grid>
       </Grid>
@@ -109,50 +81,49 @@ export default function Home({
         Karte
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 2 }}>
-        Flächen eingefärbt nach Stellplätzen pro 1.000 Einwohner; Punkte zeigen
-        einzelne Anlagen (gruppiert beim Herauszoomen).
+        Jeder Punkt ist eine erfasste Fahrrad-Abstellanlage (beim Herauszoomen
+        gruppiert). Anklicken zeigt Details zur Anlage.
       </Typography>
       <Box sx={{ mb: 4 }}>
-        <ParkingMap
-          parkings={parkings}
-          boundaries={boundaries}
-          versorgung={versorgung}
-        />
+        <ParkingMap />
       </Box>
 
-      <Grid container spacing={4}>
+      <Typography variant="h2" gutterBottom>
+        Größte Anlagen
+      </Typography>
+      <Typography color="text.secondary" sx={{ mb: 2, maxWidth: 720 }}>
+        Verkehrsknoten wie der Hauptbahnhof bündeln sehr viele Stellplätze und
+        können die Pro-Kopf-Versorgung eines Bezirks stark anheben. Die Nummern
+        in der Tabelle entsprechen den Markierungen auf der Karte.
+      </Typography>
+      <Grid container spacing={3} sx={{ alignItems: "stretch" }}>
         <Grid size={{ xs: 12, md: 7 }}>
-          <Typography variant="h2" gutterBottom>
-            Größte Anlagen
-          </Typography>
-          <Typography color="text.secondary" sx={{ mb: 2 }}>
-            Verkehrsknoten wie der Hauptbahnhof bündeln sehr viele Stellplätze
-            und können die Pro-Kopf-Versorgung eines Bezirks stark anheben.
-          </Typography>
           <DataTable
-            data={topFacilities as unknown as Record<string, unknown>[]}
+            data={topFacilities}
             columns={topColumns}
             id="topFacilities"
             ariaLabel="Größte Anlagen"
           />
         </Grid>
         <Grid size={{ xs: 12, md: 5 }}>
-          <Typography variant="h2" gutterBottom>
-            Stadt vs. OpenStreetMap
-          </Typography>
-          <Paper elevation={0} sx={{ bgcolor: "action.hover", p: 2, borderRadius: 2, mb: 2 }}>
-            <Typography variant="body2" color="text.secondary">
-              OpenStreetMap erfasst rund <strong>{faktor}×</strong> mehr Anlagen
-              als der amtliche Datensatz der Stadt Karlsruhe und ist die
-              vollständigere Grundlage für die Planung.
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 1,
+              borderRadius: 2,
+              borderColor: "#d97706",
+              bgcolor: "#fff8ef",
+              height: "100%",
+            }}
+          >
+            <Typography
+              variant="caption"
+              sx={{ display: "block", px: 1, pt: 0.5, pb: 1, color: "#b45309", fontWeight: 700 }}
+            >
+              Lage der größten Anlagen
             </Typography>
+            <TopFacilitiesMap facilities={topFacilities} />
           </Paper>
-          <DataTable
-            data={vergleich as unknown as Record<string, unknown>[]}
-            columns={vergleichColumns}
-            id="vergleich"
-            ariaLabel="Datenquellen-Vergleich"
-          />
         </Grid>
       </Grid>
     </>
@@ -160,19 +131,16 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const { parkings, regions, boundaries } = getOsmData();
-  const abstellanlagen = await getAbstellanlagen();
+  const { parkings } = getOsmData();
 
-  const versorgung = generateVersorgungAnalyse(parkings, regions);
+  // Emit the slim point set as a static asset the client map fetches async,
+  // keeping the ~7.5k-point array out of this page's static props.
+  writeMapData(parkings);
 
   return {
     props: {
-      parkings,
-      boundaries,
-      versorgung,
-      stats: generateAllgemeineStats(parkings),
-      topFacilities: generateTopFacilities(parkings, 10),
-      vergleich: generateVergleichDaten(parkings, abstellanlagen),
+      stats: generateOverviewStats(parkings),
+      topFacilities: generateTopFacilities(parkings, 20),
     },
   };
 };

@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 const navItems = [
   { href: "/", label: "Übersicht" },
   { href: "/analyse", label: "Analyse" },
+  { href: "/vergleich", label: "Vergleich" },
   { href: "/progress", label: "Entwicklung" },
   { href: "/about", label: "Über die Daten" },
 ];
