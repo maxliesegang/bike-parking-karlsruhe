@@ -17,8 +17,10 @@ on:
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# contents: write is needed for the keepalive commit on scheduled runs, see
+# https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -79,6 +81,19 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Fetch OSM bike parking data
         run: node scripts/fetch-osm-data.mjs
+      - name: Commit updated OSM data
+        # Keeps a versioned history of the source data and gives scheduled runs
+        # repository activity, since scheduled workflows are auto-disabled after
+        # 60 days without a push (running on schedule alone doesn't count).
+        # Only on schedule/workflow_dispatch: a push-triggered run already counts
+        # as activity, and committing there could loop back into another push trigger.
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/osm-bike-parking.geojson data/karlsruhe-stadtteile.geojson
+          git commit -m "chore: update OSM bike parking data" || exit 0
+          git push
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
         env:
