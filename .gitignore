@@ -132,6 +132,9 @@ dist
 # Custom
 merged_output.txt
 
+# Build-time map data asset (regenerated on every build)
+public/data/parkings.json
+
 # OSM generated data (tracked: committed by the deploy workflow to keep
 # a versioned history and to give scheduled runs repository activity)
 data/.stadtteil-raw.json
