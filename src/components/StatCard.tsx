@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { Bewertung } from "@/lib/osmDataProcessor";
+import { Rating } from "@/lib/osm/analytics";
 
 export function StatCard({
   label,
@@ -34,15 +34,15 @@ export function StatCard({
   );
 }
 
-const BEWERTUNG_STYLE: Record<Bewertung, { color: string; label: string }> = {
-  gut: { color: "#2e7d32", label: "Gut" },
-  mittel: { color: "#f57c00", label: "Mittel" },
-  schlecht: { color: "#d32f2f", label: "Schlecht" },
-  unbewertet: { color: "#9e9e9e", label: "Keine Daten" },
+const RATING_STYLE: Record<Rating, { color: string; label: string }> = {
+  good: { color: "#2e7d32", label: "Gut" },
+  medium: { color: "#f57c00", label: "Mittel" },
+  poor: { color: "#d32f2f", label: "Schlecht" },
+  unrated: { color: "#9e9e9e", label: "Keine Daten" },
 };
 
-export function BewertungBadge({ bewertung }: { bewertung: Bewertung }) {
-  const { color, label } = BEWERTUNG_STYLE[bewertung];
+export function RatingBadge({ rating }: { rating: Rating }) {
+  const { color, label } = RATING_STYLE[rating];
   return (
     <Typography variant="body2" sx={{ color, fontWeight: "bold" }}>
       {label}
@@ -50,4 +50,4 @@ export function BewertungBadge({ bewertung }: { bewertung: Bewertung }) {
   );
 }
 
-export { BEWERTUNG_STYLE };
+export { RATING_STYLE };

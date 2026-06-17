@@ -13,7 +13,7 @@ export default function Progress({ history }: ProgressProps) {
   const latest = history[history.length - 1];
   const first = history[0];
   const delta =
-    latest && first ? latest.totalStellplaetze - first.totalStellplaetze : 0;
+    latest && first ? latest.totalCapacity - first.totalCapacity : 0;
 
   return (
     <>

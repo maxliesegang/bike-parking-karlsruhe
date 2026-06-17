@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, ReactNode } from "react";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import {
@@ -12,20 +12,21 @@ import {
 } from "@mui/material";
 import { getOsmData } from "@/lib/osmDataCache";
 import {
-  generateVersorgungAnalyse,
-  generateQualitaetAnalyse,
-  generateTypAnalyse,
-  VersorgungEintrag,
-  QualitaetEintrag,
-  TypAnalyse,
-} from "@/lib/osmDataProcessor";
+  generateSupplyAnalysis,
+  generateQualityAnalysis,
+  generateTypeStats,
+  SupplyEntry,
+  QualityEntry,
+  TypeStats,
+} from "@/lib/osm/analytics";
+import { average } from "@/lib/math";
 import DataTable, { Column } from "@/components/DataTable";
-import { BewertungBadge } from "@/components/StatCard";
+import { RatingBadge } from "@/components/StatCard";
 
 interface AnalyseProps {
-  versorgung: VersorgungEintrag[];
-  qualitaet: QualitaetEintrag[];
-  typen: TypAnalyse[];
+  supply: SupplyEntry[];
+  quality: QualityEntry[];
+  types: TypeStats[];
 }
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
@@ -53,29 +54,46 @@ const LEVEL_LABEL: Record<number, string> = {
   0: "—",
 };
 
-function VersorgungView({
-  versorgung,
+// A column subset on mobile, the full set otherwise.
+function responsiveColumns<T>(columns: Column<T>[], mobileCount: number, isMobile: boolean) {
+  return isMobile ? columns.slice(0, mobileCount) : columns;
+}
+
+type SupplyRow = {
+  name: string;
+  gebiet: string;
+  population: number | string;
+  capacity: number;
+  perThousand: number | string;
+  perKm2: number;
+  rating: ReactNode;
+};
+
+function SupplyView({
+  supply,
   isMobile,
 }: {
-  versorgung: VersorgungEintrag[];
+  supply: SupplyEntry[];
   isMobile: boolean;
 }) {
-  const columns: Column[] = [
+  const columns: Column<SupplyRow>[] = [
     { key: "name", label: "Region", type: "text" },
     { key: "gebiet", label: "Gebiet", type: "text" },
     { key: "population", label: "Einwohner", type: "number" },
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "pro1000", label: "pro 1.000 EW", type: "number" },
-    { key: "proKm2", label: "pro km²", type: "number" },
-    { key: "bewertung", label: "Versorgung", type: "text" },
+    { key: "capacity", label: "Stellplätze", type: "number" },
+    { key: "perThousand", label: "pro 1.000 EW", type: "number" },
+    { key: "perKm2", label: "pro km²", type: "number" },
+    { key: "rating", label: "Versorgung", type: "text" },
   ];
 
-  const data = versorgung.map((e) => ({
-    ...e,
+  const data: SupplyRow[] = supply.map((e) => ({
+    name: e.name,
     gebiet: LEVEL_LABEL[e.level],
     population: e.population ?? "—",
-    pro1000: e.pro1000 ?? "—",
-    bewertung: <BewertungBadge bewertung={e.bewertung} />,
+    capacity: e.capacity,
+    perThousand: e.perThousand ?? "—",
+    perKm2: e.perKm2,
+    rating: <RatingBadge rating={e.rating} />,
   }));
 
   return (
@@ -88,8 +106,8 @@ function VersorgungView({
       </Typography>
       <Box sx={{ width: "100%", overflowX: "auto" }}>
         <DataTable
-          data={data as unknown as Record<string, unknown>[]}
-          columns={isMobile ? columns.slice(0, 5) : columns}
+          data={data}
+          columns={responsiveColumns(columns, 5, isMobile)}
           id="versorgungTable"
           ariaLabel="Versorgungsgrad"
         />
@@ -98,27 +116,22 @@ function VersorgungView({
   );
 }
 
-function QualitaetView({
-  qualitaet,
+function QualityView({
+  quality,
   isMobile,
 }: {
-  qualitaet: QualitaetEintrag[];
+  quality: QualityEntry[];
   isMobile: boolean;
 }) {
-  const avgScore =
-    qualitaet.length > 0
-      ? Math.round(
-          (qualitaet.reduce((s, e) => s + e.score, 0) / qualitaet.length) * 10,
-        ) / 10
-      : 0;
+  const avgScore = average(quality.map((e) => e.score));
 
-  const columns: Column[] = [
+  const columns: Column<QualityEntry>[] = [
     { key: "name", label: "Region", type: "text" },
     { key: "score", label: "Qualität (1–10)", type: "number" },
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "ueberdachtProzent", label: "% Überdacht", type: "number" },
-    { key: "hochwertig", label: "Hochwertige Anlagen", type: "number" },
-    { key: "haupttyp", label: "Haupttyp", type: "text" },
+    { key: "capacity", label: "Stellplätze", type: "number" },
+    { key: "coveredPercent", label: "% Überdacht", type: "number" },
+    { key: "highQuality", label: "Hochwertige Anlagen", type: "number" },
+    { key: "mainType", label: "Haupttyp", type: "text" },
   ];
 
   return (
@@ -129,8 +142,8 @@ function QualitaetView({
       </Typography>
       <Box sx={{ width: "100%", overflowX: "auto" }}>
         <DataTable
-          data={qualitaet as unknown as Record<string, unknown>[]}
-          columns={isMobile ? columns.slice(0, 4) : columns}
+          data={quality}
+          columns={responsiveColumns(columns, 4, isMobile)}
           id="qualitaetTable"
           ariaLabel="Qualitätsanalyse"
         />
@@ -139,24 +152,24 @@ function QualitaetView({
   );
 }
 
-function TypenView({
-  typen,
+function TypesView({
+  types,
   isMobile,
 }: {
-  typen: TypAnalyse[];
+  types: TypeStats[];
   isMobile: boolean;
 }) {
-  const columns: Column[] = [
+  const columns: Column<TypeStats>[] = [
     { key: "name", label: "Art", type: "text" },
-    { key: "anlagen", label: "Anlagen", type: "number" },
-    { key: "stellplaetze", label: "Stellplätze", type: "number" },
-    { key: "avgStellplaetze", label: "Ø/Anlage", type: "number" },
+    { key: "facilities", label: "Anlagen", type: "number" },
+    { key: "capacity", label: "Stellplätze", type: "number" },
+    { key: "avgCapacity", label: "Ø/Anlage", type: "number" },
   ];
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <DataTable
-        data={typen as unknown as Record<string, unknown>[]}
-        columns={isMobile ? columns.slice(0, 3) : columns}
+        data={types}
+        columns={responsiveColumns(columns, 3, isMobile)}
         id="typTable"
         ariaLabel="Anlagentypen"
       />
@@ -164,18 +177,18 @@ function TypenView({
   );
 }
 
-export default function Analyse({ versorgung, qualitaet, typen }: AnalyseProps) {
+export default function Analyse({ supply, quality, types }: AnalyseProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [view, setView] = useState(0);
 
   const views = useMemo(
     () => [
-      <VersorgungView key="v" versorgung={versorgung} isMobile={isMobile} />,
-      <QualitaetView key="q" qualitaet={qualitaet} isMobile={isMobile} />,
-      <TypenView key="t" typen={typen} isMobile={isMobile} />,
+      <SupplyView key="v" supply={supply} isMobile={isMobile} />,
+      <QualityView key="q" quality={quality} isMobile={isMobile} />,
+      <TypesView key="t" types={types} isMobile={isMobile} />,
     ],
-    [versorgung, qualitaet, typen, isMobile],
+    [supply, quality, types, isMobile],
   );
 
   return (
@@ -211,9 +224,9 @@ export const getStaticProps: GetStaticProps<AnalyseProps> = async () => {
   const { parkings, regions } = getOsmData();
   return {
     props: {
-      versorgung: generateVersorgungAnalyse(parkings, regions),
-      qualitaet: generateQualitaetAnalyse(parkings),
-      typen: generateTypAnalyse(parkings),
+      supply: generateSupplyAnalysis(parkings, regions),
+      quality: generateQualityAnalysis(parkings),
+      types: generateTypeStats(parkings),
     },
   };
 };

@@ -4,8 +4,8 @@ import { OSM_HISTORY_PATH } from "./config";
 
 export interface OsmSnapshot {
   date: string; // YYYY-MM-DD
-  totalAnlagen: number;
-  totalStellplaetze: number;
+  totalFacilities: number;
+  totalCapacity: number;
 }
 
 /**
@@ -36,8 +36,8 @@ export class OsmHistoryManager {
     const date = new Date().toISOString().split("T")[0];
     const snapshot: OsmSnapshot = {
       date,
-      totalAnlagen: parkings.length,
-      totalStellplaetze: parkings.reduce((sum, p) => sum + p.stellplaetze, 0),
+      totalFacilities: parkings.length,
+      totalCapacity: parkings.reduce((sum, p) => sum + p.capacity, 0),
     };
     this.history[date] = snapshot;
     fs.writeFileSync(OSM_HISTORY_PATH, JSON.stringify(this.history, null, 2));

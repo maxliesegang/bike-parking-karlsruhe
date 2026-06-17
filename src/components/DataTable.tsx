@@ -15,15 +15,17 @@ import {
 
 type ColumnType = "text" | "number" | "date" | "boolean" | "link";
 
-export interface Column {
-  key: string;
+// A column keyed to a field of the row type `T`, so column keys are checked
+// against the data shape and the call sites need no casts.
+export interface Column<T> {
+  key: keyof T & string;
   label: string;
   type: ColumnType;
 }
 
-interface DataTableProps {
-  data: Record<string, unknown>[];
-  columns: Column[];
+interface DataTableProps<T> {
+  data: T[];
+  columns: Column<T>[];
   id: string;
   ariaLabel: string;
 }
@@ -54,12 +56,12 @@ function renderCellContent(value: unknown, type: ColumnType): ReactNode {
   return value as ReactNode;
 }
 
-export default function DataTable({
+export default function DataTable<T extends object>({
   data,
   columns,
   id,
   ariaLabel,
-}: DataTableProps) {
+}: DataTableProps<T>) {
   const [orderBy, setOrderBy] = useState("");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const theme = useTheme();
@@ -75,8 +77,8 @@ export default function DataTable({
     if (!orderBy) return data;
 
     return [...data].sort((a, b) => {
-      const aValue = a[orderBy];
-      const bValue = b[orderBy];
+      const aValue = (a as Record<string, unknown>)[orderBy];
+      const bValue = (b as Record<string, unknown>)[orderBy];
 
       if (aValue == null || bValue == null) return 0;
       if (aValue < bValue) return order === "asc" ? -1 : 1;

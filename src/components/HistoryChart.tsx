@@ -54,7 +54,7 @@ export default function HistoryChart({ history }: HistoryChartProps) {
           <Line
             yAxisId="left"
             type="monotone"
-            dataKey="totalStellplaetze"
+            dataKey="totalCapacity"
             name="Stellplätze gesamt"
             stroke="#005538"
             activeDot={{ r: 8 }}
@@ -62,7 +62,7 @@ export default function HistoryChart({ history }: HistoryChartProps) {
           <Line
             yAxisId="right"
             type="monotone"
-            dataKey="totalAnlagen"
+            dataKey="totalFacilities"
             name="Anlagen gesamt"
             stroke="#f57c00"
           />

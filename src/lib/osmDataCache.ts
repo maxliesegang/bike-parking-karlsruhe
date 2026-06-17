@@ -7,7 +7,8 @@ import {
   loadStadtteilGeoJSON,
   dataFilesExist,
 } from "./osmDataFetcher";
-import { processOsmBikeParkingData, buildRegionInfos } from "./osmDataProcessor";
+import { parseOsmBikeParking } from "./osm/parse";
+import { buildRegionInfos } from "./osm/regions";
 import { OsmHistoryManager, OsmSnapshot } from "./osmHistoryMapper";
 
 export interface OsmData {
@@ -33,7 +34,7 @@ export function getOsmData(): OsmData {
 
     const rawBikeParkingData = loadOsmBikeParkingData();
     const stadtteilData = loadStadtteilBoundaries();
-    const parkings = processOsmBikeParkingData(rawBikeParkingData, stadtteilData);
+    const parkings = parseOsmBikeParking(rawBikeParkingData, stadtteilData);
     const regions = buildRegionInfos(stadtteilData);
     const history = new OsmHistoryManager().recordSnapshot(parkings);
 
