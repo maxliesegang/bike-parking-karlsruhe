@@ -14,6 +14,5 @@ export interface Abstellanlage {
   mit_anhaenger: boolean;
   link: string;
   bemerkung: string;
-  firstFetched: string; // Date string
   lastUpdated: string; // Date string
 }

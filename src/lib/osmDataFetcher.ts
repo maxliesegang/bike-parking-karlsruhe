@@ -5,6 +5,8 @@ import { OSM_DATA_PATH, OSM_STADTTEILE_PATH } from "./config";
 export interface DistrictFeature {
   name: string;
   adminLevel: number;
+  // Population from the OSM `population` tag where present, else null.
+  population: number | null;
   polygons: number[][][][];
 }
 
@@ -56,9 +58,11 @@ export function loadStadtteilBoundaries(): DistrictFeature[] {
             ? f.geometry.coordinates
             : [f.geometry.coordinates];
 
+        const pop = parseInt(props.population || "", 10);
         return {
           name: props.name || "Unknown",
           adminLevel: parseInt(props.admin_level || "0", 10),
+          population: isNaN(pop) ? null : pop,
           polygons: coords,
         };
       });
@@ -69,9 +73,11 @@ export function loadStadtteilBoundaries(): DistrictFeature[] {
       .filter((el: { type: string }) => el.type === "relation" || el.type === "way")
       .map((el: Record<string, unknown>) => {
         const tags = (el.tags || {}) as Record<string, string>;
+        const pop = parseInt(tags.population || "", 10);
         return {
           name: tags.name || "Unknown",
           adminLevel: parseInt(tags.admin_level || "0", 10),
+          population: isNaN(pop) ? null : pop,
           polygons: extractPolygonsFromOverpassElement(el),
         };
       })
@@ -79,6 +85,14 @@ export function loadStadtteilBoundaries(): DistrictFeature[] {
   }
 
   return [];
+}
+
+/** Raw boundary FeatureCollection, as needed by the map choropleth layer. */
+export function loadStadtteilGeoJSON(): FeatureCollection {
+  const data = JSON.parse(fs.readFileSync(OSM_STADTTEILE_PATH, "utf8"));
+  return data.type === "FeatureCollection"
+    ? (data as FeatureCollection)
+    : { type: "FeatureCollection", features: [] };
 }
 
 export function dataFilesExist(): boolean {

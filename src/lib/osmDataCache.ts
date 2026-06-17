@@ -1,22 +1,48 @@
+import { FeatureCollection } from "geojson";
 import { OsmBikeParking } from "@/models/osm-bike-parking";
-import { loadOsmBikeParkingData, loadStadtteilBoundaries, dataFilesExist } from "./osmDataFetcher";
-import { processOsmBikeParkingData } from "./osmDataProcessor";
+import { RegionInfo } from "@/models/region";
+import {
+  loadOsmBikeParkingData,
+  loadStadtteilBoundaries,
+  loadStadtteilGeoJSON,
+  dataFilesExist,
+} from "./osmDataFetcher";
+import { processOsmBikeParkingData, buildRegionInfos } from "./osmDataProcessor";
+import { OsmHistoryManager, OsmSnapshot } from "./osmHistoryMapper";
 
-let cachedOsmBikeParkings: OsmBikeParking[] | null = null;
+export interface OsmData {
+  parkings: OsmBikeParking[];
+  regions: RegionInfo[];
+  boundaries: FeatureCollection;
+  history: OsmSnapshot[];
+}
 
-export async function getOsmBikeParkings(): Promise<OsmBikeParking[]> {
-  if (cachedOsmBikeParkings === null) {
+let cached: OsmData | null = null;
+
+export function getOsmData(): OsmData {
+  if (cached === null) {
     if (!dataFilesExist()) {
-      cachedOsmBikeParkings = [];
-      return cachedOsmBikeParkings;
+      cached = {
+        parkings: [],
+        regions: [],
+        boundaries: { type: "FeatureCollection", features: [] },
+        history: [],
+      };
+      return cached;
     }
 
     const rawBikeParkingData = loadOsmBikeParkingData();
     const stadtteilData = loadStadtteilBoundaries();
-    cachedOsmBikeParkings = processOsmBikeParkingData(
-      rawBikeParkingData,
-      stadtteilData,
-    );
+    const parkings = processOsmBikeParkingData(rawBikeParkingData, stadtteilData);
+    const regions = buildRegionInfos(stadtteilData);
+    const history = new OsmHistoryManager().recordSnapshot(parkings);
+
+    cached = {
+      parkings,
+      regions,
+      boundaries: loadStadtteilGeoJSON(),
+      history,
+    };
   }
-  return cachedOsmBikeParkings;
+  return cached;
 }

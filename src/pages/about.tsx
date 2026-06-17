@@ -28,8 +28,14 @@ export default function About() {
             OpenStreetMap
           </Link>{" "}
           Fahrrad-Abstellanlagen (amenity=bicycle_parking). Die Daten werden
-          regelmäßig über die Overpass API bezogen und decken ein größeres
-          Gebiet um Karlsruhe ab.
+          regelmäßig über die Overpass API bezogen und decken Karlsruhe sowie
+          die Gemeinden des Landkreises Karlsruhe ab.
+        </Typography>
+        <Typography sx={{ mb: 2 }}>
+          <strong>Privates Parken</strong> (Zugang <em>private</em>,{" "}
+          <em>no</em> oder <em>restricted</em>) wird ausgeschlossen, da es nicht
+          öffentlich nutzbar ist. Kundenparkplätze (z.&nbsp;B. an Supermärkten)
+          bleiben enthalten.
         </Typography>
         <Typography sx={{ mb: 2 }}>
           © OpenStreetMap-Mitwirkende. Veröffentlicht unter der{" "}
@@ -61,13 +67,33 @@ export default function About() {
         </Typography>
       </Box>
 
-      <Box>
+      <Box sx={{ mb: 4 }}>
         <Typography variant="h2" gutterBottom>
-          Interaktive Karte
+          Methodik
         </Typography>
         <Typography sx={{ mb: 2 }}>
-          Für eine interaktive Kartenansicht der Fahrrad-Abstellanlagen besuchen
-          Sie bitte das Mobilitätsportal der Technologie Region Karlsruhe:
+          Jede Anlage wird per Punkt-in-Polygon-Zuordnung einer Region
+          zugewiesen — innerhalb Karlsruhes den Stadtbezirken (admin_level 10)
+          bzw. Stadtteilen (admin_level 9), im Umland den Gemeinden
+          (admin_level 8). Diese Ebenen überschneiden sich nicht.
+        </Typography>
+        <Typography sx={{ mb: 2 }}>
+          Einwohnerzahlen und Flächen der 28 Karlsruher Stadtteile stammen aus
+          amtlichen Angaben; für Umland-Gemeinden wird die Einwohnerzahl – sofern
+          in OpenStreetMap hinterlegt – übernommen und die Fläche aus der
+          Geometrie berechnet. Verkehrsknoten wie der Hauptbahnhof bündeln viele
+          Stellplätze und können die Pro-Kopf-Versorgung einer Region deutlich
+          anheben.
+        </Typography>
+      </Box>
+
+      <Box>
+        <Typography variant="h2" gutterBottom>
+          Weitere Karte
+        </Typography>
+        <Typography sx={{ mb: 2 }}>
+          Eine offizielle interaktive Karte bietet das Mobilitätsportal der
+          TechnologieRegion Karlsruhe:
         </Typography>
         <Button
           variant="contained"
@@ -76,7 +102,7 @@ export default function About() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Zur interaktiven Karte
+          Zum Mobilitätsportal
         </Button>
       </Box>
     </>

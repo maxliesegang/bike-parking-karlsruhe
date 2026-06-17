@@ -4,22 +4,41 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, "..", "data");
-const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+// The main Overpass instance frequently returns 504 under load, so we fall
+// back across mirrors and retry a few times before giving up.
+const OVERPASS_URLS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter",
+];
+
 const BBOX = "48.7,8.0,49.5,9.0";
 
-async function fetchOverpass(query, timeoutMs = 120_000) {
-  const response = await fetch(OVERPASS_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "bike-parking-karlsruhe/1.0" },
-    body: query,
-    signal: AbortSignal.timeout(timeoutMs),
-  });
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  if (!response.ok) {
-    throw new Error(`Overpass API error: ${response.status} ${response.statusText}`);
+async function fetchOverpass(query, timeoutMs = 120_000, attempts = 3) {
+  let lastError;
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    for (const url of OVERPASS_URLS) {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "bike-parking-karlsruhe/1.0" },
+          body: query,
+          signal: AbortSignal.timeout(timeoutMs),
+        });
+        if (!response.ok) {
+          throw new Error(`Overpass API error: ${response.status} ${response.statusText}`);
+        }
+        return await response.json();
+      } catch (error) {
+        lastError = error;
+        console.warn(`  Overpass attempt failed (${url}): ${error.message}`);
+      }
+    }
+    if (attempt < attempts - 1) await sleep(5_000 * (attempt + 1));
   }
-
-  return response.json();
+  throw lastError;
 }
 
 function overpassBikeParkingToGeoJSON(osmJson) {
@@ -181,7 +200,13 @@ async function main() {
 
   const bikeParkingQuery = `[out:json][timeout:120];(node["amenity"="bicycle_parking"](${BBOX});way["amenity"="bicycle_parking"](${BBOX}););out center;`;
 
-  const stadtteilQuery = `[out:json][timeout:120];area["name"="Karlsruhe"]["admin_level"="6"]->.karlsruhe;(rel(area.karlsruhe)["admin_level"="9"]["boundary"="administrative"];rel(area.karlsruhe)["admin_level"="10"]["boundary"="administrative"];);out geom;`;
+  // Boundaries for clustering: Karlsruhe city is a kreisfreie Stadt (its own
+  // admin_level 6), whose admin_level 9 + 10 districts tile the city. The
+  // surrounding "Landkreis Karlsruhe" (a separate admin_level 6) contains the
+  // admin_level 8 municipalities. Drawing AL8 only from the Landkreis area
+  // avoids fetching Karlsruhe-city's own AL8 polygon (which would overlap the
+  // AL9/10 tiling). The result file holds AL8 (surrounding) + AL9/10 (city).
+  const stadtteilQuery = `[out:json][timeout:180];area["name"="Karlsruhe"]["admin_level"="6"]["boundary"="administrative"]->.city;area["name"="Landkreis Karlsruhe"]["admin_level"="6"]["boundary"="administrative"]->.kreis;(rel(area.city)["admin_level"="9"]["boundary"="administrative"];rel(area.city)["admin_level"="10"]["boundary"="administrative"];rel(area.kreis)["admin_level"="8"]["boundary"="administrative"];);out geom;`;
 
   try {
     console.log("Fetching bike parking data...");

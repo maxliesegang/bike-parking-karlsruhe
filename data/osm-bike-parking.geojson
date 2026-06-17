@@ -92772,6 +92772,26 @@
     },
     {
       "type": "Feature",
+      "id": 13946521926,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.1308222,
+          49.3048177
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "6",
+        "check_date": "2026-06-17",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
       "id": 4408558,
       "geometry": {
         "type": "Point",
@@ -98140,6 +98160,7 @@
         "lit": "yes",
         "manufacturer": "Orion",
         "model": "Beta Basis Classico",
+        "paving_stones:material": "concrete",
         "removed:amenity": "bicycle_parking",
         "start_date": "2014-04",
         "supervised": "no",
@@ -101977,7 +101998,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
-        "capacity": "34",
+        "capacity": "79",
         "covered": "no"
       }
     },
@@ -128476,6 +128497,7 @@
         "manufacturer": "Orion",
         "model": "Beta Classico höhergestellt",
         "operator": "DB InfraGO AG",
+        "paving_stones:material": "concrete",
         "surface": "paving_stones"
       }
     },

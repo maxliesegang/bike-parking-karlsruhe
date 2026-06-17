@@ -1,86 +1,178 @@
-import { useState } from "react";
-import { Tabs, Tab, Typography, styled } from "@mui/material";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import AbstellanlagenTable from "@/components/AbstellanlagenTable";
-import OSMBikeParkingTable from "@/components/OSMBikeParkingTable";
+import { Typography, Grid, Box, Paper } from "@mui/material";
+import { getOsmData } from "@/lib/osmDataCache";
 import { getAbstellanlagen } from "@/lib/staticDataCache";
-import { getOsmBikeParkings } from "@/lib/osmDataCache";
-import { Abstellanlage } from "@/models/abstellanlage";
 import { OsmBikeParking } from "@/models/osm-bike-parking";
+import {
+  generateAllgemeineStats,
+  generateVersorgungAnalyse,
+  generateTopFacilities,
+  generateVergleichDaten,
+  AllgemeineStats,
+  VersorgungEintrag,
+  TopFacility,
+  VergleichEintrag,
+} from "@/lib/osmDataProcessor";
+import { StatCard } from "@/components/StatCard";
+import ParkingMap from "@/components/ParkingMap";
+import DataTable, { Column } from "@/components/DataTable";
 
 interface HomeProps {
-  osmBikeParkings: OsmBikeParking[];
-  abstellanlagen: Abstellanlage[];
+  parkings: OsmBikeParking[];
+  boundaries: GeoJSON.FeatureCollection;
+  versorgung: VersorgungEintrag[];
+  stats: AllgemeineStats;
+  topFacilities: TopFacility[];
+  vergleich: VergleichEintrag[];
 }
 
-const StyledTabs = styled(Tabs)(({ theme }) => ({
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  marginBottom: theme.spacing(4),
-  "& .MuiTabs-indicator": {
-    backgroundColor: theme.palette.primary.main,
-    height: 3,
-  },
-}));
+const topColumns: Column[] = [
+  { key: "standort", label: "Standort", type: "text" },
+  { key: "region", label: "Region", type: "text" },
+  { key: "art", label: "Art", type: "text" },
+  { key: "stellplaetze", label: "Stellplätze", type: "number" },
+];
 
-const StyledTab = styled(Tab)(({ theme }) => ({
-  textTransform: "none",
-  fontWeight: theme.typography.fontWeightRegular,
-  fontSize: theme.typography.pxToRem(15),
-  marginRight: theme.spacing(1),
-  color: theme.palette.text.secondary,
-  "&.Mui-selected": {
-    color: theme.palette.primary.main,
-  },
-  "&.Mui-focusVisible": {
-    backgroundColor: theme.palette.action.selected,
-  },
-}));
+const vergleichColumns: Column[] = [
+  { key: "kategorie", label: "Kategorie", type: "text" },
+  { key: "osm", label: "OpenStreetMap", type: "number" },
+  { key: "stadt", label: "Stadt Karlsruhe", type: "number" },
+];
 
-export default function Home({ osmBikeParkings, abstellanlagen }: HomeProps) {
-  const [tabValue, setTabValue] = useState(0);
+export default function Home({
+  parkings,
+  boundaries,
+  versorgung,
+  stats,
+  topFacilities,
+  vergleich,
+}: HomeProps) {
+  const osmTotal = vergleich.find(
+    (v) => v.kategorie === "Erfasste Anlagen (gesamt)",
+  );
+  const faktor =
+    osmTotal && osmTotal.stadt > 0
+      ? Math.round((osmTotal.osm / osmTotal.stadt) * 10) / 10
+      : 0;
 
   return (
     <>
       <Head>
-        <title>Fahrrad-Abstellanlagen</title>
+        <title>Fahrradparken Karlsruhe</title>
         <meta
           name="description"
-          content="Übersicht der Fahrrad-Abstellanlagen in Karlsruhe und Umgebung"
+          content="Fahrrad-Abstellanlagen in Karlsruhe und Umgebung — Verteilung, Versorgung und Entwicklung auf Basis von OpenStreetMap."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Typography variant="h1" gutterBottom>
-        Fahrrad-Abstellanlagen
+        Fahrradparken in Karlsruhe
+      </Typography>
+      <Typography color="text.secondary" sx={{ mb: 3, maxWidth: 720 }}>
+        Wie ist das Fahrrad-Parkangebot in Karlsruhe und den umliegenden
+        Gemeinden verteilt? Diese Auswertung basiert auf OpenStreetMap-Daten und
+        zeigt, wo die Versorgung gut ist und wo sie ausgebaut werden sollte.
       </Typography>
 
-      <StyledTabs
-        value={tabValue}
-        onChange={(_event, newValue: number) => setTabValue(newValue)}
-        aria-label="Datenquellen tabs"
-      >
-        <StyledTab label="OSM Daten" />
-        <StyledTab label="Stadt Karlsruhe" />
-      </StyledTabs>
+      <Grid container spacing={2} sx={{ mb: 4 }}>
+        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
+          <StatCard
+            label="Erfasste Anlagen"
+            value={stats.totalAnlagen.toLocaleString("de-DE")}
+          />
+        </Grid>
+        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
+          <StatCard
+            label="Stellplätze gesamt"
+            value={stats.totalStellplaetze.toLocaleString("de-DE")}
+          />
+        </Grid>
+        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
+          <StatCard
+            label="Überdacht"
+            value={`${stats.ueberdachtProzent}%`}
+            sub={`${stats.ueberdacht.toLocaleString("de-DE")} Anlagen`}
+          />
+        </Grid>
+        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
+          <StatCard
+            label="Regionen abgedeckt"
+            value={stats.regionenAbgedeckt.toLocaleString("de-DE")}
+            sub="Stadtteile & Gemeinden"
+          />
+        </Grid>
+      </Grid>
 
-      {tabValue === 0 && <OSMBikeParkingTable osmBikeParkings={osmBikeParkings} abstellanlagen={abstellanlagen} />}
+      <Typography variant="h2" gutterBottom>
+        Karte
+      </Typography>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
+        Flächen eingefärbt nach Stellplätzen pro 1.000 Einwohner; Punkte zeigen
+        einzelne Anlagen (gruppiert beim Herauszoomen).
+      </Typography>
+      <Box sx={{ mb: 4 }}>
+        <ParkingMap
+          parkings={parkings}
+          boundaries={boundaries}
+          versorgung={versorgung}
+        />
+      </Box>
 
-      {tabValue === 1 && <AbstellanlagenTable abstellanlagen={abstellanlagen} />}
+      <Grid container spacing={4}>
+        <Grid size={{ xs: 12, md: 7 }}>
+          <Typography variant="h2" gutterBottom>
+            Größte Anlagen
+          </Typography>
+          <Typography color="text.secondary" sx={{ mb: 2 }}>
+            Verkehrsknoten wie der Hauptbahnhof bündeln sehr viele Stellplätze
+            und können die Pro-Kopf-Versorgung eines Bezirks stark anheben.
+          </Typography>
+          <DataTable
+            data={topFacilities as unknown as Record<string, unknown>[]}
+            columns={topColumns}
+            id="topFacilities"
+            ariaLabel="Größte Anlagen"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 5 }}>
+          <Typography variant="h2" gutterBottom>
+            Stadt vs. OpenStreetMap
+          </Typography>
+          <Paper elevation={0} sx={{ bgcolor: "action.hover", p: 2, borderRadius: 2, mb: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              OpenStreetMap erfasst rund <strong>{faktor}×</strong> mehr Anlagen
+              als der amtliche Datensatz der Stadt Karlsruhe und ist die
+              vollständigere Grundlage für die Planung.
+            </Typography>
+          </Paper>
+          <DataTable
+            data={vergleich as unknown as Record<string, unknown>[]}
+            columns={vergleichColumns}
+            id="vergleich"
+            ariaLabel="Datenquellen-Vergleich"
+          />
+        </Grid>
+      </Grid>
     </>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const [osmBikeParkings, abstellanlagen] = await Promise.all([
-    getOsmBikeParkings(),
-    getAbstellanlagen(),
-  ]);
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const { parkings, regions, boundaries } = getOsmData();
+  const abstellanlagen = await getAbstellanlagen();
+
+  const versorgung = generateVersorgungAnalyse(parkings, regions);
 
   return {
     props: {
-      osmBikeParkings,
-      abstellanlagen,
+      parkings,
+      boundaries,
+      versorgung,
+      stats: generateAllgemeineStats(parkings),
+      topFacilities: generateTopFacilities(parkings, 10),
+      vergleich: generateVergleichDaten(parkings, abstellanlagen),
     },
   };
 };

@@ -1,8 +1,10 @@
 import { FeatureCollection, Feature, Point } from "geojson";
 import { OsmBikeParking } from "@/models/osm-bike-parking";
+import { RegionInfo } from "@/models/region";
 import { DistrictFeature } from "./osmDataFetcher";
 import { districtLookup } from "@/data/karlsruhe-districts";
 import { Abstellanlage } from "@/models/abstellanlage";
+import { pointInPolygon, polygonAreaKm2 } from "./geoUtils";
 
 const BICYCLE_PARKING_LABELS: Record<string, string> = {
   stands: "Fahrradständer",
@@ -24,54 +26,51 @@ const BICYCLE_PARKING_LABELS: Record<string, string> = {
   lean_to: "Anlehnbügel",
 };
 
+// Access values that mark parking as not publicly usable — dropped entirely.
+const PRIVATE_ACCESS = new Set(["private", "no", "restricted"]);
+
 function getLabel(key: string | undefined): string {
   if (!key) return "Unbekannt";
   return BICYCLE_PARKING_LABELS[key] || key;
 }
 
-function pointInPolygon(
-  px: number,
-  py: number,
-  polygon: number[][][],
-): boolean {
-  const ring = polygon[0];
-  if (!ring || ring.length < 3) return false;
-
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i];
-    const [xj, yj] = ring[j];
-    if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) {
-      inside = !inside;
-    }
-  }
-  return inside;
+/**
+ * Build the merged region reference table: the 28 Karlsruhe districts use the
+ * authoritative census data in `districtLookup`; surrounding municipalities use
+ * the OSM population tag (where present) and an area computed from geometry.
+ */
+export function buildRegionInfos(districts: DistrictFeature[]): RegionInfo[] {
+  return districts
+    .filter((d) => d.adminLevel === 8 || d.adminLevel === 9 || d.adminLevel === 10)
+    .map((d) => {
+      const override = districtLookup.get(d.name);
+      return {
+        name: d.name,
+        adminLevel: d.adminLevel as 8 | 9 | 10,
+        population: override?.population ?? d.population ?? null,
+        areaKm2: override?.areaKm2 ?? polygonAreaKm2(d.polygons),
+      };
+    });
 }
 
-function findContainingDistrict(
+function findContainingRegion(
   lon: number,
   lat: number,
   districts: DistrictFeature[],
-): { stadtbezirk: string; stadtteil: string } {
-  for (const d of districts) {
-    if (d.adminLevel !== 10) continue;
-    for (const polygon of d.polygons) {
-      if (pointInPolygon(lon, lat, polygon)) {
-        return { stadtbezirk: d.name, stadtteil: "" };
+): { region: string; regionLevel: 8 | 9 | 10 | 0 } {
+  // Priority: AL10 (Stadtbezirk) > AL9 (Stadtteil) > AL8 (surrounding Gemeinde).
+  // AL9+AL10 tile Karlsruhe city; AL8 municipalities are disjoint from it.
+  for (const level of [10, 9, 8] as const) {
+    for (const d of districts) {
+      if (d.adminLevel !== level) continue;
+      for (const polygon of d.polygons) {
+        if (pointInPolygon(lon, lat, polygon)) {
+          return { region: d.name, regionLevel: level };
+        }
       }
     }
   }
-
-  for (const d of districts) {
-    if (d.adminLevel !== 9) continue;
-    for (const polygon of d.polygons) {
-      if (pointInPolygon(lon, lat, polygon)) {
-        return { stadtbezirk: "", stadtteil: d.name };
-      }
-    }
-  }
-
-  return { stadtbezirk: "", stadtteil: "" };
+  return { region: "", regionLevel: 0 };
 }
 
 export function processOsmBikeParkingData(
@@ -89,13 +88,13 @@ export function processOsmBikeParkingData(
       const props = feature.properties || {};
       const tags = (props.tags || props) as Record<string, string>;
 
+      // Drop non-public parking (private / no / restricted access).
+      const access = (tags.access || "").toLowerCase();
+      if (PRIVATE_ACCESS.has(access)) return null;
+
       const lon = coords[0];
       const lat = coords[1];
-      const { stadtbezirk, stadtteil } = findContainingDistrict(
-        lon,
-        lat,
-        stadtteilData,
-      );
+      const { region, regionLevel } = findContainingRegion(lon, lat, stadtteilData);
 
       const capacityStr = tags.capacity || "0";
       const capacity = parseInt(capacityStr, 10);
@@ -105,22 +104,24 @@ export function processOsmBikeParkingData(
         standort: tags.name || tags.street || "",
         art: getLabel(tags.bicycle_parking),
         stellplaetze: isNaN(capacity) ? 0 : capacity,
-        stadtbezirk,
-        stadtteil,
+        region,
+        regionLevel,
         covered: tags.covered === "yes" || tags.covered === "true",
         fee: tags.fee === "yes" || tags.fee === "true",
         zugang: tags.access || "",
         betreiber: tags.operator || "",
-        coordinate0: coords[0],
-        coordinate1: coords[1],
+        // Round to ~1m precision to keep the getStaticProps payload small.
+        coordinate0: Math.round(coords[0] * 1e5) / 1e5,
+        coordinate1: Math.round(coords[1] * 1e5) / 1e5,
         bemerkung: tags.note || tags.description || "",
       };
     })
     .filter((item): item is OsmBikeParking => item !== null);
 }
 
-export interface StadtbezirkAnalyse {
+export interface RegionAnalyse {
   name: string;
+  level: 8 | 9 | 10 | 0;
   anlagen: number;
   stellplaetze: number;
   avgStellplaetze: number;
@@ -129,13 +130,14 @@ export interface StadtbezirkAnalyse {
   topTypen: string[];
 }
 
-export function generateStadtbezirkAnalyse(
+export function generateRegionAnalyse(
   osmBikeParkings: OsmBikeParking[],
-): StadtbezirkAnalyse[] {
+): RegionAnalyse[] {
   const map = new Map<
     string,
     {
       name: string;
+      level: 8 | 9 | 10 | 0;
       anlagen: number;
       stellplaetze: number;
       ueberdacht: number;
@@ -145,10 +147,11 @@ export function generateStadtbezirkAnalyse(
   >();
 
   for (const p of osmBikeParkings) {
-    const key = p.stadtbezirk || p.stadtteil || "Außerhalb";
+    const key = p.region || "Außerhalb";
     if (!map.has(key)) {
       map.set(key, {
         name: key,
+        level: p.regionLevel,
         anlagen: 0,
         stellplaetze: 0,
         ueberdacht: 0,
@@ -167,6 +170,7 @@ export function generateStadtbezirkAnalyse(
   return Array.from(map.values())
     .map((entry) => ({
       name: entry.name,
+      level: entry.level,
       anlagen: entry.anlagen,
       stellplaetze: entry.stellplaetze,
       avgStellplaetze:
@@ -227,12 +231,16 @@ export interface AllgemeineStats {
   gebuehr: number;
   gebuehrProzent: number;
   zugangOeffentlich: number;
-  zugangPrivat: number;
-  zugangUnbekannt: number;
+  zugangEingeschraenkt: number;
+  regionenAbgedeckt: number;
   kapazitaetKlein: number;
   kapazitaetMittel: number;
   kapazitaetGross: number;
 }
+
+// After the private filter, remaining access values split into public-ish and
+// restricted-but-usable (customer/permit/student) buckets.
+const RESTRICTED_ACCESS = new Set(["customers", "permit", "students", "permissive"]);
 
 export function generateAllgemeineStats(
   osmBikeParkings: OsmBikeParking[],
@@ -245,13 +253,14 @@ export function generateAllgemeineStats(
   const ueberdacht = osmBikeParkings.filter((p) => p.covered).length;
   const gebuehr = osmBikeParkings.filter((p) => p.fee).length;
 
-  const zugangOeffentlich = osmBikeParkings.filter(
-    (p) => p.zugang === "" || p.zugang === "yes" || p.zugang === "public",
+  const zugangEingeschraenkt = osmBikeParkings.filter((p) =>
+    RESTRICTED_ACCESS.has(p.zugang.toLowerCase()),
   ).length;
-  const zugangPrivat = osmBikeParkings.filter(
-    (p) => p.zugang === "private" || p.zugang === "customers" || p.zugang === "restricted",
-  ).length;
-  const zugangUnbekannt = totalAnlagen - zugangOeffentlich - zugangPrivat;
+  const zugangOeffentlich = totalAnlagen - zugangEingeschraenkt;
+
+  const regionenAbgedeckt = new Set(
+    osmBikeParkings.filter((p) => p.region).map((p) => p.region),
+  ).size;
 
   const kapazitaetKlein = osmBikeParkings.filter(
     (p) => p.stellplaetze > 0 && p.stellplaetze <= 5,
@@ -281,13 +290,13 @@ export function generateAllgemeineStats(
         ? Math.round((gebuehr / totalAnlagen) * 1000) / 10
         : 0,
     zugangOeffentlich,
-    zugangPrivat,
-    zugangUnbekannt,
+    zugangEingeschraenkt,
+    regionenAbgedeckt,
     kapazitaetKlein,
     kapazitaetMittel,
-      kapazitaetGross,
-    };
-  }
+    kapazitaetGross,
+  };
+}
 
 const QUALITY_ART_SCORE: Record<string, number> = {
   Fahrradbox: 10,
@@ -308,65 +317,74 @@ const QUALITY_ART_SCORE: Record<string, number> = {
   Unbekannt: 1,
 };
 
+export type Bewertung = "gut" | "mittel" | "schlecht" | "unbewertet";
+
 export interface VersorgungEintrag {
   name: string;
-  population: number;
+  level: 8 | 9 | 10;
+  population: number | null;
   areaKm2: number;
   anlagen: number;
   stellplaetze: number;
-  pro1000: number;
+  pro1000: number | null;
   proKm2: number;
-  bewertung: "gut" | "mittel" | "schlecht";
+  bewertung: Bewertung;
 }
 
 export function generateVersorgungAnalyse(
   osmBikeParkings: OsmBikeParking[],
+  regions: RegionInfo[],
 ): VersorgungEintrag[] {
-  const districtSpots = new Map<string, { anlagen: number; stellplaetze: number }>();
+  const spots = new Map<string, { anlagen: number; stellplaetze: number }>();
 
   for (const p of osmBikeParkings) {
-    const key = p.stadtbezirk || p.stadtteil;
-    if (!key) continue;
-    if (!districtLookup.has(key)) continue;
-    if (!districtSpots.has(key)) {
-      districtSpots.set(key, { anlagen: 0, stellplaetze: 0 });
-    }
-    const entry = districtSpots.get(key)!;
+    if (!p.region) continue;
+    if (!spots.has(p.region)) spots.set(p.region, { anlagen: 0, stellplaetze: 0 });
+    const entry = spots.get(p.region)!;
     entry.anlagen += 1;
     entry.stellplaetze += p.stellplaetze;
   }
 
   const results: VersorgungEintrag[] = [];
 
-  for (const [name, spots] of districtSpots) {
-    const info = districtLookup.get(name);
-    if (!info) continue;
+  for (const info of regions) {
+    const s = spots.get(info.name) || { anlagen: 0, stellplaetze: 0 };
+    const proKm2 = info.areaKm2 > 0 ? Math.round((s.stellplaetze / info.areaKm2) * 10) / 10 : 0;
 
-    const pro1000 = Math.round((spots.stellplaetze / info.population) * 1000 * 10) / 10;
-    const proKm2 = Math.round((spots.stellplaetze / info.areaKm2) * 10) / 10;
-
-    let bewertung: "gut" | "mittel" | "schlecht";
-    if (pro1000 >= 10) bewertung = "gut";
-    else if (pro1000 >= 3) bewertung = "mittel";
-    else bewertung = "schlecht";
+    let pro1000: number | null = null;
+    let bewertung: Bewertung = "unbewertet";
+    if (info.population && info.population > 0) {
+      pro1000 = Math.round((s.stellplaetze / info.population) * 1000 * 10) / 10;
+      if (pro1000 >= 10) bewertung = "gut";
+      else if (pro1000 >= 3) bewertung = "mittel";
+      else bewertung = "schlecht";
+    }
 
     results.push({
-      name,
+      name: info.name,
+      level: info.adminLevel,
       population: info.population,
       areaKm2: info.areaKm2,
-      anlagen: spots.anlagen,
-      stellplaetze: spots.stellplaetze,
+      anlagen: s.anlagen,
+      stellplaetze: s.stellplaetze,
       pro1000,
       proKm2,
       bewertung,
     });
   }
 
-  return results.sort((a, b) => a.pro1000 - b.pro1000);
+  // Rated regions first (worst supply first to surface gaps), unrated last.
+  return results.sort((a, b) => {
+    if (a.pro1000 === null && b.pro1000 === null) return b.stellplaetze - a.stellplaetze;
+    if (a.pro1000 === null) return 1;
+    if (b.pro1000 === null) return -1;
+    return a.pro1000 - b.pro1000;
+  });
 }
 
 export interface QualitaetEintrag {
   name: string;
+  level: 8 | 9 | 10 | 0;
   score: number;
   anlagen: number;
   stellplaetze: number;
@@ -382,6 +400,7 @@ export function generateQualitaetAnalyse(
   const map = new Map<
     string,
     {
+      level: 8 | 9 | 10 | 0;
       anlagen: number;
       stellplaetze: number;
       ueberdacht: number;
@@ -392,11 +411,11 @@ export function generateQualitaetAnalyse(
   >();
 
   for (const p of osmBikeParkings) {
-    const key = p.stadtbezirk || p.stadtteil;
-    if (!key || !districtLookup.has(key)) continue;
+    if (!p.region) continue;
 
-    if (!map.has(key)) {
-      map.set(key, {
+    if (!map.has(p.region)) {
+      map.set(p.region, {
+        level: p.regionLevel,
         anlagen: 0,
         stellplaetze: 0,
         ueberdacht: 0,
@@ -405,7 +424,7 @@ export function generateQualitaetAnalyse(
         artCount: new Map(),
       });
     }
-    const entry = map.get(key)!;
+    const entry = map.get(p.region)!;
     entry.anlagen += 1;
     entry.stellplaetze += p.stellplaetze;
     if (p.covered) entry.ueberdacht += 1;
@@ -430,6 +449,7 @@ export function generateQualitaetAnalyse(
 
     results.push({
       name,
+      level: entry.level,
       score: Math.max(1, Math.min(10, score)),
       anlagen: entry.anlagen,
       stellplaetze: entry.stellplaetze,
@@ -449,6 +469,29 @@ export function generateQualitaetAnalyse(
   return results.sort((a, b) => b.score - a.score);
 }
 
+export interface TopFacility {
+  standort: string;
+  region: string;
+  art: string;
+  stellplaetze: number;
+}
+
+/** Largest single facilities by capacity — typically transit hubs. */
+export function generateTopFacilities(
+  osmBikeParkings: OsmBikeParking[],
+  n = 10,
+): TopFacility[] {
+  return [...osmBikeParkings]
+    .sort((a, b) => b.stellplaetze - a.stellplaetze)
+    .slice(0, n)
+    .map((p) => ({
+      standort: p.standort || "(ohne Namen)",
+      region: p.region || "Außerhalb",
+      art: p.art,
+      stellplaetze: p.stellplaetze,
+    }));
+}
+
 export interface VergleichEintrag {
   kategorie: string;
   osm: number;
@@ -460,7 +503,7 @@ export function generateVergleichDaten(
   abstellanlagen: Abstellanlage[],
 ): VergleichEintrag[] {
   const osmInKa = osmBikeParkings.filter(
-    (p) => districtLookup.has(p.stadtbezirk || p.stadtteil),
+    (p) => p.regionLevel === 9 || p.regionLevel === 10,
   ).length;
 
   const stadtInKa = abstellanlagen.filter(
