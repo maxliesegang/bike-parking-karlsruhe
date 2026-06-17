@@ -12,7 +12,11 @@ const OVERPASS_URLS = [
   "https://overpass.private.coffee/api/interpreter",
 ];
 
-const BBOX = "48.7,8.0,49.5,9.0";
+// min_lat,min_lon,max_lat,max_lon. North edge capped at 49.3 to cover all of
+// the Landkreis Karlsruhe (reaches ~49.25 around Philippsburg/Waghäusel) while
+// staying south of Heidelberg (~49.40) and Mannheim (~49.49), whose large
+// stations would otherwise dominate the "largest facilities" list.
+const BBOX = "48.7,8.0,49.3,9.0";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
