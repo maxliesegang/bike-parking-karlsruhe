@@ -15,7 +15,7 @@ const level9Districts: DistrictInfo[] = [
 ];
 
 const level10Districts: DistrictInfo[] = [
-  { name: "Innenstadt-Ost", population: 6365, areaKm2: 1.60 },
+  { name: "Innenstadt-Ost", population: 6365, areaKm2: 1.6 },
   { name: "Innenstadt-West", population: 9848, areaKm2: 2.41 },
   { name: "Südstadt", population: 19917, areaKm2: 2.14 },
   { name: "Südweststadt", population: 20783, areaKm2: 2.98 },
@@ -25,7 +25,7 @@ const level10Districts: DistrictInfo[] = [
   { name: "Mühlburg", population: 16454, areaKm2: 5.27 },
   { name: "Daxlanden", population: 11198, areaKm2: 10.92 },
   { name: "Knielingen", population: 11438, areaKm2: 20.63 },
-  { name: "Grünwinkel", population: 11208, areaKm2: 4.40 },
+  { name: "Grünwinkel", population: 11208, areaKm2: 4.4 },
   { name: "Oberreut", population: 9972, areaKm2: 2.43 },
   { name: "Beiertheim-Bulach", population: 7006, areaKm2: 2.88 },
   { name: "Weiherfeld-Dammerstock", population: 5870, areaKm2: 3.05 },

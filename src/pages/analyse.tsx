@@ -1,15 +1,6 @@
 import { useState, useMemo, ReactNode } from "react";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import {
-  Box,
-  Typography,
-  Tabs,
-  Tab,
-  styled,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
 import { getOsmData } from "@/lib/osmDataCache";
 import {
   generateSupplyAnalysis,
@@ -29,35 +20,12 @@ interface AnalyseProps {
   types: TypeStats[];
 }
 
-const StyledTabs = styled(Tabs)(({ theme }) => ({
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  marginBottom: theme.spacing(3),
-  "& .MuiTabs-indicator": {
-    backgroundColor: theme.palette.primary.main,
-    height: 3,
-  },
-}));
-
-const StyledTab = styled(Tab)(({ theme }) => ({
-  textTransform: "none",
-  fontWeight: theme.typography.fontWeightRegular,
-  fontSize: theme.typography.pxToRem(15),
-  marginRight: theme.spacing(1),
-  color: theme.palette.text.secondary,
-  "&.Mui-selected": { color: theme.palette.primary.main },
-}));
-
 const LEVEL_LABEL: Record<number, string> = {
   10: "Karlsruhe (Stadtbezirk)",
   9: "Karlsruhe (Stadtteil)",
   8: "Umland-Gemeinde",
   0: "—",
 };
-
-// A column subset on mobile, the full set otherwise.
-function responsiveColumns<T>(columns: Column<T>[], mobileCount: number, isMobile: boolean) {
-  return isMobile ? columns.slice(0, mobileCount) : columns;
-}
 
 type SupplyRow = {
   name: string;
@@ -69,19 +37,13 @@ type SupplyRow = {
   rating: ReactNode;
 };
 
-function SupplyView({
-  supply,
-  isMobile,
-}: {
-  supply: SupplyEntry[];
-  isMobile: boolean;
-}) {
+function SupplyView({ supply }: { supply: SupplyEntry[] }) {
   const columns: Column<SupplyRow>[] = [
     { key: "name", label: "Region", type: "text" },
     { key: "gebiet", label: "Gebiet", type: "text" },
     { key: "population", label: "Einwohner", type: "number" },
     { key: "capacity", label: "Stellplätze", type: "number" },
-    { key: "perThousand", label: "pro 1.000 EW", type: "number" },
+    { key: "perThousand", label: "pro 1.000 EW", type: "bar" },
     { key: "perKm2", label: "pro km²", type: "number" },
     { key: "rating", label: "Versorgung", type: "text" },
   ];
@@ -97,37 +59,29 @@ function SupplyView({
   }));
 
   return (
-    <Box>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+    <div className="app-view">
+      <p className="app-muted">
         Stellplätze pro Einwohner — schlecht versorgte Regionen zuerst. Zum
         Vergleich: Bremen ~28, München ~27, Freiburg ~22 Stellplätze pro 1.000
         Einwohner (ADFC). Umland-Gemeinden ohne Einwohnerdaten in OpenStreetMap
         erscheinen ohne Bewertung.
-      </Typography>
-      <Box sx={{ width: "100%", overflowX: "auto" }}>
-        <DataTable
-          data={data}
-          columns={responsiveColumns(columns, 5, isMobile)}
-          id="versorgungTable"
-          ariaLabel="Versorgungsgrad"
-        />
-      </Box>
-    </Box>
+      </p>
+      <DataTable
+        data={data}
+        columns={columns}
+        id="versorgungTable"
+        ariaLabel="Versorgungsgrad"
+      />
+    </div>
   );
 }
 
-function QualityView({
-  quality,
-  isMobile,
-}: {
-  quality: QualityEntry[];
-  isMobile: boolean;
-}) {
+function QualityView({ quality }: { quality: QualityEntry[] }) {
   const avgScore = average(quality.map((e) => e.score));
 
   const columns: Column<QualityEntry>[] = [
     { key: "name", label: "Region", type: "text" },
-    { key: "score", label: "Qualität (1–10)", type: "number" },
+    { key: "score", label: "Qualität (1–10)", type: "bar" },
     { key: "capacity", label: "Stellplätze", type: "number" },
     { key: "coveredPercent", label: "% Überdacht", type: "number" },
     { key: "highQuality", label: "Hochwertige Anlagen", type: "number" },
@@ -135,30 +89,22 @@ function QualityView({
   ];
 
   return (
-    <Box>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+    <div className="app-view">
+      <p className="app-muted">
         Qualität nach Anlagentyp (Boxen/Häuser hoch, einfache Ständer niedrig),
         Überdachung und Gebührenfreiheit. Ø {avgScore}/10 über alle Regionen.
-      </Typography>
-      <Box sx={{ width: "100%", overflowX: "auto" }}>
-        <DataTable
-          data={quality}
-          columns={responsiveColumns(columns, 4, isMobile)}
-          id="qualitaetTable"
-          ariaLabel="Qualitätsanalyse"
-        />
-      </Box>
-    </Box>
+      </p>
+      <DataTable
+        data={quality}
+        columns={columns}
+        id="qualitaetTable"
+        ariaLabel="Qualitätsanalyse"
+      />
+    </div>
   );
 }
 
-function TypesView({
-  types,
-  isMobile,
-}: {
-  types: TypeStats[];
-  isMobile: boolean;
-}) {
+function TypesView({ types }: { types: TypeStats[] }) {
   const columns: Column<TypeStats>[] = [
     { key: "name", label: "Art", type: "text" },
     { key: "facilities", label: "Anlagen", type: "number" },
@@ -166,30 +112,34 @@ function TypesView({
     { key: "avgCapacity", label: "Ø/Anlage", type: "number" },
   ];
   return (
-    <Box sx={{ width: "100%", overflowX: "auto" }}>
+    <div className="app-view">
+      <p className="app-muted">
+        Die Verteilung nach Bauart zeigt, ob viele kleine Standardständer oder
+        größere, hochwertigere Anlagen den Bestand prägen.
+      </p>
       <DataTable
         data={types}
-        columns={responsiveColumns(columns, 3, isMobile)}
+        columns={columns}
         id="typTable"
         ariaLabel="Anlagentypen"
       />
-    </Box>
+    </div>
   );
 }
 
 export default function Analyse({ supply, quality, types }: AnalyseProps) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [view, setView] = useState(0);
 
   const views = useMemo(
     () => [
-      <SupplyView key="v" supply={supply} isMobile={isMobile} />,
-      <QualityView key="q" quality={quality} isMobile={isMobile} />,
-      <TypesView key="t" types={types} isMobile={isMobile} />,
+      <SupplyView key="v" supply={supply} />,
+      <QualityView key="q" quality={quality} />,
+      <TypesView key="t" types={types} />,
     ],
-    [supply, quality, types, isMobile],
+    [supply, quality, types],
   );
+
+  const tabs = ["Versorgung", "Qualität", "Anlagentypen"];
 
   return (
     <>
@@ -201,21 +151,54 @@ export default function Analyse({ supply, quality, types }: AnalyseProps) {
         />
       </Head>
 
-      <Typography variant="h1" gutterBottom>
-        Analyse nach Region
-      </Typography>
+      <div className="app-page">
+        <header className="app-hero">
+          <div className="app-hero__content">
+            <span className="app-eyebrow">Regionen, Qualität und Typen</span>
+            <h1 className="kern-heading-display">Analyse nach Region</h1>
+            <p className="app-lead">
+              Für den schnellen Eindruck sind die Ansichten verdichtet; für
+              Detailarbeit bleiben alle Tabellen sortierbar und horizontal
+              scrollbar.
+            </p>
+          </div>
+        </header>
 
-      <StyledTabs
-        value={view}
-        onChange={(_, v) => setView(v)}
-        aria-label="Analyse-Ansichten"
-      >
-        <StyledTab label="Versorgung" />
-        <StyledTab label="Qualität" />
-        <StyledTab label="Anlagentypen" />
-      </StyledTabs>
-
-      {views[view]}
+        <section className="app-section" aria-labelledby="analysis-heading">
+          <div className="app-section__header">
+            <h2 id="analysis-heading" className="kern-heading-x-large">
+              Auswertung
+            </h2>
+          </div>
+          <div
+            className="app-tabs"
+            role="tablist"
+            aria-label="Analyse-Ansichten"
+          >
+            {tabs.map((tab, index) => (
+              <button
+                key={tab}
+                id={`analysis-tab-${index}`}
+                className="app-tab"
+                type="button"
+                role="tab"
+                aria-selected={view === index}
+                aria-controls={`analysis-panel-${index}`}
+                onClick={() => setView(index)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div
+            id={`analysis-panel-${view}`}
+            role="tabpanel"
+            aria-labelledby={`analysis-tab-${view}`}
+          >
+            {views[view]}
+          </div>
+        </section>
+      </div>
     </>
   );
 }

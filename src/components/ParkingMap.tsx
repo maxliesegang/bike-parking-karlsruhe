@@ -1,23 +1,20 @@
 import dynamic from "next/dynamic";
-import { Box, CircularProgress } from "@mui/material";
 
 // Leaflet touches `window`, so the actual map must never be server-rendered or
 // statically pre-rendered. Load it client-side only.
 const ParkingMapInner = dynamic(() => import("./ParkingMapInner"), {
   ssr: false,
   loading: () => (
-    <Box
-      sx={{
-        height: 520,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "action.hover",
-        borderRadius: 2,
-      }}
+    <div
+      className="app-loading app-loading--large"
+      role="status"
+      aria-live="polite"
     >
-      <CircularProgress />
-    </Box>
+      <div className="app-loading__content">
+        <span className="kern-loader kern-loader--visible" aria-hidden="true" />
+        <span>Karte wird geladen.</span>
+      </div>
+    </div>
   ),
 });
 

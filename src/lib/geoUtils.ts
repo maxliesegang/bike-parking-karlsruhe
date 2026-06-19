@@ -32,10 +32,10 @@ function ringAreaM2(ring: number[][], lat0Rad: number): number {
   const cosLat = Math.cos(lat0Rad);
   let sum = 0;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const xi = (ring[i][0] * Math.PI) / 180 * cosLat * EARTH_RADIUS_M;
-    const yi = (ring[i][1] * Math.PI) / 180 * EARTH_RADIUS_M;
-    const xj = (ring[j][0] * Math.PI) / 180 * cosLat * EARTH_RADIUS_M;
-    const yj = (ring[j][1] * Math.PI) / 180 * EARTH_RADIUS_M;
+    const xi = ((ring[i][0] * Math.PI) / 180) * cosLat * EARTH_RADIUS_M;
+    const yi = ((ring[i][1] * Math.PI) / 180) * EARTH_RADIUS_M;
+    const xj = ((ring[j][0] * Math.PI) / 180) * cosLat * EARTH_RADIUS_M;
+    const yj = ((ring[j][1] * Math.PI) / 180) * EARTH_RADIUS_M;
     sum += xj * yi - xi * yj;
   }
   return Math.abs(sum) / 2;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
-import { Box, CircularProgress, Typography } from "@mui/material";
 import L from "leaflet";
 import { MapParking, MAP_DATA_URL } from "@/models/map-parking";
 import "leaflet/dist/leaflet.css";
@@ -14,7 +13,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 // across all markers so we allocate one icon instance, not thousands.
 const dotIcon = L.divIcon({
   className: "",
-  html: '<span style="display:block;width:10px;height:10px;border-radius:50%;background:#005538;border:1px solid #fff;box-shadow:0 0 2px rgba(0,0,0,0.4)"></span>',
+  html: '<span style="display:block;width:10px;height:10px;border-radius:50%;background:#305f43;border:1px solid #fff;box-shadow:0 0 2px rgba(0,0,0,0.4)"></span>',
   iconSize: [10, 10],
   iconAnchor: [5, 5],
 });
@@ -86,20 +85,7 @@ function ParkingMarkers({ parkings }: { parkings: MapParking[] }) {
 }
 
 function Overlay({ children }: { children: React.ReactNode }) {
-  return (
-    <Box
-      sx={{
-        height: 520,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "action.hover",
-        borderRadius: 2,
-      }}
-    >
-      {children}
-    </Box>
-  );
+  return <div className="app-loading app-loading--large">{children}</div>;
 }
 
 export default function ParkingMapInner() {
@@ -128,9 +114,7 @@ export default function ParkingMapInner() {
   if (failed) {
     return (
       <Overlay>
-        <Typography color="text.secondary">
-          Kartendaten konnten nicht geladen werden.
-        </Typography>
+        <p className="app-muted">Kartendaten konnten nicht geladen werden.</p>
       </Overlay>
     );
   }
@@ -138,7 +122,13 @@ export default function ParkingMapInner() {
   if (!parkings) {
     return (
       <Overlay>
-        <CircularProgress />
+        <div className="app-loading__content" role="status" aria-live="polite">
+          <span
+            className="kern-loader kern-loader--visible"
+            aria-hidden="true"
+          />
+          <span>Kartendaten werden geladen.</span>
+        </div>
       </Overlay>
     );
   }
@@ -147,7 +137,7 @@ export default function ParkingMapInner() {
     <MapContainer
       center={KARLSRUHE_CENTER}
       zoom={11}
-      style={{ height: 520, width: "100%", borderRadius: 8 }}
+      style={{ height: 520, width: "100%" }}
       scrollWheelZoom
     >
       <TileLayer

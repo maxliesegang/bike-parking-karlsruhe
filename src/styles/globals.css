@@ -1,0 +1,519 @@
+:root {
+  /* Make green the primary action color: KERN derives links, primary buttons,
+     focus and hover tints from --kern-color-action-default, so re-pointing it
+     at the brand green carries through the whole component set. */
+  --kern-color-action-default: var(--kern-color-green-700);
+
+  --app-accent: var(--kern-color-green-700, #305f43);
+  --app-accent-strong: var(--kern-color-green-800, #254d34);
+  --app-accent-soft: var(--kern-color-green-050, #edf6ef);
+  --app-attention: var(--kern-color-orange-650, #9d4d12);
+  --app-text-muted: var(--kern-color-layout-text-muted-contextual, #51577a);
+  --app-border: var(--kern-color-layout-border-contextual, #6e7597);
+  --app-surface: var(--kern-color-layout-background-default-contextual, #fff);
+  --app-layer: var(--kern-color-layout-layer-surface-contextual, #f3f4f7);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(243, 244, 247, 0.72),
+      rgba(255, 255, 255, 0) 18rem
+    ),
+    var(--kern-color-layout-background-default, #fff);
+  color: var(--kern-color-layout-text-default-contextual, #131525);
+  font-family:
+    var(--kern-typography-font-family-default, "Fira Sans"), Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-main {
+  padding-block: clamp(1rem, 2.5vw, 2rem) 3rem;
+}
+
+.app-topbar {
+  border-bottom: 1px solid
+    var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  background: var(--app-surface);
+}
+
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+
+.app-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--kern-color-layout-text-default-contextual, #131525);
+  text-decoration: none;
+}
+
+.app-brand__mark {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 2px solid var(--app-accent-strong);
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  color: var(--app-accent-strong);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.app-brand__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.app-brand__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.app-brand__meta,
+.app-eyebrow,
+.app-muted,
+.app-card-subtitle,
+.app-stat__label,
+.app-stat__sub,
+.app-footnote {
+  color: var(--app-text-muted);
+}
+
+.app-brand__meta,
+.app-eyebrow,
+.app-card-subtitle,
+.app-stat__sub,
+.app-footnote {
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.app-nav-toggle {
+  display: none;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.app-nav__link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  color: var(--kern-color-layout-text-default-contextual, #131525);
+  font-weight: 600;
+  padding: 0.5rem 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.app-nav__link:hover {
+  background: var(
+    --kern-color-action-state-indicator-tint-hover-opacity,
+    rgba(48, 95, 67, 0.08)
+  );
+}
+
+.app-nav__link[aria-current="page"] {
+  background: var(--app-accent-soft);
+  box-shadow: inset 0 -3px 0 var(--app-accent-strong);
+  color: var(--app-accent-strong);
+}
+
+.app-page {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.app-hero,
+.app-section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.app-hero {
+  max-width: 76rem;
+}
+
+.app-hero__content {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 54rem;
+}
+
+/* The KERN display size is generous; cap it a touch so data pages don't push
+   their content far below the fold. */
+.app-hero .kern-heading-display {
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.app-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.app-lead {
+  max-width: 50rem;
+  color: var(--app-text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.app-section__header {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 52rem;
+}
+
+.app-section__header > p,
+.app-copy p {
+  margin: 0;
+}
+
+.app-copy {
+  display: grid;
+  gap: 2rem;
+  max-width: 56rem;
+}
+
+.app-prose {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.app-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.app-grid--stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.app-grid--two {
+  grid-template-columns: minmax(0, 1.45fr) minmax(22rem, 0.85fr);
+  align-items: stretch;
+}
+
+.app-stat {
+  height: 100%;
+}
+
+.app-stat .kern-card__container {
+  justify-content: space-between;
+}
+
+.app-stat__value {
+  color: var(--app-accent-strong);
+  font-size: clamp(1.5rem, 3.5vw, 2.125rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.app-stat__label {
+  font-weight: 600;
+}
+
+.app-rating {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  font-weight: 700;
+  min-height: 1.75rem;
+  padding: 0.125rem 0.5rem;
+}
+
+.app-rating--good {
+  background: var(--kern-color-green-050, #edf6ef);
+  color: var(--kern-color-green-800, #254d34);
+}
+
+.app-rating--medium {
+  background: var(--kern-color-yellow-050, #fff7cf);
+  color: var(--kern-color-orange-800, #7c3b0d);
+}
+
+.app-rating--poor {
+  background: var(--kern-color-red-050, #fff0ef);
+  color: var(--kern-color-red-800, #8c1712);
+}
+
+.app-rating--unrated {
+  background: var(--kern-color-grey-100, #e8e8e8);
+  color: var(--kern-color-grey-800, #3d3d3d);
+}
+
+.app-panel {
+  border: 1px solid var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  background: var(--app-surface);
+  padding: 1rem;
+}
+
+.app-map-frame,
+.app-chart-frame,
+.app-table-frame {
+  overflow: hidden;
+  border: 1px solid var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  background: var(--app-surface);
+}
+
+.app-map-frame .leaflet-container {
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+}
+
+.app-loading {
+  display: grid;
+  min-height: 26.25rem;
+  place-items: center;
+  background: var(--app-layer);
+}
+
+.app-loading--large {
+  min-height: 32.5rem;
+}
+
+.app-loading__content {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  color: var(--app-text-muted);
+}
+
+.app-chart {
+  height: 28rem;
+  padding: 1rem;
+}
+
+.app-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1rem 0;
+}
+
+.app-table-meta {
+  color: var(--app-text-muted);
+  font-size: 0.95rem;
+}
+
+.app-sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0;
+  text-align: inherit;
+}
+
+.app-sort-button:hover {
+  color: var(--kern-color-action-default-contextual, #305f43);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.app-sort-icon {
+  color: var(--app-text-muted);
+  font-size: 0.85rem;
+}
+
+.app-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid
+    var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  margin-top: 0.5rem;
+}
+
+.app-tab {
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--kern-metric-border-radius-default, 4px)
+    var(--kern-metric-border-radius-default, 4px) 0 0;
+  background: transparent;
+  color: var(--kern-color-layout-text-default-contextual, #131525);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+}
+
+.app-tab:hover {
+  background: var(
+    --kern-color-action-state-indicator-tint-hover-opacity,
+    rgba(48, 95, 67, 0.08)
+  );
+}
+
+.app-tab[aria-selected="true"] {
+  background: var(--app-accent-soft);
+  box-shadow: inset 0 -4px 0 var(--app-accent-strong);
+  color: var(--app-accent-strong);
+}
+
+.app-view {
+  display: grid;
+  gap: 1rem;
+}
+
+.app-kicker-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.app-kicker-list li {
+  list-style: none;
+}
+
+.app-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-legend__dot {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--app-attention);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* In-table micro-bars: a proportional fill behind a right-aligned figure, so
+   casual readers scan the shape while power users keep the exact number. */
+.app-bar {
+  display: block;
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  background: linear-gradient(
+    to right,
+    var(--app-accent-soft) var(--app-bar-fill, 0%),
+    transparent var(--app-bar-fill, 0%)
+  );
+  box-shadow: inset 2px 0 0
+    color-mix(in oklch, var(--app-accent), transparent 35%);
+  font-variant-numeric: tabular-nums;
+  padding: 0.15rem 0.4rem;
+}
+
+.app-footer {
+  border-top: 1px solid
+    var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  padding-block: 1.5rem;
+}
+
+.app-footer__content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .app-grid--stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-grid--two {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .app-brand-row {
+    align-items: flex-start;
+  }
+
+  .app-nav-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .app-nav {
+    display: none;
+    padding-top: 0.25rem;
+  }
+
+  .app-nav[data-open="true"] {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .app-nav__link {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .app-grid--stats {
+    grid-template-columns: 1fr;
+  }
+
+  .app-chart {
+    height: 21rem;
+    padding: 0.5rem;
+  }
+
+  .app-table-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .app-table-frame {
+    overflow-x: auto;
+  }
+
+  .app-footer__content {
+    flex-direction: column;
+  }
+}

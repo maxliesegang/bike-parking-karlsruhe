@@ -1,73 +1,36 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import dynamic from "next/dynamic";
 import { OsmSnapshot } from "@/lib/osmHistoryMapper";
 
 interface HistoryChartProps {
   history: OsmSnapshot[];
 }
 
-export default function HistoryChart({ history }: HistoryChartProps) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+const HistoryChartInner = dynamic(() => import("./HistoryChartInner"), {
+  ssr: false,
+  loading: () => (
+    <div className="app-chart-frame">
+      <div className="app-loading" role="status" aria-live="polite">
+        <div className="app-loading__content">
+          <span
+            className="kern-loader kern-loader--visible"
+            aria-hidden="true"
+          />
+          <span>Diagramm wird geladen.</span>
+        </div>
+      </div>
+    </div>
+  ),
+});
 
+export default function HistoryChart({ history }: HistoryChartProps) {
   if (history.length < 2) {
     return (
-      <Typography color="text.secondary">
+      <p className="app-muted">
         Die Zeitreihe wird mit jedem Daten-Update länger. Aktuell liegen{" "}
         {history.length} Messpunkt(e) vor — bitte später erneut vorbeischauen.
-      </Typography>
+      </p>
     );
   }
 
-  return (
-    <Box sx={{ height: isMobile ? 320 : 440 }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          data={history}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: isMobile ? 10 : 12 }}
-            angle={isMobile ? -45 : 0}
-            textAnchor={isMobile ? "end" : "middle"}
-            height={isMobile ? 60 : 30}
-          />
-          <YAxis yAxisId="left" tick={{ fontSize: isMobile ? 10 : 12 }} />
-          <YAxis
-            yAxisId="right"
-            orientation="right"
-            tick={{ fontSize: isMobile ? 10 : 12 }}
-          />
-          <Tooltip />
-          <Legend wrapperStyle={{ fontSize: isMobile ? 10 : 12 }} />
-          <Line
-            yAxisId="left"
-            type="monotone"
-            dataKey="totalCapacity"
-            name="Stellplätze gesamt"
-            stroke="#005538"
-            activeDot={{ r: 8 }}
-          />
-          <Line
-            yAxisId="right"
-            type="monotone"
-            dataKey="totalFacilities"
-            name="Anlagen gesamt"
-            stroke="#f57c00"
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </Box>
-  );
+  return <HistoryChartInner history={history} />;
 }

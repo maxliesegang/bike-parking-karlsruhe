@@ -11,10 +11,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,mdx,css,scss}\""
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.1.1",
-    "@mui/material": "^9.1.1",
+    "@kern-ux/native": "^2.6.2",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
     "next": "^16.2.9",

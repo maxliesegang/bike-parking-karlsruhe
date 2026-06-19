@@ -28,8 +28,5 @@ function toMapParking(p: OsmBikeParking): MapParking {
  */
 export function writeMapData(parkings: OsmBikeParking[]): void {
   fs.mkdirSync(path.dirname(MAP_DATA_PATH), { recursive: true });
-  fs.writeFileSync(
-    MAP_DATA_PATH,
-    JSON.stringify(parkings.map(toMapParking)),
-  );
+  fs.writeFileSync(MAP_DATA_PATH, JSON.stringify(parkings.map(toMapParking)));
 }

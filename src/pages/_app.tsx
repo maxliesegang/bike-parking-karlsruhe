@@ -1,15 +1,13 @@
 import type { AppProps } from "next/app";
-import { ThemeProvider, CssBaseline } from "@mui/material";
 import Layout from "@/components/Layout";
-import theme from "@/styles/theme";
+import "@kern-ux/native/dist/kern.min.css";
+import "@kern-ux/native/dist/fonts/fira-sans.css";
+import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </ThemeProvider>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   );
 }

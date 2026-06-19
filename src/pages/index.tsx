@@ -1,6 +1,5 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { Typography, Grid, Box, Paper } from "@mui/material";
 import { getOsmData } from "@/lib/osmDataCache";
 import { writeMapData } from "@/lib/mapDataWriter";
 import {
@@ -24,7 +23,7 @@ const topColumns: Column<TopFacility>[] = [
   { key: "name", label: "Standort", type: "text" },
   { key: "type", label: "Art", type: "text" },
   { key: "covered", label: "Überdacht", type: "boolean" },
-  { key: "capacity", label: "Stellplätze", type: "number" },
+  { key: "capacity", label: "Stellplätze", type: "bar" },
 ];
 
 export default function Home({ stats, topFacilities }: HomeProps) {
@@ -39,93 +38,105 @@ export default function Home({ stats, topFacilities }: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Typography variant="h1" gutterBottom>
-        Fahrradparken in Karlsruhe
-      </Typography>
-      <Typography color="text.secondary" sx={{ mb: 3, maxWidth: 720 }}>
-        Wie ist das Fahrrad-Parkangebot in Karlsruhe und den umliegenden
-        Gemeinden verteilt? Diese Auswertung basiert auf OpenStreetMap-Daten und
-        zeigt, wo die Versorgung gut ist und wo sie ausgebaut werden sollte.
-      </Typography>
+      <div className="app-page">
+        <header className="app-hero">
+          <div className="app-hero__content">
+            <span className="app-eyebrow">Karlsruhe und Umland</span>
+            <h1 className="kern-heading-display">Fahrradparken in Karlsruhe</h1>
+            <p className="app-lead">
+              Wie ist das Fahrrad-Parkangebot in Karlsruhe und den umliegenden
+              Gemeinden verteilt? Diese Auswertung basiert auf
+              OpenStreetMap-Daten und zeigt, wo die Versorgung gut ist und wo
+              sie ausgebaut werden sollte.
+            </p>
+            <ul className="app-kicker-list" aria-label="Dashboard-Schwerpunkte">
+              <li>
+                <span className="kern-badge kern-badge--info">
+                  <span className="kern-label">Karte</span>
+                </span>
+              </li>
+              <li>
+                <span className="kern-badge kern-badge--success">
+                  <span className="kern-label">Regionen</span>
+                </span>
+              </li>
+              <li>
+                <span className="kern-badge kern-badge--warning">
+                  <span className="kern-label">Datenqualität</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </header>
 
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
+        <section className="app-grid app-grid--stats" aria-label="Kennzahlen">
           <StatCard
             label="Erfasste Anlagen"
             value={stats.totalFacilities.toLocaleString("de-DE")}
             sub="Karlsruhe & Umgebung"
           />
-        </Grid>
-        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
             label="Stellplätze gesamt"
             value={stats.totalCapacity.toLocaleString("de-DE")}
             sub="Karlsruhe & Umgebung"
           />
-        </Grid>
-        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
             label="Anlagen in Karlsruhe"
             value={stats.karlsruheFacilities.toLocaleString("de-DE")}
           />
-        </Grid>
-        <Grid size={{ xs: 6, sm: 4, md: 3 }}>
           <StatCard
             label="Stellplätze in Karlsruhe"
             value={stats.karlsruheCapacity.toLocaleString("de-DE")}
           />
-        </Grid>
-      </Grid>
+        </section>
 
-      <Typography variant="h2" gutterBottom>
-        Karte
-      </Typography>
-      <Typography color="text.secondary" sx={{ mb: 2 }}>
-        Jeder Punkt ist eine erfasste Fahrrad-Abstellanlage (beim Herauszoomen
-        gruppiert). Anklicken zeigt Details zur Anlage.
-      </Typography>
-      <Box sx={{ mb: 4 }}>
-        <ParkingMap />
-      </Box>
+        <section className="app-section" aria-labelledby="map-heading">
+          <div className="app-section__header">
+            <h2 id="map-heading" className="kern-heading-x-large">
+              Karte
+            </h2>
+            <p className="app-muted">
+              Jeder Punkt ist eine erfasste Fahrrad-Abstellanlage. Beim
+              Herauszoomen werden Anlagen gruppiert; ein Klick zeigt Details zur
+              Anlage.
+            </p>
+          </div>
+          <div className="app-map-frame">
+            <ParkingMap />
+          </div>
+        </section>
 
-      <Typography variant="h2" gutterBottom>
-        Größte Anlagen
-      </Typography>
-      <Typography color="text.secondary" sx={{ mb: 2, maxWidth: 720 }}>
-        Verkehrsknoten wie der Hauptbahnhof bündeln sehr viele Stellplätze und
-        können die Pro-Kopf-Versorgung eines Bezirks stark anheben. Die Nummern
-        in der Tabelle entsprechen den Markierungen auf der Karte.
-      </Typography>
-      <Grid container spacing={3} sx={{ alignItems: "stretch" }}>
-        <Grid size={{ xs: 12, md: 7 }}>
-          <DataTable
-            data={topFacilities}
-            columns={topColumns}
-            id="topFacilities"
-            ariaLabel="Größte Anlagen"
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Paper
-            variant="outlined"
-            sx={{
-              p: 1,
-              borderRadius: 2,
-              borderColor: "#d97706",
-              bgcolor: "#fff8ef",
-              height: "100%",
-            }}
-          >
-            <Typography
-              variant="caption"
-              sx={{ display: "block", px: 1, pt: 0.5, pb: 1, color: "#b45309", fontWeight: 700 }}
-            >
-              Lage der größten Anlagen
-            </Typography>
-            <TopFacilitiesMap facilities={topFacilities} />
-          </Paper>
-        </Grid>
-      </Grid>
+        <section className="app-section" aria-labelledby="top-heading">
+          <div className="app-section__header">
+            <h2 id="top-heading" className="kern-heading-x-large">
+              Größte Anlagen
+            </h2>
+            <p className="app-muted">
+              Verkehrsknoten wie der Hauptbahnhof bündeln sehr viele Stellplätze
+              und können die Pro-Kopf-Versorgung eines Bezirks stark anheben.
+              Die Nummern in der Tabelle entsprechen den Markierungen auf der
+              Karte.
+            </p>
+          </div>
+          <div className="app-grid app-grid--two">
+            <DataTable
+              data={topFacilities}
+              columns={topColumns}
+              id="topFacilities"
+              ariaLabel="Größte Anlagen"
+            />
+            <aside className="app-panel" aria-label="Lage der größten Anlagen">
+              <p className="app-card-subtitle app-legend">
+                <span className="app-legend__dot" aria-hidden="true" />
+                Lage der größten Anlagen — die Nummern entsprechen der Tabelle.
+              </p>
+              <div className="app-map-frame">
+                <TopFacilitiesMap facilities={topFacilities} />
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
     </>
   );
 }

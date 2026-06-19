@@ -13,7 +13,7 @@ const KARLSRUHE_CENTER: [number, number] = [49.0069, 8.4037];
 function numberedIcon(rank: number): L.DivIcon {
   return L.divIcon({
     className: "",
-    html: `<span style="display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#d97706;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.4);color:#fff;font-weight:700;font-size:13px;line-height:1">${rank}</span>`,
+    html: `<span style="display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#9d4d12;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.4);color:#fff;font-weight:700;font-size:13px;line-height:1">${rank}</span>`,
     iconSize: [26, 26],
     iconAnchor: [13, 13],
   });
@@ -43,7 +43,7 @@ export default function TopFacilitiesMapInner({
     <MapContainer
       center={KARLSRUHE_CENTER}
       zoom={11}
-      style={{ height: 420, width: "100%", borderRadius: 8 }}
+      style={{ height: 420, width: "100%" }}
       scrollWheelZoom
     >
       <TileLayer

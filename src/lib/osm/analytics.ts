@@ -197,7 +197,8 @@ export function generateSupplyAnalysis(
     let rating: Rating = "unrated";
     if (info.population && info.population > 0) {
       perThousand = round((capacity / info.population) * 1000);
-      rating = perThousand >= 10 ? "good" : perThousand >= 3 ? "medium" : "poor";
+      rating =
+        perThousand >= 10 ? "good" : perThousand >= 3 ? "medium" : "poor";
     }
 
     return {
@@ -240,9 +241,7 @@ export interface QualityEntry {
 export function generateQualityAnalysis(
   parkings: OsmBikeParking[],
 ): QualityEntry[] {
-  const byRegion = accumulateByRegion(
-    parkings.filter((p) => p.region),
-  );
+  const byRegion = accumulateByRegion(parkings.filter((p) => p.region));
 
   const results: QualityEntry[] = [];
   for (const acc of byRegion.values()) {
@@ -251,7 +250,9 @@ export function generateQualityAnalysis(
     );
     const coveredBonus = acc.covered / acc.facilities;
     const feeMalus = acc.fee / acc.facilities;
-    const score = round(average(scores) * 0.5 + coveredBonus * 5 - feeMalus * 2);
+    const score = round(
+      average(scores) * 0.5 + coveredBonus * 5 - feeMalus * 2,
+    );
 
     results.push({
       name: acc.name,
@@ -396,7 +397,9 @@ export function generateCoverageComparison(
     {
       category: "Bike-and-Ride erfasst",
       osm: "—",
-      city: cityPct(abstellanlagen.filter((a) => a.b_r && a.b_r !== "nein").length),
+      city: cityPct(
+        abstellanlagen.filter((a) => a.b_r && a.b_r !== "nein").length,
+      ),
     },
     {
       category: "Lastenrad-tauglich erfasst",

@@ -13,12 +13,16 @@ export interface DistrictFeature {
 export function loadOsmBikeParkingData(): FeatureCollection {
   const data = JSON.parse(fs.readFileSync(OSM_DATA_PATH, "utf8"));
   if (data.type !== "FeatureCollection") {
-    throw new Error("Invalid OSM bike parking GeoJSON: expected FeatureCollection");
+    throw new Error(
+      "Invalid OSM bike parking GeoJSON: expected FeatureCollection",
+    );
   }
   return data as FeatureCollection;
 }
 
-function extractPolygonsFromOverpassElement(el: Record<string, unknown>): number[][][][] {
+function extractPolygonsFromOverpassElement(
+  el: Record<string, unknown>,
+): number[][][][] {
   const members = el.members as Array<Record<string, unknown>> | undefined;
 
   if (!members) return [];
@@ -70,7 +74,9 @@ export function loadStadtteilBoundaries(): DistrictFeature[] {
 
   if (data.elements) {
     return data.elements
-      .filter((el: { type: string }) => el.type === "relation" || el.type === "way")
+      .filter(
+        (el: { type: string }) => el.type === "relation" || el.type === "way",
+      )
       .map((el: Record<string, unknown>) => {
         const tags = (el.tags || {}) as Record<string, string>;
         const pop = parseInt(tags.population || "", 10);
