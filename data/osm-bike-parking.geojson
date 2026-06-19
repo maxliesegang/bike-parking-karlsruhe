@@ -55350,6 +55350,125 @@
     },
     {
       "type": "Feature",
+      "id": 13950315766,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4148655,
+          49.1368854
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950616353,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2855353,
+          49.0348734
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "6",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950616354,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2856227,
+          49.0337972
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "7",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950619575,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2853868,
+          49.0339568
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "7",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950625705,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2854395,
+          49.0339674
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "16",
+        "covered": "yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950682440,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2887402,
+          49.0383125
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "8",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950682441,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2882315,
+          49.0382995
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "8",
+        "covered": "yes"
+      }
+    },
+    {
+      "type": "Feature",
       "id": 4408558,
       "geometry": {
         "type": "Point",
@@ -55604,6 +55723,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
+        "capacity": "156",
         "covered": "yes"
       }
     },
@@ -58876,9 +58996,11 @@
         ]
       },
       "properties": {
+        "access": "yes",
         "amenity": "bicycle_parking",
         "bicycle_parking": "shed",
         "building": "shed",
+        "capacity": "16",
         "covered": "yes",
         "fee": "no"
       }
@@ -61832,6 +61954,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
+        "capacity": "60",
         "covered": "yes",
         "fee": "no"
       }
@@ -61904,7 +62027,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
-        "capacity": "32",
+        "capacity": "33",
         "covered": "no"
       }
     },
