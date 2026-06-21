@@ -39703,7 +39703,6 @@
         "bike_ride": "train",
         "capacity": "14",
         "covered": "yes",
-        "entrance": "yes",
         "fee": "no",
         "level": "0",
         "lit": "yes"
