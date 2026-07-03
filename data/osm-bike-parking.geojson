@@ -55882,6 +55882,23 @@
     },
     {
       "type": "Feature",
+      "id": 13984745967,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8278252,
+          48.8380946
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "safe_loops",
+        "capacity": "36",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
       "id": 4408558,
       "geometry": {
         "type": "Point",
