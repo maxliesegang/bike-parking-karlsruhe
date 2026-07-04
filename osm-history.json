@@ -43,5 +43,10 @@
     "date": "2026-07-03",
     "totalFacilities": 4444,
     "totalCapacity": 71621
+  },
+  "2026-07-04": {
+    "date": "2026-07-04",
+    "totalFacilities": 4447,
+    "totalCapacity": 71679
   }
 }

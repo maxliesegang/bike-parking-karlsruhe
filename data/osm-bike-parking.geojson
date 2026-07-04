@@ -31262,8 +31262,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.427293,
-          48.9998319
+          8.4272856,
+          48.9998246
         ]
       },
       "properties": {
@@ -55899,6 +55899,22 @@
     },
     {
       "type": "Feature",
+      "id": 13985329859,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3782739,
+          49.0070888
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
       "id": 4408558,
       "geometry": {
         "type": "Point",
@@ -55991,6 +56007,7 @@
       },
       "properties": {
         "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
         "covered": "yes",
         "fee": "no"
       }
@@ -71860,8 +71877,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4253138,
-          49.0002918
+          8.4252946,
+          49.000289
         ]
       },
       "properties": {
@@ -80292,8 +80309,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4278879,
-          49.0113991
+          8.4278989,
+          49.0114222
         ]
       },
       "properties": {
@@ -80310,8 +80327,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4279804,
-          49.0117497
+          8.4279582,
+          49.0117422
         ]
       },
       "properties": {
@@ -89912,8 +89929,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4281254,
-          49.0113266
+          8.4281283,
+          49.0113215
         ]
       },
       "properties": {
@@ -90585,6 +90602,40 @@
         "fee": "yes",
         "level": "0",
         "lit": "yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1534914880,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4670882,
+          48.9904146
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "28"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1534951686,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3311152,
+          49.0041039
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "30",
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "grass_paver"
       }
     }
   ]
