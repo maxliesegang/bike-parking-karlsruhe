@@ -81750,7 +81750,9 @@
         "capacity": "50",
         "covered": "no",
         "fee": "no",
-        "surface": "ground"
+        "lit": "no",
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -84428,8 +84430,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3200944,
-          48.9677625
+          8.320092,
+          48.9677637
         ]
       },
       "properties": {
@@ -84438,8 +84440,10 @@
         "bicycle_parking": "stands",
         "capacity": "12",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -84448,8 +84452,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3205155,
-          48.9678129
+          8.3205265,
+          48.9678186
         ]
       },
       "properties": {
@@ -84458,8 +84462,10 @@
         "bicycle_parking": "stands",
         "capacity": "30",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -84468,8 +84474,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3198925,
-          48.9676381
+          8.3198919,
+          48.9676366
         ]
       },
       "properties": {
@@ -84477,10 +84483,11 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
         "capacity": "58",
-        "construction": "parking",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -84499,8 +84506,10 @@
         "bicycle_parking": "stands",
         "capacity": "66",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
