@@ -12623,7 +12623,9 @@
         ]
       },
       "properties": {
-        "amenity": "bicycle_parking"
+        "amenity": "bicycle_parking",
+        "check_date": "2026-07-12",
+        "covered": "no"
       }
     },
     {
@@ -56076,6 +56078,58 @@
     },
     {
       "type": "Feature",
+      "id": 14004290173,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.8740869,
+          49.2060222
+        ]
+      },
+      "properties": {
+        "access": "customers",
+        "amenity": "bicycle_parking",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14006238611,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.2231683,
+          48.7741928
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "bike_ride": "no",
+        "capacity": "6",
+        "covered": "no",
+        "surface": "paving_stones"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14006647633,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6770213,
+          49.2200708
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "ground_slots"
+      }
+    },
+    {
+      "type": "Feature",
       "id": 4408558,
       "geometry": {
         "type": "Point",
@@ -57380,7 +57434,7 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
         "building:levels": "1",
-        "capacity": "65",
+        "capacity": "44",
         "covered": "yes",
         "fee": "no"
       }
@@ -61821,6 +61875,7 @@
         "covered": "yes",
         "description": "manche Vorderradhalter sind defekt",
         "fee": "no",
+        "level": "0",
         "lit": "no",
         "park_ride": "train",
         "surface": "paving_stones"
