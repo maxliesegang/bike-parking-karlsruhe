@@ -4297,17 +4297,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.2370495,
-          48.7631006
+          8.2370763,
+          48.7631138
         ]
       },
       "properties": {
+        "access": "yes",
         "amenity": "bicycle_parking",
-        "bicycle_parking": "stands",
+        "authentication:app": "yes",
+        "bicycle_parking": "lockers",
+        "brand": "Bike and Ride Box",
         "capacity": "4",
-        "check_date": "2025-03-30",
-        "covered": "no",
-        "ref": "Wilhelmstraße / Luisenstraße"
+        "check_date": "2026-07-18",
+        "covered": "yes",
+        "fee": "yes",
+        "ref": "Wilhelmstraße / Luisenstraße",
+        "website": "https://www.bikeandridebox.de/app/site/1600/bikebox/details",
+        "website:reservation": "https://www.bikeandridebox.de/app/site/1600/bikebox"
       }
     },
     {
@@ -75761,8 +75767,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.388602,
-          49.0094433
+          8.3885585,
+          49.0094448
         ]
       },
       "properties": {
@@ -90895,6 +90901,70 @@
         "capacity": "30",
         "note": "2 Fahrräder pro Bügel",
         "surface": "grass_paver"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1539988176,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3883864,
+          49.0094964
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "21",
+        "covered": "yes",
+        "fee": "no",
+        "level": "0",
+        "lit": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1540212328,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.418959,
+          49.0107681
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "32",
+        "check_date": "2026-07-18",
+        "covered": "no",
+        "fee": "no",
+        "lit": "yes",
+        "surface": "paving_stones"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1540212331,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4190273,
+          49.0103649
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "12",
+        "check_date": "2026-07-18",
+        "covered": "no",
+        "fee": "no",
+        "surface": "paving_stones"
       }
     }
   ]
