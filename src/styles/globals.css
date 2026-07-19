@@ -24,8 +24,8 @@ body {
   background:
     linear-gradient(
       180deg,
-      rgba(243, 244, 247, 0.72),
-      rgba(255, 255, 255, 0) 18rem
+      rgba(243, 244, 247, 0.6),
+      rgba(255, 255, 255, 0) 9rem
     ),
     var(--kern-color-layout-background-default, #fff);
   color: var(--kern-color-layout-text-default-contextual, #131525);
@@ -46,7 +46,7 @@ a {
 }
 
 .app-main {
-  padding-block: clamp(1rem, 2.5vw, 2rem) 3rem;
+  padding-block: clamp(0.75rem, 2vw, 1.5rem) 2.5rem;
 }
 
 .app-topbar {
@@ -60,7 +60,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding-block: 1rem;
+  padding-block: 0.75rem;
 }
 
 .app-brand {
@@ -97,7 +97,6 @@ a {
 }
 
 .app-brand__meta,
-.app-eyebrow,
 .app-muted,
 .app-card-subtitle,
 .app-stat__label,
@@ -107,12 +106,22 @@ a {
 }
 
 .app-brand__meta,
-.app-eyebrow,
 .app-card-subtitle,
 .app-stat__sub,
 .app-footnote {
-  font-size: 0.95rem;
-  line-height: 1.45;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* A small accent kicker gives each page a scannable label without spending a
+   full heading's vertical space on it. */
+.app-eyebrow {
+  color: var(--app-accent-strong);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .app-nav-toggle {
@@ -123,7 +132,7 @@ a {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   overflow-x: auto;
 }
 
@@ -154,30 +163,39 @@ a {
 
 .app-page {
   display: grid;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.app-hero,
-.app-section {
-  display: grid;
-  gap: 0.75rem;
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 
 .app-hero {
+  display: grid;
+  gap: 0.5rem;
   max-width: 76rem;
+}
+
+.app-section {
+  display: grid;
+  gap: 0.6rem;
 }
 
 .app-hero__content {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.3rem;
   max-width: 54rem;
 }
 
-/* The KERN display size is generous; cap it a touch so data pages don't push
-   their content far below the fold. */
+/* The KERN display size is generous; on data pages it pushes content far below
+   the fold, so cap it to a compact page title. */
 .app-hero .kern-heading-display {
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.1;
+  font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* Section headings are supporting labels here, not display type — keep them
+   close in weight to the body so the data stays the focus. */
+.app-section__header .kern-heading-x-large {
+  font-size: clamp(1.2rem, 2.4vw, 1.4rem);
+  line-height: 1.2;
 }
 
 .app-hero__actions {
@@ -188,17 +206,22 @@ a {
 }
 
 .app-lead {
-  max-width: 50rem;
+  max-width: 46rem;
   color: var(--app-text-muted);
-  font-size: 1.0625rem;
-  line-height: 1.55;
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 0;
 }
 
 .app-section__header {
   display: grid;
-  gap: 0.5rem;
-  max-width: 52rem;
+  gap: 0.35rem;
+  max-width: 60rem;
+}
+
+.app-section__header .app-muted {
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 .app-section__header > p,
@@ -208,7 +231,7 @@ a {
 
 .app-copy {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
   max-width: 56rem;
 }
 
@@ -224,6 +247,7 @@ a {
 
 .app-grid--stats {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
 .app-grid--two {
@@ -237,13 +261,19 @@ a {
 
 .app-stat .kern-card__container {
   justify-content: space-between;
+  padding: 0.85rem 1rem;
+}
+
+.app-stat .kern-card__body {
+  display: grid;
+  gap: 0.1rem;
 }
 
 .app-stat__value {
   color: var(--app-accent-strong);
-  font-size: clamp(1.5rem, 3.5vw, 2.125rem);
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.05;
 }
 
 .app-stat__label {
@@ -307,7 +337,7 @@ a {
 }
 
 .app-loading--large {
-  min-height: 32.5rem;
+  min-height: 28.75rem;
 }
 
 .app-loading__content {
@@ -400,18 +430,6 @@ a {
 .app-view {
   display: grid;
   gap: 1rem;
-}
-
-.app-kicker-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-}
-
-.app-kicker-list li {
-  list-style: none;
 }
 
 .app-legend {

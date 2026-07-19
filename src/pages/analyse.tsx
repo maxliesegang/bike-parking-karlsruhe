@@ -12,6 +12,7 @@ import {
 } from "@/lib/osm/analytics";
 import { average } from "@/lib/math";
 import DataTable, { Column } from "@/components/DataTable";
+import { PageHeader } from "@/components/PageHeader";
 import { RatingBadge } from "@/components/StatCard";
 
 interface AnalyseProps {
@@ -61,10 +62,9 @@ function SupplyView({ supply }: { supply: SupplyEntry[] }) {
   return (
     <div className="app-view">
       <p className="app-muted">
-        Stellplätze pro Einwohner — schlecht versorgte Regionen zuerst. Zum
-        Vergleich: Bremen ~28, München ~27, Freiburg ~22 Stellplätze pro 1.000
-        Einwohner (ADFC). Umland-Gemeinden ohne Einwohnerdaten in OpenStreetMap
-        erscheinen ohne Bewertung.
+        Stellplätze pro Einwohner, schlecht versorgte Regionen zuerst.
+        Vergleichswerte: Bremen ~28, München ~27, Freiburg ~22 pro 1.000 EW
+        (ADFC). Gemeinden ohne Einwohnerdaten bleiben unbewertet.
       </p>
       <DataTable
         data={data}
@@ -91,8 +91,9 @@ function QualityView({ quality }: { quality: QualityEntry[] }) {
   return (
     <div className="app-view">
       <p className="app-muted">
-        Qualität nach Anlagentyp (Boxen/Häuser hoch, einfache Ständer niedrig),
-        Überdachung und Gebührenfreiheit. Ø {avgScore}/10 über alle Regionen.
+        Bewertet nach Anlagentyp (Boxen und Häuser hoch, einfache Ständer
+        niedrig), Überdachung und Gebührenfreiheit. Ø {avgScore}/10 über alle
+        Regionen.
       </p>
       <DataTable
         data={quality}
@@ -114,8 +115,8 @@ function TypesView({ types }: { types: TypeStats[] }) {
   return (
     <div className="app-view">
       <p className="app-muted">
-        Die Verteilung nach Bauart zeigt, ob viele kleine Standardständer oder
-        größere, hochwertigere Anlagen den Bestand prägen.
+        Verteilung nach Bauart — prägen viele kleine Standardständer oder
+        größere, hochwertigere Anlagen den Bestand?
       </p>
       <DataTable
         data={types}
@@ -152,24 +153,15 @@ export default function Analyse({ supply, quality, types }: AnalyseProps) {
       </Head>
 
       <div className="app-page">
-        <header className="app-hero">
-          <div className="app-hero__content">
-            <span className="app-eyebrow">Regionen, Qualität und Typen</span>
-            <h1 className="kern-heading-display">Analyse nach Region</h1>
-            <p className="app-lead">
-              Für den schnellen Eindruck sind die Ansichten verdichtet; für
-              Detailarbeit bleiben alle Tabellen sortierbar und horizontal
-              scrollbar.
-            </p>
-          </div>
-        </header>
+        <PageHeader
+          eyebrow="Regionen, Qualität und Typen"
+          title="Analyse nach Region"
+        >
+          Verdichtet für den schnellen Überblick — alle Tabellen bleiben
+          sortierbar für die Detailarbeit.
+        </PageHeader>
 
-        <section className="app-section" aria-labelledby="analysis-heading">
-          <div className="app-section__header">
-            <h2 id="analysis-heading" className="kern-heading-x-large">
-              Auswertung
-            </h2>
-          </div>
+        <section className="app-section">
           <div
             className="app-tabs"
             role="tablist"

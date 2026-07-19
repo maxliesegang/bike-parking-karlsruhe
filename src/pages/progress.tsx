@@ -2,6 +2,8 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import { getOsmData } from "@/lib/osmDataCache";
 import { OsmSnapshot } from "@/lib/osmHistoryMapper";
+import { PageHeader } from "@/components/PageHeader";
+import { SectionHeader } from "@/components/SectionHeader";
 import HistoryChart from "@/components/HistoryChart";
 
 interface ProgressProps {
@@ -9,10 +11,14 @@ interface ProgressProps {
 }
 
 export default function Progress({ history }: ProgressProps) {
-  const latest = history[history.length - 1];
-  const first = history[0];
-  const delta =
-    latest && first ? latest.totalCapacity - first.totalCapacity : 0;
+  // Prefer the Karlsruhe-city series; fall back to the whole-dataset totals
+  // for the historical span recorded before city tracking existed.
+  const cityPoints = history.filter((s) => s.cityCapacity !== undefined);
+  const series =
+    cityPoints.length >= 2
+      ? cityPoints.map((s) => s.cityCapacity as number)
+      : history.map((s) => s.totalCapacity);
+  const delta = series.length >= 2 ? series[series.length - 1] - series[0] : 0;
 
   return (
     <>
@@ -25,37 +31,25 @@ export default function Progress({ history }: ProgressProps) {
       </Head>
 
       <div className="app-page">
-        <header className="app-hero">
-          <div className="app-hero__content">
-            <span className="app-eyebrow">Zeitreihe</span>
-            <h1 className="kern-heading-display">Entwicklung über Zeit</h1>
-            <p className="app-lead">
-              Bei jedem Datenabgleich wird ein Messpunkt gespeichert. So lässt
-              sich verfolgen, wie das erfasste Fahrrad-Parkangebot in der Region
-              wächst.
-              {delta > 0 && (
-                <>
-                  {" "}
-                  Seit Beginn der Aufzeichnung kamen{" "}
-                  <strong>{delta.toLocaleString("de-DE")}</strong> Stellplätze
-                  hinzu.
-                </>
-              )}
-            </p>
-          </div>
-        </header>
+        <PageHeader eyebrow="Zeitreihe" title="Entwicklung über Zeit">
+          Jeder Datenabgleich speichert einen Messpunkt — so wird sichtbar, wie
+          das erfasste Fahrrad-Parkangebot wächst.
+          {delta > 0 && (
+            <>
+              {" "}
+              Seit Beginn der Aufzeichnung kamen{" "}
+              <strong>{delta.toLocaleString("de-DE")}</strong> Stellplätze
+              hinzu.
+            </>
+          )}
+        </PageHeader>
 
         <section className="app-section" aria-labelledby="history-heading">
-          <div className="app-section__header">
-            <h2 id="history-heading" className="kern-heading-x-large">
-              Messpunkte
-            </h2>
-            <p className="app-muted">
-              Die Linien trennen die Entwicklung der Stellplätze von der Anzahl
-              der erfassten Anlagen, damit Datenzuwachs und Angebotsausbau
-              unterscheidbar bleiben.
-            </p>
-          </div>
+          <SectionHeader id="history-heading" title="Messpunkte">
+            Durchgezogene Linien zeigen Karlsruhe (Stadtgebiet), die
+            gestrichelten das Gesamtangebot inklusive Umland — jeweils getrennt
+            nach Stellplätzen und Anlagen.
+          </SectionHeader>
           <HistoryChart history={history} />
         </section>
       </div>

@@ -4,9 +4,18 @@ import { OSM_HISTORY_PATH } from "./config";
 
 export interface OsmSnapshot {
   date: string; // YYYY-MM-DD
+  // Whole dataset (Karlsruhe city + surrounding Landkreis municipalities).
   totalFacilities: number;
   totalCapacity: number;
+  // Karlsruhe city only (regionLevel 9/10). Optional: absent on snapshots
+  // recorded before city tracking was added.
+  cityFacilities?: number;
+  cityCapacity?: number;
 }
+
+/** Karlsruhe city proper is admin_level 9/10; AL8 is the surrounding Landkreis. */
+const isCity = (p: OsmBikeParking): boolean =>
+  p.regionLevel === 9 || p.regionLevel === 10;
 
 /**
  * Records a dated snapshot of OSM aggregate totals on each build, deduped by
@@ -34,10 +43,13 @@ export class OsmHistoryManager {
 
   recordSnapshot(parkings: OsmBikeParking[]): OsmSnapshot[] {
     const date = new Date().toISOString().split("T")[0];
+    const city = parkings.filter(isCity);
     const snapshot: OsmSnapshot = {
       date,
       totalFacilities: parkings.length,
       totalCapacity: parkings.reduce((sum, p) => sum + p.capacity, 0),
+      cityFacilities: city.length,
+      cityCapacity: city.reduce((sum, p) => sum + p.capacity, 0),
     };
     this.history[date] = snapshot;
     fs.writeFileSync(OSM_HISTORY_PATH, JSON.stringify(this.history, null, 2));

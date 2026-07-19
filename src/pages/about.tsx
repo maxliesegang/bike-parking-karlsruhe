@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { PageHeader } from "@/components/PageHeader";
 
 export default function About() {
   return (
@@ -14,16 +15,10 @@ export default function About() {
       </Head>
 
       <div className="app-page">
-        <header className="app-hero">
-          <div className="app-hero__content">
-            <span className="app-eyebrow">Quellen und Methodik</span>
-            <h1 className="kern-heading-display">Über die Daten</h1>
-            <p className="app-lead">
-              Das Dashboard kombiniert Community-Daten mit städtischen offenen
-              Daten und macht die jeweiligen Stärken und Lücken sichtbar.
-            </p>
-          </div>
-        </header>
+        <PageHeader eyebrow="Quellen und Methodik" title="Über die Daten">
+          Das Dashboard kombiniert Community-Daten mit städtischen offenen Daten
+          und macht die jeweiligen Stärken und Lücken sichtbar.
+        </PageHeader>
 
         <div className="app-copy">
           <section className="app-prose" aria-labelledby="osm-heading">

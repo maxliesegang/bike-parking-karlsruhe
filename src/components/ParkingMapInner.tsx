@@ -137,7 +137,7 @@ export default function ParkingMapInner() {
     <MapContainer
       center={KARLSRUHE_CENTER}
       zoom={11}
-      style={{ height: 520, width: "100%" }}
+      style={{ height: 460, width: "100%" }}
       scrollWheelZoom
     >
       <TileLayer

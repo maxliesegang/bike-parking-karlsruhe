@@ -9,6 +9,8 @@ import {
   TopFacility,
 } from "@/lib/osm/analytics";
 import { StatCard } from "@/components/StatCard";
+import { PageHeader } from "@/components/PageHeader";
+import { SectionHeader } from "@/components/SectionHeader";
 import ParkingMap from "@/components/ParkingMap";
 import TopFacilitiesMap from "@/components/TopFacilitiesMap";
 import DataTable, { Column } from "@/components/DataTable";
@@ -39,35 +41,14 @@ export default function Home({ stats, topFacilities }: HomeProps) {
       </Head>
 
       <div className="app-page">
-        <header className="app-hero">
-          <div className="app-hero__content">
-            <span className="app-eyebrow">Karlsruhe und Umland</span>
-            <h1 className="kern-heading-display">Fahrradparken in Karlsruhe</h1>
-            <p className="app-lead">
-              Wie ist das Fahrrad-Parkangebot in Karlsruhe und den umliegenden
-              Gemeinden verteilt? Diese Auswertung basiert auf
-              OpenStreetMap-Daten und zeigt, wo die Versorgung gut ist und wo
-              sie ausgebaut werden sollte.
-            </p>
-            <ul className="app-kicker-list" aria-label="Dashboard-Schwerpunkte">
-              <li>
-                <span className="kern-badge kern-badge--info">
-                  <span className="kern-label">Karte</span>
-                </span>
-              </li>
-              <li>
-                <span className="kern-badge kern-badge--success">
-                  <span className="kern-label">Regionen</span>
-                </span>
-              </li>
-              <li>
-                <span className="kern-badge kern-badge--warning">
-                  <span className="kern-label">Datenqualität</span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </header>
+        <PageHeader
+          eyebrow="Karlsruhe und Umland"
+          title="Fahrradparken in Karlsruhe"
+        >
+          Verteilung, Versorgung und Qualität der öffentlichen
+          Fahrrad-Abstellplätze in Karlsruhe und Umgebung — auf Basis von
+          OpenStreetMap.
+        </PageHeader>
 
         <section className="app-grid app-grid--stats" aria-label="Kennzahlen">
           <StatCard
@@ -91,33 +72,21 @@ export default function Home({ stats, topFacilities }: HomeProps) {
         </section>
 
         <section className="app-section" aria-labelledby="map-heading">
-          <div className="app-section__header">
-            <h2 id="map-heading" className="kern-heading-x-large">
-              Karte
-            </h2>
-            <p className="app-muted">
-              Jeder Punkt ist eine erfasste Fahrrad-Abstellanlage. Beim
-              Herauszoomen werden Anlagen gruppiert; ein Klick zeigt Details zur
-              Anlage.
-            </p>
-          </div>
+          <SectionHeader id="map-heading" title="Karte">
+            Jeder Punkt ist eine Anlage; beim Herauszoomen werden sie gruppiert.
+            Klick für Details.
+          </SectionHeader>
           <div className="app-map-frame">
             <ParkingMap />
           </div>
         </section>
 
         <section className="app-section" aria-labelledby="top-heading">
-          <div className="app-section__header">
-            <h2 id="top-heading" className="kern-heading-x-large">
-              Größte Anlagen
-            </h2>
-            <p className="app-muted">
-              Verkehrsknoten wie der Hauptbahnhof bündeln sehr viele Stellplätze
-              und können die Pro-Kopf-Versorgung eines Bezirks stark anheben.
-              Die Nummern in der Tabelle entsprechen den Markierungen auf der
-              Karte.
-            </p>
-          </div>
+          <SectionHeader id="top-heading" title="Größte Anlagen">
+            Verkehrsknoten wie der Hauptbahnhof bündeln viele Stellplätze und
+            heben die Pro-Kopf-Versorgung eines Bezirks stark an. Die Nummern
+            verbinden Tabelle und Karte.
+          </SectionHeader>
           <div className="app-grid app-grid--two">
             <DataTable
               data={topFacilities}

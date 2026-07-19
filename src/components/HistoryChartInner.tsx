@@ -41,17 +41,40 @@ export default function HistoryChartInner({ history }: HistoryChartProps) {
             <Line
               yAxisId="left"
               type="monotone"
-              dataKey="totalCapacity"
-              name="Stellplätze gesamt"
+              dataKey="cityCapacity"
+              name="Stellplätze Karlsruhe"
               stroke="#305f43"
               activeDot={{ r: 8 }}
+              connectNulls
+            />
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="cityFacilities"
+              name="Anlagen Karlsruhe"
+              stroke="#9d4d12"
+              connectNulls
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="totalCapacity"
+              name="Stellplätze mit Umland"
+              stroke="#305f43"
+              strokeOpacity={0.35}
+              strokeDasharray="4 4"
+              dot={false}
+              activeDot={{ r: 5 }}
             />
             <Line
               yAxisId="right"
               type="monotone"
               dataKey="totalFacilities"
-              name="Anlagen gesamt"
+              name="Anlagen mit Umland"
               stroke="#9d4d12"
+              strokeOpacity={0.35}
+              strokeDasharray="4 4"
+              dot={false}
             />
           </LineChart>
         </ResponsiveContainer>

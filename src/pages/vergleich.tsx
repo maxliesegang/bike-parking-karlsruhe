@@ -10,6 +10,8 @@ import {
 } from "@/lib/osm/analytics";
 import { round } from "@/lib/math";
 import DataTable, { Column } from "@/components/DataTable";
+import { PageHeader } from "@/components/PageHeader";
+import { SectionHeader } from "@/components/SectionHeader";
 import { StatCard } from "@/components/StatCard";
 
 interface VergleichProps {
@@ -48,20 +50,14 @@ export default function Vergleich({ comparison, coverage }: VergleichProps) {
       </Head>
 
       <div className="app-page">
-        <header className="app-hero">
-          <div className="app-hero__content">
-            <span className="app-eyebrow">Datenquellen-Vergleich</span>
-            <h1 className="kern-heading-display">
-              OpenStreetMap vs. Stadt Karlsruhe
-            </h1>
-            <p className="app-lead">
-              Diese Seite basiert auf OpenStreetMap, weil es die vollständigere
-              und kontinuierlich aktualisierte Quelle ist. Der offizielle
-              Open-Data-Datensatz der Stadt Karlsruhe (WFS) wird als Referenz
-              und Gegenprobe herangezogen.
-            </p>
-          </div>
-        </header>
+        <PageHeader
+          eyebrow="Datenquellen-Vergleich"
+          title="OpenStreetMap vs. Stadt Karlsruhe"
+        >
+          Die Auswertung nutzt OpenStreetMap als vollständigere, laufend
+          aktualisierte Quelle. Der Open-Data-Datensatz der Stadt Karlsruhe
+          dient als Gegenprobe.
+        </PageHeader>
 
         <section className="app-grid app-grid--stats" aria-label="Kennzahlen">
           <StatCard
@@ -78,16 +74,13 @@ export default function Vergleich({ comparison, coverage }: VergleichProps) {
         </section>
 
         <section className="app-section" aria-labelledby="count-heading">
-          <div className="app-section__header">
-            <h2 id="count-heading" className="kern-heading-x-large">
-              Erfasste Anlagen & Stellplätze
-            </h2>
-            <p className="app-muted">
-              Gegenüberstellung der Anzahl erfasster Anlagen und der Summe der
-              Stellplätze, jeweils gesamt und auf das Stadtgebiet Karlsruhe
-              begrenzt.
-            </p>
-          </div>
+          <SectionHeader
+            id="count-heading"
+            title="Erfasste Anlagen & Stellplätze"
+          >
+            Anlagen und Stellplätze im Vergleich — gesamt und auf das
+            Stadtgebiet Karlsruhe begrenzt.
+          </SectionHeader>
           <DataTable
             data={comparison}
             columns={comparisonColumns}
@@ -97,17 +90,14 @@ export default function Vergleich({ comparison, coverage }: VergleichProps) {
         </section>
 
         <section className="app-section" aria-labelledby="coverage-heading">
-          <div className="app-section__header">
-            <h2 id="coverage-heading" className="kern-heading-x-large">
-              Vollständigkeit der Angaben
-            </h2>
-            <p className="app-muted">
-              Anteil der Einträge jeder Quelle, die das jeweilige Merkmal
-              angeben. Einige Merkmale, etwa Bike+Ride und Lastenrad-Eignung,
-              sind nur im Schema der Stadt Karlsruhe vorgesehen und für
-              OpenStreetMap mit „—“ gekennzeichnet.
-            </p>
-          </div>
+          <SectionHeader
+            id="coverage-heading"
+            title="Vollständigkeit der Angaben"
+          >
+            Anteil der Einträge je Quelle, die das Merkmal angeben. Merkmale wie
+            Bike+Ride und Lastenrad-Eignung gibt es nur im Schema der Stadt
+            Karlsruhe (für OpenStreetMap „—“).
+          </SectionHeader>
           <DataTable
             data={coverage}
             columns={coverageColumns}
