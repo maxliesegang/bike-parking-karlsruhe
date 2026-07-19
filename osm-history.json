@@ -11,12 +11,82 @@
   },
   "2026-06-19": {
     "date": "2026-06-19",
-    "totalFacilities": 4413,
-    "totalCapacity": 71051
+    "totalFacilities": 4420,
+    "totalCapacity": 71336
+  },
+  "2026-06-20": {
+    "date": "2026-06-20",
+    "totalFacilities": 4424,
+    "totalCapacity": 71355
+  },
+  "2026-06-21": {
+    "date": "2026-06-21",
+    "totalFacilities": 4424,
+    "totalCapacity": 71355
+  },
+  "2026-06-27": {
+    "date": "2026-06-27",
+    "totalFacilities": 4442,
+    "totalCapacity": 71579
+  },
+  "2026-07-01": {
+    "date": "2026-07-01",
+    "totalFacilities": 4443,
+    "totalCapacity": 71585
+  },
+  "2026-07-02": {
+    "date": "2026-07-02",
+    "totalFacilities": 4443,
+    "totalCapacity": 71585
+  },
+  "2026-07-03": {
+    "date": "2026-07-03",
+    "totalFacilities": 4444,
+    "totalCapacity": 71621
+  },
+  "2026-07-04": {
+    "date": "2026-07-04",
+    "totalFacilities": 4447,
+    "totalCapacity": 71679
+  },
+  "2026-07-05": {
+    "date": "2026-07-05",
+    "totalFacilities": 4449,
+    "totalCapacity": 71679
+  },
+  "2026-07-06": {
+    "date": "2026-07-06",
+    "totalFacilities": 4453,
+    "totalCapacity": 71731
+  },
+  "2026-07-07": {
+    "date": "2026-07-07",
+    "totalFacilities": 4453,
+    "totalCapacity": 71731
+  },
+  "2026-07-11": {
+    "date": "2026-07-11",
+    "totalFacilities": 4456,
+    "totalCapacity": 71763
+  },
+  "2026-07-15": {
+    "date": "2026-07-15",
+    "totalFacilities": 4459,
+    "totalCapacity": 71748
+  },
+  "2026-07-16": {
+    "date": "2026-07-16",
+    "totalFacilities": 4405,
+    "totalCapacity": 70555
+  },
+  "2026-07-17": {
+    "date": "2026-07-17",
+    "totalFacilities": 4461,
+    "totalCapacity": 71713
   },
   "2026-07-19": {
     "date": "2026-07-19",
-    "totalFacilities": 4413,
-    "totalCapacity": 71051
+    "totalFacilities": 4464,
+    "totalCapacity": 71778
   }
 }
