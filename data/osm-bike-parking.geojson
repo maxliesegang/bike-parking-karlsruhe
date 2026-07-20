@@ -90822,6 +90822,7 @@
         "access": "yes",
         "amenity": "bicycle_parking",
         "bicycle_parking": "rack",
+        "covered": "no",
         "fee": "no"
       }
     },
@@ -90899,6 +90900,7 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
         "capacity": "30",
+        "covered": "no",
         "note": "2 Fahrräder pro Bügel",
         "surface": "grass_paver"
       }
