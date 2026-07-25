@@ -102,5 +102,12 @@
     "totalCapacity": 71802,
     "cityFacilities": 2080,
     "cityCapacity": 34514
+  },
+  "2026-07-25": {
+    "date": "2026-07-25",
+    "totalFacilities": 4539,
+    "totalCapacity": 72426,
+    "cityFacilities": 2080,
+    "cityCapacity": 34514
   }
 }
