@@ -1,4 +1,88 @@
 {
+  "2014-01-01": {
+    "date": "2014-01-01",
+    "totalFacilities": 545,
+    "totalCapacity": 9043,
+    "cityFacilities": 283,
+    "cityCapacity": 4696
+  },
+  "2015-01-01": {
+    "date": "2015-01-01",
+    "totalFacilities": 653,
+    "totalCapacity": 10835,
+    "cityFacilities": 343,
+    "cityCapacity": 5691
+  },
+  "2016-01-01": {
+    "date": "2016-01-01",
+    "totalFacilities": 826,
+    "totalCapacity": 13706,
+    "cityFacilities": 429,
+    "cityCapacity": 7119
+  },
+  "2017-01-01": {
+    "date": "2017-01-01",
+    "totalFacilities": 1036,
+    "totalCapacity": 17191,
+    "cityFacilities": 527,
+    "cityCapacity": 8745
+  },
+  "2018-01-01": {
+    "date": "2018-01-01",
+    "totalFacilities": 1174,
+    "totalCapacity": 19480,
+    "cityFacilities": 604,
+    "cityCapacity": 10022
+  },
+  "2019-01-01": {
+    "date": "2019-01-01",
+    "totalFacilities": 1542,
+    "totalCapacity": 25587,
+    "cityFacilities": 759,
+    "cityCapacity": 12594
+  },
+  "2020-01-01": {
+    "date": "2020-01-01",
+    "totalFacilities": 1716,
+    "totalCapacity": 28474,
+    "cityFacilities": 883,
+    "cityCapacity": 14652
+  },
+  "2021-01-01": {
+    "date": "2021-01-01",
+    "totalFacilities": 1981,
+    "totalCapacity": 32871,
+    "cityFacilities": 1074,
+    "cityCapacity": 17821
+  },
+  "2022-01-01": {
+    "date": "2022-01-01",
+    "totalFacilities": 2333,
+    "totalCapacity": 38712,
+    "cityFacilities": 1308,
+    "cityCapacity": 21704
+  },
+  "2023-01-01": {
+    "date": "2023-01-01",
+    "totalFacilities": 2699,
+    "totalCapacity": 44785,
+    "cityFacilities": 1549,
+    "cityCapacity": 25703
+  },
+  "2024-01-01": {
+    "date": "2024-01-01",
+    "totalFacilities": 3115,
+    "totalCapacity": 51688,
+    "cityFacilities": 1768,
+    "cityCapacity": 29337
+  },
+  "2025-01-01": {
+    "date": "2025-01-01",
+    "totalFacilities": 3638,
+    "totalCapacity": 60366,
+    "cityFacilities": 1987,
+    "cityCapacity": 32971
+  },
   "2026-06-17": {
     "date": "2026-06-17",
     "totalFacilities": 4413,
@@ -98,6 +182,13 @@
   },
   "2026-07-21": {
     "date": "2026-07-21",
+    "totalFacilities": 4465,
+    "totalCapacity": 71802,
+    "cityFacilities": 2080,
+    "cityCapacity": 34514
+  },
+  "2026-07-26": {
+    "date": "2026-07-26",
     "totalFacilities": 4465,
     "totalCapacity": 71802,
     "cityFacilities": 2080,

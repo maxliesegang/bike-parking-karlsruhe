@@ -52,7 +52,14 @@ export class OsmHistoryManager {
       cityCapacity: city.reduce((sum, p) => sum + p.capacity, 0),
     };
     this.history[date] = snapshot;
-    fs.writeFileSync(OSM_HISTORY_PATH, JSON.stringify(this.history, null, 2));
+    const sorted = Object.keys(this.history)
+      .sort()
+      .reduce((obj, key) => {
+        obj[key] = this.history[key];
+        return obj;
+      }, {} as Record<string, OsmSnapshot>);
+    this.history = sorted;
+    fs.writeFileSync(OSM_HISTORY_PATH, JSON.stringify(sorted, null, 2) + "\n");
 
     return Object.values(this.history).sort((a, b) =>
       a.date.localeCompare(b.date),
