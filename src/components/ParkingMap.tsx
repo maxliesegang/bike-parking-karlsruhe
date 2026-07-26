@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
-// Leaflet touches `window`, so the actual map must never be server-rendered or
-// statically pre-rendered. Load it client-side only.
+// Maplibre GL JS touches `window`, so the actual map must never be
+// server-rendered or statically pre-rendered. Load it client-side only.
 const ParkingMapInner = dynamic(() => import("./ParkingMapInner"), {
   ssr: false,
   loading: () => (

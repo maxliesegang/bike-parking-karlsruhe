@@ -331,7 +331,7 @@ a {
   background: var(--app-surface);
 }
 
-.app-map-frame .leaflet-container {
+.app-map-frame .maplibregl-map {
   border-radius: var(--kern-metric-border-radius-default, 4px);
 }
 

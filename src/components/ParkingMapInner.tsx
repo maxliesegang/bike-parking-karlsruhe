@@ -1,95 +1,44 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
-import L from "leaflet";
+import "maplibre-gl/dist/maplibre-gl.css";
+import {
+  MAP_COLORS,
+  MAP_LABEL_FONT,
+  bindClusterZoom,
+  bindPointPopup,
+  ensurePointSource,
+  escapeHtml,
+  popupHtml,
+} from "@/lib/map/maplibre";
+import { useMapLibre } from "@/lib/map/useMapLibre";
 import { MapParking, MAP_DATA_URL } from "@/models/map-parking";
-import "leaflet/dist/leaflet.css";
-import "leaflet.markercluster";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
-// A CSS dot — a DivIcon needs no image assets, so it sidesteps Leaflet's
-// default-marker icon URLs breaking under the GitHub Pages basePath. Shared
-// across all markers so we allocate one icon instance, not thousands.
-const dotIcon = L.divIcon({
-  className: "",
-  html: '<span style="display:block;width:10px;height:10px;border-radius:50%;background:#305f43;border:1px solid #fff;box-shadow:0 0 2px rgba(0,0,0,0.4)"></span>',
-  iconSize: [10, 10],
-  iconAnchor: [5, 5],
-});
+const SOURCE_ID = "parkings";
+const CLUSTER_LAYER_ID = "parking-clusters";
+const POINT_LAYER_ID = "parking-points";
 
-const KARLSRUHE_CENTER: [number, number] = [49.0069, 8.4037];
+function parkingPopup(p: MapParking): string {
+  const headline = [p.type];
+  if (p.capacity > 0) headline.push(`${p.capacity} Stellplätze`);
 
-function esc(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+  const properties: string[] = [];
+  if (p.covered) properties.push("überdacht");
+  if (p.fee) properties.push("kostenpflichtig");
+  if (p.access) properties.push(`Zugang: ${p.access}`);
 
-function popupHtml(p: MapParking): string {
-  const rows: string[] = [];
-  rows.push(`<strong>${esc(p.name || "Fahrrad-Abstellanlage")}</strong>`);
-
-  const head = [p.type];
-  if (p.capacity > 0) head.push(`${p.capacity} Stellplätze`);
-  rows.push(esc(head.join(" · ")));
-
-  rows.push(esc(p.region || "außerhalb der Stadtteile"));
-
-  const props: string[] = [];
-  if (p.covered) props.push("überdacht");
-  if (p.fee) props.push("kostenpflichtig");
-  if (p.access) props.push(`Zugang: ${p.access}`);
-  if (props.length) rows.push(esc(props.join(" · ")));
-
-  if (p.operator) rows.push(`Betreiber: ${esc(p.operator)}`);
-  if (p.note) rows.push(esc(p.note));
-
-  return rows.join("<br/>");
-}
-
-// Builds the marker-cluster layer imperatively. Rendering thousands of React
-// <Marker> elements would choke reconciliation; instead we create plain Leaflet
-// markers in one pass and add them in bulk, with popup HTML built lazily on open.
-function ParkingMarkers({ parkings }: { parkings: MapParking[] }) {
-  const map = useMap();
-
-  useEffect(() => {
-    const cluster = L.markerClusterGroup({
-      chunkedLoading: true,
-      // Don't draw cluster-spanning polygons on hover — pure cosmetic cost.
-      showCoverageOnHover: false,
-      // Smaller groups → more, finer clusters at a given zoom...
-      maxClusterRadius: 40,
-      // ...and stop clustering entirely once zoomed in, so individual spots show.
-      disableClusteringAtZoom: 15,
-    });
-
-    const markers = parkings.map((p) => {
-      const marker = L.marker([p.lat, p.lng], { icon: dotIcon });
-      // Lazy popup: HTML is built only when the marker is actually clicked.
-      marker.bindPopup(() => popupHtml(p));
-      return marker;
-    });
-
-    cluster.addLayers(markers);
-    map.addLayer(cluster);
-
-    return () => {
-      map.removeLayer(cluster);
-    };
-  }, [map, parkings]);
-
-  return null;
-}
-
-function Overlay({ children }: { children: React.ReactNode }) {
-  return <div className="app-loading app-loading--large">{children}</div>;
+  return popupHtml([
+    `<strong>${escapeHtml(p.name || "Fahrrad-Abstellanlage")}</strong>`,
+    escapeHtml(headline.join(" · ")),
+    escapeHtml(p.region || "außerhalb der Stadtteile"),
+    properties.length > 0 && escapeHtml(properties.join(" · ")),
+    p.operator && `Betreiber: ${escapeHtml(p.operator)}`,
+    p.note && escapeHtml(p.note),
+  ]);
 }
 
 export default function ParkingMapInner() {
   const { basePath } = useRouter();
+  const { containerRef, map } = useMapLibre();
   const [parkings, setParkings] = useState<MapParking[] | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -111,40 +60,81 @@ export default function ParkingMapInner() {
     };
   }, [basePath]);
 
+  useEffect(() => {
+    if (!map || !parkings) return;
+
+    // Layers and handlers are wired up together with the source; a later data
+    // change only refreshes the source.
+    if (!ensurePointSource(map, SOURCE_ID, parkings, { cluster: true })) return;
+
+    map.addLayer({
+      id: CLUSTER_LAYER_ID,
+      type: "circle",
+      source: SOURCE_ID,
+      filter: ["has", "point_count"],
+      paint: {
+        "circle-color": MAP_COLORS.accent,
+        "circle-radius": ["step", ["get", "point_count"], 18, 100, 24, 750, 32],
+        "circle-stroke-width": 2,
+        "circle-stroke-color": MAP_COLORS.onColor,
+      },
+    });
+
+    map.addLayer({
+      id: "parking-cluster-count",
+      type: "symbol",
+      source: SOURCE_ID,
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": ["get", "point_count_abbreviated"],
+        "text-font": MAP_LABEL_FONT,
+        "text-size": 12,
+      },
+      paint: { "text-color": MAP_COLORS.onColor },
+    });
+
+    map.addLayer({
+      id: POINT_LAYER_ID,
+      type: "circle",
+      source: SOURCE_ID,
+      filter: ["!", ["has", "point_count"]],
+      paint: {
+        "circle-color": MAP_COLORS.accent,
+        "circle-radius": 5,
+        "circle-stroke-width": 1,
+        "circle-stroke-color": MAP_COLORS.onColor,
+      },
+    });
+
+    bindPointPopup<MapParking>(map, POINT_LAYER_ID, parkingPopup);
+    bindClusterZoom(map, CLUSTER_LAYER_ID, SOURCE_ID);
+  }, [map, parkings]);
+
   if (failed) {
     return (
-      <Overlay>
+      <div className="app-loading app-loading--large">
         <p className="app-muted">Kartendaten konnten nicht geladen werden.</p>
-      </Overlay>
+      </div>
     );
   }
 
   if (!parkings) {
     return (
-      <Overlay>
-        <div className="app-loading__content" role="status" aria-live="polite">
+      <div
+        className="app-loading app-loading--large"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="app-loading__content">
           <span
             className="kern-loader kern-loader--visible"
             aria-hidden="true"
           />
           <span>Kartendaten werden geladen.</span>
         </div>
-      </Overlay>
+      </div>
     );
   }
 
-  return (
-    <MapContainer
-      center={KARLSRUHE_CENTER}
-      zoom={11}
-      style={{ height: 460, width: "100%" }}
-      scrollWheelZoom
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende'
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <ParkingMarkers parkings={parkings} />
-    </MapContainer>
-  );
+  return <div ref={containerRef} style={{ height: 460, width: "100%" }} />;
 }

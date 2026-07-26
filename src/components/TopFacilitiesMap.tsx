@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import type { TopFacility } from "@/lib/osm/analytics";
 
-// Leaflet touches `window`, so the actual map must never be server-rendered or
-// statically pre-rendered. Load it client-side only.
+// Maplibre GL JS touches `window`, so the actual map must never be
+// server-rendered or statically pre-rendered. Load it client-side only.
 const Inner = dynamic(() => import("./TopFacilitiesMapInner"), {
   ssr: false,
   loading: () => (
