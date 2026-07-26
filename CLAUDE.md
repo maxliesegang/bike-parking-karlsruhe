@@ -34,7 +34,7 @@ The **Stadt Karlsruhe** WFS dataset is retained only as a comparison count: [dat
 
 ### Progress tracking and CI
 
-[osmHistoryMapper.ts](src/lib/osmHistoryMapper.ts) appends a dated aggregate snapshot to `osm-history.json` (repo root) as a build-time side effect, deduped by day. This is the data behind the `/progress` chart and grows ~one point per day.
+[osmHistoryMapper.ts](src/lib/osmHistoryMapper.ts) appends a dated aggregate snapshot to `osm-history.json` (repo root) as a build-time side effect, throttled to at most one row per calendar month — builds in between leave the file untouched, and a rebuild on a day that already has a row refreshes it. This matches the monthly cadence of the ohsome backfill. This is the data behind the `/progress` chart and grows ~one point per month, in step with the scheduled run on the 1st.
 
 The deploy workflow fetches OSM data, **then builds** (which writes `osm-history.json`), **then commits** `data/*.geojson` + `osm-history.json`. The commit runs **only** on `schedule`/`workflow_dispatch` — keeping a versioned history and giving scheduled runs the repository activity that prevents auto-disable after 60 idle days (a push already counts, and committing on push could loop).
 

@@ -23,11 +23,16 @@ export interface OsmSnapshot {
 const isCity = (p: OsmBikeParking): boolean =>
   p.regionLevel === 9 || p.regionLevel === 10;
 
+/** YYYY-MM of a YYYY-MM-DD date string. */
+const monthOf = (date: string): string => date.slice(0, 7);
+
 /**
- * Records a dated snapshot of OSM aggregate totals on each build, deduped by
- * day (a same-day rebuild overwrites). The file is committed by CI on its
- * scheduled run, so the timeline grows ~one point per day going forward.
- * Mirrors the side-effecting pattern of firstFetchedMapper.
+ * Records a dated snapshot of OSM aggregate totals at build time, at most once
+ * per calendar month (a rebuild within the current month overwrites its own
+ * row). Builds happen on every push, which would otherwise add a near-daily
+ * point; monthly matches the cadence of the backfilled ohsome rows. The file is
+ * committed by CI on its scheduled run, so the timeline grows by ~one point per
+ * month going forward. Mirrors the side-effecting pattern of firstFetchedMapper.
  */
 export class OsmHistoryManager {
   private history: Record<string, OsmSnapshot>;
@@ -49,6 +54,9 @@ export class OsmHistoryManager {
 
   recordSnapshot(parkings: OsmBikeParking[]): OsmSnapshot[] {
     const date = new Date().toISOString().split("T")[0];
+
+    if (!this.isDue(date)) return this.sortedSnapshots();
+
     const city = parkings.filter(isCity);
     const snapshot: OsmSnapshot = {
       date,
@@ -67,6 +75,21 @@ export class OsmHistoryManager {
     this.history = sorted;
     fs.writeFileSync(OSM_HISTORY_PATH, JSON.stringify(sorted, null, 2) + "\n");
 
+    return this.sortedSnapshots();
+  }
+
+  /**
+   * True if the current month has no row yet. A rebuild on a day that already
+   * has a row still overwrites it, so the newest point stays accurate.
+   */
+  private isDue(date: string): boolean {
+    const dates = Object.keys(this.history).sort();
+    const latest = dates[dates.length - 1];
+    if (latest === undefined || latest === date) return true;
+    return monthOf(latest) !== monthOf(date);
+  }
+
+  private sortedSnapshots(): OsmSnapshot[] {
     return Object.values(this.history).sort((a, b) =>
       a.date.localeCompare(b.date),
     );
