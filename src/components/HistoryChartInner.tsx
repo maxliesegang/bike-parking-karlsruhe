@@ -44,6 +44,7 @@ export default function HistoryChartInner({ history }: HistoryChartProps) {
               dataKey="cityCapacity"
               name="Stellplätze Karlsruhe"
               stroke="#305f43"
+              dot={false}
               activeDot={{ r: 8 }}
               connectNulls
             />
@@ -53,6 +54,8 @@ export default function HistoryChartInner({ history }: HistoryChartProps) {
               dataKey="cityFacilities"
               name="Anlagen Karlsruhe"
               stroke="#9d4d12"
+              dot={false}
+              activeDot={{ r: 5 }}
               connectNulls
             />
             <Line

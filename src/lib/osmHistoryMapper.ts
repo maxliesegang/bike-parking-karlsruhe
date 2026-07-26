@@ -11,6 +11,12 @@ export interface OsmSnapshot {
   // recorded before city tracking was added.
   cityFacilities?: number;
   cityCapacity?: number;
+  /**
+   * How the row was produced: "build" = measured by this build from the
+   * committed GeoJSON, "ohsome" = reconstructed by scripts/backfill-history.mjs
+   * from OSM full history. Absent on rows written before provenance tracking.
+   */
+  source?: "build" | "ohsome";
 }
 
 /** Karlsruhe city proper is admin_level 9/10; AL8 is the surrounding Landkreis. */
@@ -50,14 +56,14 @@ export class OsmHistoryManager {
       totalCapacity: parkings.reduce((sum, p) => sum + p.capacity, 0),
       cityFacilities: city.length,
       cityCapacity: city.reduce((sum, p) => sum + p.capacity, 0),
+      source: "build",
     };
     this.history[date] = snapshot;
-    const sorted = Object.keys(this.history)
-      .sort()
-      .reduce((obj, key) => {
-        obj[key] = this.history[key];
-        return obj;
-      }, {} as Record<string, OsmSnapshot>);
+    const sorted = Object.fromEntries(
+      Object.keys(this.history)
+        .sort()
+        .map((key) => [key, this.history[key]]),
+    ) as Record<string, OsmSnapshot>;
     this.history = sorted;
     fs.writeFileSync(OSM_HISTORY_PATH, JSON.stringify(sorted, null, 2) + "\n");
 
