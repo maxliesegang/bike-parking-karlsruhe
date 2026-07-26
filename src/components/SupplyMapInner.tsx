@@ -143,7 +143,7 @@ export default function SupplyMapInner({ group }: { group: PeerGroup | null }) {
   return (
     <div className="app-map">
       <div className="app-map-frame">
-        <div ref={containerRef} style={{ height: 420, width: "100%" }} />
+        <div ref={containerRef} className="app-map-canvas" />
       </div>
       <MapLegend
         stops={

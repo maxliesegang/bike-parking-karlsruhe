@@ -52,23 +52,28 @@ export default function Home({ stats, topFacilities }: HomeProps) {
         </PageHeader>
 
         <section className="app-grid app-grid--stats" aria-label="Kennzahlen">
+          {/* Karlsruhe and the Umland share a card each, rather than one card
+              per pair: the city figure only means something next to the total,
+              and the two spare slots buy two readings the page didn't have. */}
           <StatCard
             label="Erfasste Anlagen"
             value={stats.totalFacilities.toLocaleString("de-DE")}
-            sub="Karlsruhe & Umgebung"
+            sub={`davon ${stats.karlsruheFacilities.toLocaleString("de-DE")} in Karlsruhe`}
           />
           <StatCard
             label="Stellplätze gesamt"
             value={stats.totalCapacity.toLocaleString("de-DE")}
-            sub="Karlsruhe & Umgebung"
+            sub={`davon ${stats.karlsruheCapacity.toLocaleString("de-DE")} in Karlsruhe`}
           />
           <StatCard
-            label="Anlagen in Karlsruhe"
-            value={stats.karlsruheFacilities.toLocaleString("de-DE")}
+            label="Überdacht"
+            value={`${stats.coveredPercent.toLocaleString("de-DE")} %`}
+            sub="der Anlagen stehen im Trockenen"
           />
           <StatCard
-            label="Stellplätze in Karlsruhe"
-            value={stats.karlsruheCapacity.toLocaleString("de-DE")}
+            label="Ø Stellplätze pro Anlage"
+            value={stats.avgCapacity.toLocaleString("de-DE")}
+            sub={`in ${stats.regionsCovered.toLocaleString("de-DE")} Regionen`}
           />
         </section>
 

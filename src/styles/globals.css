@@ -17,6 +17,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Clears the sticky topbar when a heading is jumped to. */
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -42,8 +44,56 @@ a {
   color: inherit;
 }
 
+/* KERN styles focus only on its own components. The app's own controls — nav
+   links, tabs, chips, sort buttons — would otherwise fall back to the browser
+   default and look foreign next to a KERN button, so they share KERN's ring. */
+.app-skip:focus-visible,
+.app-nav__link:focus-visible,
+.app-tab:focus-visible,
+.app-chip:focus-visible,
+.app-sort-button:focus-visible {
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  outline: 4px solid var(--kern-color-action-focus-default-contextual, #454b6b);
+  outline-offset: 2px;
+}
+
+/* The scrollable table region carries a tabindex so it can be scrolled from the
+   keyboard. KERN's generic `[tabindex]` rules ring it on *mouse* focus and drop
+   the ring on keyboard focus, which is backwards — these two match its
+   specificity and, coming later, turn it the right way round. */
+.app-table-frame .app-table-scroll:focus {
+  outline: 0;
+}
+
+.app-table-frame .app-table-scroll:focus:focus-visible {
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  outline: 4px solid var(--kern-color-action-focus-default-contextual, #454b6b);
+  outline-offset: -4px;
+}
+
 .app-shell {
   min-height: 100vh;
+}
+
+/* Keyboard and screen-reader users reach the data without walking the nav on
+   every page; visible only while focused. */
+.app-skip {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  border: 1px solid var(--app-accent-strong);
+  border-radius: var(--kern-metric-border-radius-default, 4px);
+  background: var(--app-surface);
+  color: var(--app-accent-strong);
+  font-weight: 700;
+  padding: 0.5rem 0.85rem;
+  text-decoration: none;
+  transform: translateY(-300%);
+}
+
+.app-skip:focus {
+  transform: none;
 }
 
 .app-main {
@@ -54,6 +104,34 @@ a {
   border-bottom: 1px solid
     var(--kern-color-layout-border-variant-contextual, #c0c3d5);
   background: var(--app-surface);
+}
+
+/* On desktop the bar is one row — brand left, nav right — which buys back a
+   whole row of vertical space on every page and keeps the nav in reach while
+   scrolling a long table. Below the breakpoint it falls back to the stacked
+   layout with the disclosure button. */
+@media (min-width: 60rem) {
+  .app-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .app-topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .app-brand-row {
+    padding-block: 0.5rem;
+  }
+
+  .app-nav {
+    flex: 0 1 auto;
+    padding-bottom: 0;
+  }
 }
 
 .app-brand-row {
@@ -246,8 +324,10 @@ a {
   gap: 1rem;
 }
 
+/* auto-fit rather than a fixed four, because the analysis views carry three
+   cards and a hard four-column track left a gap where a fourth never comes. */
 .app-grid--stats {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 0.75rem;
 }
 
@@ -335,15 +415,28 @@ a {
   border-radius: var(--kern-metric-border-radius-default, 4px);
 }
 
+/* One height source for every canvas: tall enough to read on a laptop, short
+   enough that a phone still shows what comes after the map. */
+.app-map-canvas {
+  width: 100%;
+  height: clamp(20rem, 55vh, 32rem);
+}
+
+/* The map beside a table shares its row, so it takes the table's height cue. */
+.app-map-canvas--side {
+  height: clamp(17rem, 40vh, 24rem);
+}
+
+/* Matches the canvas heights below, so a loaded map does not shift the page. */
 .app-loading {
   display: grid;
-  min-height: 26.25rem;
+  min-height: clamp(17rem, 40vh, 24rem);
   place-items: center;
   background: var(--app-layer);
 }
 
 .app-loading--large {
-  min-height: 28.75rem;
+  min-height: clamp(20rem, 55vh, 32rem);
 }
 
 .app-loading__content {
@@ -438,13 +531,66 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1rem 0;
+  gap: 0.75rem 1rem;
+  border-bottom: 1px solid
+    var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  padding: 0.5rem 0.75rem;
 }
 
 .app-table-meta {
   color: var(--app-text-muted);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+/* Long tables get a filter: 34 regions is more than a reader scans, and it is
+   the fastest way to answer "how does my district do?". */
+.app-table-filter {
+  flex: 0 1 16rem;
+}
+
+.app-table-filter .kern-form-input__input {
+  height: 2.25rem;
+  font-size: 0.9rem;
+  padding-inline: 0.65rem;
+}
+
+/* Tall tables scroll in place with the header pinned, so a row halfway down
+   the Umland still has its column names. */
+.app-table-scroll--tall {
+  max-height: min(75vh, 44rem);
+  overflow-y: auto;
+}
+
+.app-table-scroll--tall .kern-table__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--app-surface);
+}
+
+.app-table-frame .kern-table__row:hover .kern-table__cell {
+  background: var(--app-accent-soft);
+}
+
+/* KERN's row padding is sized for prose tables. These carry 8 columns of
+   figures that are read by comparison, so the rows sit closer together and a
+   region's neighbours stay on screen with it. */
+.app-table-frame .kern-table__header,
+.app-table-frame .kern-table__cell {
+  padding-block: 0.4rem 0.35rem;
+}
+
+.app-table-empty {
+  color: var(--app-text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 1rem 0.75rem;
+}
+
+.app-table-empty .app-sort-button {
+  color: var(--app-accent-strong);
+  text-decoration: underline;
 }
 
 .app-sort-button {
@@ -650,6 +796,31 @@ a {
   padding: 0.15rem 0.4rem;
 }
 
+/* Method notes live in a disclosure: the figures stay in reach for a casual
+   reader, the reasoning behind them one click away for a critical one. */
+.app-details {
+  border-color: var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+}
+
+.app-details .kern-accordion__header {
+  padding-block: 0.6rem;
+  font-weight: 700;
+}
+
+.app-details .kern-accordion__body {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0 0.25rem 0.85rem;
+}
+
+.app-details p {
+  color: var(--app-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 68ch;
+}
+
 .app-footer {
   border-top: 1px solid
     var(--kern-color-layout-border-variant-contextual, #c0c3d5);
@@ -663,17 +834,13 @@ a {
 }
 
 @media (max-width: 900px) {
-  .app-grid--stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .app-grid--two,
   .app-grid--even {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 47.9375rem) {
   .app-brand-row {
     align-items: flex-start;
   }
@@ -698,22 +865,18 @@ a {
     width: 100%;
   }
 
-  .app-grid--stats {
-    grid-template-columns: 1fr;
-  }
-
   .app-chart {
     height: 21rem;
     padding: 0.5rem;
   }
 
   .app-table-toolbar {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .app-table-frame {
-    overflow-x: auto;
+  .app-table-meta {
+    text-align: left;
   }
 
   .app-footer__content {

@@ -11,6 +11,7 @@ import {
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StatCard } from "@/components/StatCard";
+import { MethodNote } from "@/components/MethodNote";
 import HistoryChart from "@/components/HistoryChart";
 import DataTable, { Column } from "@/components/DataTable";
 
@@ -20,6 +21,8 @@ interface YearRow {
   Stellplätze: number;
   Zuwachs: string;
   Wachstum: string;
+  /** Not a column — „+1.234 (+56 Anlagen)“ has no number to sort by. */
+  zuwachsWert: number;
 }
 
 interface ProgressProps {
@@ -32,8 +35,13 @@ const yearColumns: Column<YearRow>[] = [
   { key: "Jahr", label: "Jahr", type: "text" },
   { key: "Anlagen", label: "Anlagen", type: "text" },
   { key: "Stellplätze", label: "Stellplätze", type: "bar" },
-  { key: "Zuwachs", label: "Zuwachs Stellplätze", type: "text" },
-  { key: "Wachstum", label: "Wachstum", type: "text" },
+  {
+    key: "Zuwachs",
+    label: "Zuwachs Stellplätze",
+    type: "number",
+    sortValue: (row) => row.zuwachsWert,
+  },
+  { key: "Wachstum", label: "Wachstum", type: "number" },
 ];
 
 const de = (value: number) => value.toLocaleString("de-DE");
@@ -61,6 +69,7 @@ function toYearRows(years: HistoryYear[]): YearRow[] {
     Stellplätze: y.capacity,
     Zuwachs: `${signed(y.capacityDelta)} (${signed(y.facilityDelta)} Anlagen)`,
     Wachstum: percent(y.growthPercent),
+    zuwachsWert: y.capacityDelta,
   }));
 }
 
@@ -153,13 +162,15 @@ export default function Progress({
           </section>
         )}
 
-        <p className="app-muted app-note">
-          Die Messpunkte bis Juni 2026 stammen aus der OSM-Vollhistorie
-          (ohsome-API), danach schreibt jeder monatliche Datenabgleich einen
-          neuen Punkt. Gezählt wird nur öffentlich zugängliches Fahrradparken.
-          Zuwachs heißt &bdquo;neu in OpenStreetMap erfasst&ldquo; — eine neue
-          Anlage oder eine bisher fehlende Kartierung.
-        </p>
+        <MethodNote title="Woher die Messpunkte kommen">
+          <p>
+            Die Messpunkte bis Juni 2026 stammen aus der OSM-Vollhistorie
+            (ohsome-API), danach schreibt jeder monatliche Datenabgleich einen
+            neuen Punkt. Gezählt wird nur öffentlich zugängliches Fahrradparken.
+            Zuwachs heißt &bdquo;neu in OpenStreetMap erfasst&ldquo; — eine neue
+            Anlage oder eine bisher fehlende Kartierung.
+          </p>
+        </MethodNote>
       </div>
     </>
   );

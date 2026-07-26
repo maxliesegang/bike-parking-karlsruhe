@@ -31,8 +31,18 @@ import DataTable, { Column } from "@/components/DataTable";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StatCard, RatingBadge } from "@/components/StatCard";
+import { MethodNote } from "@/components/MethodNote";
+import { Tabs } from "@/components/Tabs";
 import SupplyMap from "@/components/SupplyMap";
 import { writeRegionShapes } from "@/lib/mapDataWriter";
+
+/** Sort order of the rating badges, best first — the badge itself is markup. */
+const RATING_RANK: Record<string, number> = {
+  good: 3,
+  medium: 2,
+  poor: 1,
+  unrated: 0,
+};
 
 interface AnalyseProps {
   supply: SupplyEntry[];
@@ -111,6 +121,8 @@ type SupplyRow = {
   hubPercent: string;
   nearestMedianM: number | string;
   rating: ReactNode;
+  /** Not a column — the sort key behind the rendered badge. */
+  ratingKey: string;
 };
 
 function SupplyView({
@@ -127,9 +139,14 @@ function SupplyView({
     { key: "population", label: "Einwohner", type: "number" },
     { key: "capacity", label: "Stellplätze", type: "number" },
     { key: "everydayPerThousand", label: "Alltag pro 1.000 EW", type: "bar" },
-    { key: "hubPercent", label: "davon Hubs", type: "text" },
+    { key: "hubPercent", label: "davon Hubs", type: "number" },
     { key: "nearestMedianM", label: "Nächste Anlage", type: "number" },
-    { key: "rating", label: "Bewertung", type: "text" },
+    {
+      key: "rating",
+      label: "Bewertung",
+      type: "text",
+      sortValue: (row) => RATING_RANK[row.ratingKey] ?? 0,
+    },
   ];
 
   const data: SupplyRow[] = rows.map((e) => ({
@@ -140,6 +157,7 @@ function SupplyView({
     hubPercent: `${e.hubPercent} %`,
     nearestMedianM: e.nearestMedianM === null ? "—" : `${e.nearestMedianM} m`,
     rating: <RatingBadge rating={e.rating} />,
+    ratingKey: e.rating,
   }));
 
   const rated = rows.filter((e) => e.everydayPerThousand !== null);
@@ -170,26 +188,6 @@ function SupplyView({
           }
         />
       </div>
-      <p className="app-muted">
-        <strong>Alltag pro 1.000 EW</strong> zählt nur Anlagen in Wohnnähe.
-        Große Anlagen am Bahnhof — Bike-and-Ride oder ab {HUB_MIN_CAPACITY}{" "}
-        Plätzen — sind für Pendler da und stehen separat in{" "}
-        <strong>davon Hubs</strong>; sonst stünde jeder Bezirk mit Bahnhof
-        blendend da.
-      </p>
-      <p className="app-muted">
-        Die <strong>Bewertung</strong> misst am Mittelwert der Gruppe:{" "}
-        {groupMedian.toLocaleString("de-DE")} pro 1.000 EW.{" "}
-        {baseline > groupMedian && (
-          <>
-            Das ist zu wenig als Maßstab — wo fast nichts steht, ist „über dem
-            Schnitt“ keine gute Versorgung. Hier messen wir deshalb an{" "}
-            {baseline.toLocaleString("de-DE")}.{" "}
-          </>
-        )}
-        <strong>Nächste Anlage</strong> ist die Distanz zur nächstgelegenen —
-        ehrlicher als „pro km²“, das Wald und Felder verzerren.
-      </p>
       <SectionHeader id="versorgungskarte" title="Wo die Lücken liegen">
         Dieselben Zahlen wie in der Tabelle, nur räumlich: Die Färbung ist
         absolut, ein Stadtteil behält seine Farbe also beim Wechsel der
@@ -207,6 +205,28 @@ function SupplyView({
         die Zahlen zeigen hier eher, wie gut kartiert wurde. Mehr im Tab
         „Datenqualität“.
       </p>
+      <MethodNote title="Wie die Versorgung gerechnet wird">
+        <p>
+          <strong>Alltag pro 1.000 EW</strong> zählt nur Anlagen in Wohnnähe.
+          Große Anlagen am Bahnhof — Bike-and-Ride oder ab {HUB_MIN_CAPACITY}{" "}
+          Plätzen — sind für Pendler da und stehen separat in{" "}
+          <strong>davon Hubs</strong>; sonst stünde jeder Bezirk mit Bahnhof
+          blendend da.
+        </p>
+        <p>
+          Die <strong>Bewertung</strong> misst am Mittelwert der Gruppe:{" "}
+          {groupMedian.toLocaleString("de-DE")} pro 1.000 EW.{" "}
+          {baseline > groupMedian && (
+            <>
+              Das ist zu wenig als Maßstab — wo fast nichts steht, ist „über dem
+              Schnitt“ keine gute Versorgung. Hier messen wir deshalb an{" "}
+              {baseline.toLocaleString("de-DE")}.{" "}
+            </>
+          )}
+          <strong>Nächste Anlage</strong> ist die Distanz zur nächstgelegenen —
+          ehrlicher als „pro km²“, das Wald und Felder verzerren.
+        </p>
+      </MethodNote>
     </div>
   );
 }
@@ -239,8 +259,8 @@ function QualityView({
     { key: "facilities", label: "Anlagen", type: "number" },
     { key: "coveredPercent", label: "% überdacht", type: "bar" },
     { key: "securePercent", label: "% abschließbar", type: "bar" },
-    { key: "litPercent", label: "% beleuchtet", type: "text" },
-    { key: "feePercent", label: "% kostenpflichtig", type: "text" },
+    { key: "litPercent", label: "% beleuchtet", type: "number" },
+    { key: "feePercent", label: "% kostenpflichtig", type: "number" },
     { key: "mainType", label: "Haupttyp", type: "text" },
   ];
 
@@ -256,6 +276,8 @@ function QualityView({
 
   const secureTotal = rows.reduce((sum, e) => sum + e.secureFacilities, 0);
   const litCoverage = median(rows.map((e) => e.litTaggedPercent));
+  const coveredMedian = median(rows.map((e) => e.coveredPercent));
+  const secureMedian = median(rows.map((e) => e.securePercent));
 
   const typeColumns: Column<TypeStats>[] = [
     { key: "name", label: "Art", type: "text" },
@@ -266,13 +288,32 @@ function QualityView({
 
   return (
     <div className="app-view">
-      <p className="app-muted">
-        Vier Anteile statt einer Note. <strong>Abschließbar</strong> heißt: Box,
-        Schuppen, Gebäude oder Doppelstockparker — in dieser Gruppe{" "}
-        {secureTotal.toLocaleString("de-DE")} Anlagen.{" "}
-        <strong>Beleuchtet</strong> zählt nur Anlagen mit entsprechendem
-        Eintrag, im Schnitt {litCoverage} %.
-      </p>
+      <div className="app-grid app-grid--stats">
+        <StatCard
+          label="Überdacht"
+          value={`${coveredMedian} %`}
+          sub="Median der Regionen"
+        />
+        <StatCard
+          label="Abschließbar"
+          value={`${secureMedian} %`}
+          sub={`${secureTotal.toLocaleString("de-DE")} Anlagen in der Gruppe`}
+        />
+        <StatCard
+          label="Beleuchtung erfasst"
+          value={`${litCoverage} %`}
+          sub="nur dafür ist der Anteil berechnet"
+        />
+      </div>
+      <MethodNote title="Was die vier Anteile bedeuten">
+        <p>
+          Vier Anteile statt einer Note. <strong>Abschließbar</strong> heißt:
+          Box, Schuppen, Gebäude oder Doppelstockparker — in dieser Gruppe{" "}
+          {secureTotal.toLocaleString("de-DE")} Anlagen.{" "}
+          <strong>Beleuchtet</strong> zählt nur Anlagen mit entsprechendem
+          Eintrag, im Schnitt {litCoverage} %.
+        </p>
+      </MethodNote>
       <DataTable
         data={data}
         columns={columns}
@@ -322,9 +363,9 @@ function BikeRideView({
     { key: "facilities", label: "Anlagen", type: "number" },
     { key: "capacity", label: "Stellplätze", type: "bar" },
     { key: "largest", label: "größte Anlage", type: "number" },
-    { key: "shareOfRegionPercent", label: "Anteil an Region", type: "text" },
-    { key: "coveredPercent", label: "% überdacht", type: "text" },
-    { key: "securePercent", label: "% abschließbar", type: "text" },
+    { key: "shareOfRegionPercent", label: "Anteil an Region", type: "number" },
+    { key: "coveredPercent", label: "% überdacht", type: "number" },
+    { key: "securePercent", label: "% abschließbar", type: "number" },
   ];
 
   const data: BikeRideRow[] = rows.map((e) => ({
@@ -356,12 +397,14 @@ function BikeRideView({
           sub={`${summary.securePercent} % abschließbar`}
         />
       </div>
-      <p className="app-muted">
-        Radparken an Bahnhöfen und Haltestellen — im Tab „Versorgung“ nicht
-        enthalten. Gezählt wird pro Region, weil die Anlagen in OpenStreetMap
-        fast nie einen Namen haben; die Summe einer Region ist meist genau die
-        Station dort.
-      </p>
+      <MethodNote title="Warum pro Region und nicht pro Bahnhof">
+        <p>
+          Radparken an Bahnhöfen und Haltestellen — im Tab „Versorgung“ nicht
+          enthalten. Gezählt wird pro Region, weil die Anlagen in OpenStreetMap
+          fast nie einen Namen haben; die Summe einer Region ist meist genau die
+          Station dort.
+        </p>
+      </MethodNote>
       <DataTable
         data={data}
         columns={columns}
@@ -383,6 +426,8 @@ type CompletenessRow = {
   litTaggedPercent: string;
   taggingPercent: number;
   lastCheck: string;
+  /** Not a column — sorts „nie“ apart from a real date. */
+  lastCheckIso: string | null;
 };
 
 function CompletenessView({
@@ -400,11 +445,16 @@ function CompletenessView({
     { key: "name", label: "Region", type: "text" },
     { key: "facilities", label: "Anlagen", type: "number" },
     { key: "taggingPercent", label: "Ø Tag-Abdeckung", type: "bar" },
-    { key: "capacityTaggedPercent", label: "Stellplätze", type: "text" },
-    { key: "coveredTaggedPercent", label: "Überdachung", type: "text" },
-    { key: "accessTaggedPercent", label: "Zugang", type: "text" },
-    { key: "litTaggedPercent", label: "Beleuchtung", type: "text" },
-    { key: "lastCheck", label: "zuletzt geprüft", type: "text" },
+    { key: "capacityTaggedPercent", label: "Stellplätze", type: "number" },
+    { key: "coveredTaggedPercent", label: "Überdachung", type: "number" },
+    { key: "accessTaggedPercent", label: "Zugang", type: "number" },
+    { key: "litTaggedPercent", label: "Beleuchtung", type: "number" },
+    {
+      key: "lastCheck",
+      label: "zuletzt geprüft",
+      type: "text",
+      sortValue: (row) => row.lastCheckIso,
+    },
   ];
 
   const data: CompletenessRow[] = rows.map((e) => ({
@@ -418,6 +468,7 @@ function CompletenessView({
     lastCheck: e.lastCheck
       ? new Date(e.lastCheck).toLocaleDateString("de-DE")
       : "nie",
+    lastCheckIso: e.lastCheck ?? null,
   }));
 
   return (
@@ -445,13 +496,17 @@ function CompletenessView({
         />
       </div>
       <p className="app-muted">
-        Fehlt eine Angabe, rechnet die Auswertung mit null: ohne
-        Stellplatz-Angabe 0 Plätze, ohne Angabe zur Überdachung nicht überdacht.
-        Die Spalten zeigen, wie oft die Angabe da ist. Steht eine Region hier
-        weit oben und in der Versorgung weit unten, ist sie eher schlecht
-        kartiert als schlecht ausgestattet. Sortiert von wenig zu viel — ganz
-        oben bringt Mitmachen am meisten.
+        Sortiert von wenig zu viel — ganz oben bringt Mitmachen am meisten.
       </p>
+      <MethodNote title="Warum fehlende Angaben die Zahlen verschieben">
+        <p>
+          Fehlt eine Angabe, rechnet die Auswertung mit null: ohne
+          Stellplatz-Angabe 0 Plätze, ohne Angabe zur Überdachung nicht
+          überdacht. Die Spalten zeigen, wie oft die Angabe da ist. Steht eine
+          Region hier weit oben und in der Versorgung weit unten, ist sie eher
+          schlecht kartiert als schlecht ausgestattet.
+        </p>
+      </MethodNote>
       <DataTable
         data={data}
         columns={columns}
@@ -525,26 +580,13 @@ export default function Analyse({
         </PageHeader>
 
         <section className="app-section">
-          <div
-            className="app-tabs"
-            role="tablist"
-            aria-label="Analyse-Ansichten"
-          >
-            {TABS.map((tab, index) => (
-              <button
-                key={tab}
-                id={`analysis-tab-${index}`}
-                className="app-tab"
-                type="button"
-                role="tab"
-                aria-selected={view === index}
-                aria-controls={`analysis-panel-${index}`}
-                onClick={() => setView(index)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+          <Tabs
+            tabs={TABS}
+            value={view}
+            onChange={setView}
+            idBase="analysis"
+            label="Analyse-Ansichten"
+          />
           <GroupSwitch value={filter} onChange={setFilter} />
           <div
             id={`analysis-panel-${view}`}

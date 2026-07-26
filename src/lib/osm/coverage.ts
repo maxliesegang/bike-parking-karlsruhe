@@ -151,8 +151,7 @@ export function buildCoverageGrid(
   const area = boundsOf(areas.flatMap((a) => a.polygons));
   const midLat = (area.minLat + area.maxLat) / 2;
   const cellLat = CELL_M / M_PER_DEG_LAT;
-  const cellLng =
-    CELL_M / (M_PER_DEG_LAT * Math.cos((midLat * Math.PI) / 180));
+  const cellLng = CELL_M / (M_PER_DEG_LAT * Math.cos((midLat * Math.PI) / 180));
 
   const index = new PointIndex(
     parkings,

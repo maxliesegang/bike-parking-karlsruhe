@@ -95,7 +95,7 @@ export default function ParkingMapInner() {
       </p>
 
       <div className="app-map-frame">
-        <div ref={containerRef} style={{ height: 460, width: "100%" }} />
+        <div ref={containerRef} className="app-map-canvas" />
       </div>
 
       {meta.legend && (

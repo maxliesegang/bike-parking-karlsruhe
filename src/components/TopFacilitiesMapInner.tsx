@@ -73,5 +73,7 @@ export default function TopFacilitiesMapInner({
     map.fitBounds(bounds, { padding: 40 });
   }, [map, facilities]);
 
-  return <div ref={containerRef} style={{ height: 420, width: "100%" }} />;
+  return (
+    <div ref={containerRef} className="app-map-canvas app-map-canvas--side" />
+  );
 }

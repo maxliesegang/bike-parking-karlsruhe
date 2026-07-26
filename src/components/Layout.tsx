@@ -19,8 +19,11 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="app-shell">
+      <a className="app-skip" href="#main-content">
+        Zum Inhalt springen
+      </a>
       <header className="app-topbar">
-        <div className="kern-container">
+        <div className="kern-container app-topbar__inner">
           <div className="app-brand-row">
             <Link className="app-brand" href="/" aria-label="Zur Übersicht">
               <span className="app-brand__mark" aria-hidden="true">
