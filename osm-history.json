@@ -1,1210 +1,1210 @@
 {
   "2014-01-01": {
     "date": "2014-01-01",
-    "totalFacilities": 528,
-    "totalCapacity": 5975,
+    "totalFacilities": 349,
+    "totalCapacity": 4809,
     "cityFacilities": 253,
     "cityCapacity": 3981,
     "source": "ohsome"
   },
   "2014-02-01": {
     "date": "2014-02-01",
-    "totalFacilities": 535,
-    "totalCapacity": 6017,
+    "totalFacilities": 354,
+    "totalCapacity": 4851,
     "cityFacilities": 256,
     "cityCapacity": 3981,
     "source": "ohsome"
   },
   "2014-03-01": {
     "date": "2014-03-01",
-    "totalFacilities": 546,
-    "totalCapacity": 6039,
+    "totalFacilities": 361,
+    "totalCapacity": 4859,
     "cityFacilities": 261,
     "cityCapacity": 3989,
     "source": "ohsome"
   },
   "2014-04-01": {
     "date": "2014-04-01",
-    "totalFacilities": 552,
-    "totalCapacity": 6089,
+    "totalFacilities": 364,
+    "totalCapacity": 4902,
     "cityFacilities": 261,
     "cityCapacity": 3989,
     "source": "ohsome"
   },
   "2014-05-01": {
     "date": "2014-05-01",
-    "totalFacilities": 564,
-    "totalCapacity": 6245,
+    "totalFacilities": 374,
+    "totalCapacity": 5008,
     "cityFacilities": 271,
     "cityCapacity": 4093,
     "source": "ohsome"
   },
   "2014-06-01": {
     "date": "2014-06-01",
-    "totalFacilities": 573,
-    "totalCapacity": 6250,
+    "totalFacilities": 379,
+    "totalCapacity": 5013,
     "cityFacilities": 272,
     "cityCapacity": 4098,
     "source": "ohsome"
   },
   "2014-07-01": {
     "date": "2014-07-01",
-    "totalFacilities": 592,
-    "totalCapacity": 6310,
+    "totalFacilities": 394,
+    "totalCapacity": 5049,
     "cityFacilities": 287,
     "cityCapacity": 4134,
     "source": "ohsome"
   },
   "2014-08-01": {
     "date": "2014-08-01",
-    "totalFacilities": 599,
-    "totalCapacity": 6366,
+    "totalFacilities": 397,
+    "totalCapacity": 5069,
     "cityFacilities": 288,
     "cityCapacity": 4154,
     "source": "ohsome"
   },
   "2014-09-01": {
     "date": "2014-09-01",
-    "totalFacilities": 603,
-    "totalCapacity": 6388,
+    "totalFacilities": 400,
+    "totalCapacity": 5079,
     "cityFacilities": 289,
     "cityCapacity": 4164,
     "source": "ohsome"
   },
   "2014-10-01": {
     "date": "2014-10-01",
-    "totalFacilities": 612,
-    "totalCapacity": 6476,
+    "totalFacilities": 407,
+    "totalCapacity": 5079,
     "cityFacilities": 292,
     "cityCapacity": 4164,
     "source": "ohsome"
   },
   "2014-11-01": {
     "date": "2014-11-01",
-    "totalFacilities": 618,
-    "totalCapacity": 6477,
+    "totalFacilities": 412,
+    "totalCapacity": 5080,
     "cityFacilities": 295,
     "cityCapacity": 4164,
     "source": "ohsome"
   },
   "2014-12-01": {
     "date": "2014-12-01",
-    "totalFacilities": 620,
-    "totalCapacity": 6489,
+    "totalFacilities": 413,
+    "totalCapacity": 5092,
     "cityFacilities": 295,
     "cityCapacity": 4164,
     "source": "ohsome"
   },
   "2015-01-01": {
     "date": "2015-01-01",
-    "totalFacilities": 633,
-    "totalCapacity": 6743,
+    "totalFacilities": 421,
+    "totalCapacity": 5116,
     "cityFacilities": 302,
     "cityCapacity": 4176,
     "source": "ohsome"
   },
   "2015-02-01": {
     "date": "2015-02-01",
-    "totalFacilities": 641,
-    "totalCapacity": 6884,
+    "totalFacilities": 428,
+    "totalCapacity": 5212,
     "cityFacilities": 307,
     "cityCapacity": 4176,
     "source": "ohsome"
   },
   "2015-03-01": {
     "date": "2015-03-01",
-    "totalFacilities": 645,
-    "totalCapacity": 6969,
+    "totalFacilities": 431,
+    "totalCapacity": 5257,
     "cityFacilities": 310,
     "cityCapacity": 4221,
     "source": "ohsome"
   },
   "2015-04-01": {
     "date": "2015-04-01",
-    "totalFacilities": 664,
-    "totalCapacity": 7085,
+    "totalFacilities": 444,
+    "totalCapacity": 5323,
     "cityFacilities": 321,
     "cityCapacity": 4287,
     "source": "ohsome"
   },
   "2015-05-01": {
     "date": "2015-05-01",
-    "totalFacilities": 689,
-    "totalCapacity": 7208,
+    "totalFacilities": 464,
+    "totalCapacity": 5446,
     "cityFacilities": 331,
     "cityCapacity": 4373,
     "source": "ohsome"
   },
   "2015-06-01": {
     "date": "2015-06-01",
-    "totalFacilities": 695,
-    "totalCapacity": 7430,
+    "totalFacilities": 469,
+    "totalCapacity": 5446,
     "cityFacilities": 333,
     "cityCapacity": 4373,
     "source": "ohsome"
   },
   "2015-07-01": {
     "date": "2015-07-01",
-    "totalFacilities": 699,
-    "totalCapacity": 7262,
+    "totalFacilities": 472,
+    "totalCapacity": 5440,
     "cityFacilities": 334,
     "cityCapacity": 4367,
     "source": "ohsome"
   },
   "2015-08-01": {
     "date": "2015-08-01",
-    "totalFacilities": 720,
-    "totalCapacity": 7409,
+    "totalFacilities": 488,
+    "totalCapacity": 5560,
     "cityFacilities": 343,
     "cityCapacity": 4482,
     "source": "ohsome"
   },
   "2015-09-01": {
     "date": "2015-09-01",
-    "totalFacilities": 731,
-    "totalCapacity": 7503,
+    "totalFacilities": 493,
+    "totalCapacity": 5613,
     "cityFacilities": 346,
     "cityCapacity": 4513,
     "source": "ohsome"
   },
   "2015-10-01": {
     "date": "2015-10-01",
-    "totalFacilities": 744,
-    "totalCapacity": 7913,
+    "totalFacilities": 500,
+    "totalCapacity": 5952,
     "cityFacilities": 348,
     "cityCapacity": 4537,
     "source": "ohsome"
   },
   "2015-11-01": {
     "date": "2015-11-01",
-    "totalFacilities": 760,
-    "totalCapacity": 8089,
+    "totalFacilities": 511,
+    "totalCapacity": 6120,
     "cityFacilities": 352,
     "cityCapacity": 4705,
     "source": "ohsome"
   },
   "2015-12-01": {
     "date": "2015-12-01",
-    "totalFacilities": 779,
-    "totalCapacity": 8268,
+    "totalFacilities": 530,
+    "totalCapacity": 6299,
     "cityFacilities": 368,
     "cityCapacity": 4876,
     "source": "ohsome"
   },
   "2016-01-01": {
     "date": "2016-01-01",
-    "totalFacilities": 789,
-    "totalCapacity": 8330,
+    "totalFacilities": 534,
+    "totalCapacity": 6312,
     "cityFacilities": 370,
     "cityCapacity": 4889,
     "source": "ohsome"
   },
   "2016-02-01": {
     "date": "2016-02-01",
-    "totalFacilities": 794,
-    "totalCapacity": 8461,
+    "totalFacilities": 538,
+    "totalCapacity": 6369,
     "cityFacilities": 371,
     "cityCapacity": 4889,
     "source": "ohsome"
   },
   "2016-03-01": {
     "date": "2016-03-01",
-    "totalFacilities": 819,
-    "totalCapacity": 8462,
+    "totalFacilities": 544,
+    "totalCapacity": 6370,
     "cityFacilities": 373,
     "cityCapacity": 4886,
     "source": "ohsome"
   },
   "2016-04-01": {
     "date": "2016-04-01",
-    "totalFacilities": 832,
-    "totalCapacity": 8532,
+    "totalFacilities": 547,
+    "totalCapacity": 6370,
     "cityFacilities": 375,
     "cityCapacity": 4886,
     "source": "ohsome"
   },
   "2016-05-01": {
     "date": "2016-05-01",
-    "totalFacilities": 839,
-    "totalCapacity": 8605,
+    "totalFacilities": 551,
+    "totalCapacity": 6382,
     "cityFacilities": 378,
     "cityCapacity": 4886,
     "source": "ohsome"
   },
   "2016-06-01": {
     "date": "2016-06-01",
-    "totalFacilities": 859,
-    "totalCapacity": 8728,
+    "totalFacilities": 562,
+    "totalCapacity": 6398,
     "cityFacilities": 387,
     "cityCapacity": 4896,
     "source": "ohsome"
   },
   "2016-07-01": {
     "date": "2016-07-01",
-    "totalFacilities": 874,
-    "totalCapacity": 8775,
+    "totalFacilities": 574,
+    "totalCapacity": 6437,
     "cityFacilities": 398,
     "cityCapacity": 4935,
     "source": "ohsome"
   },
   "2016-08-01": {
     "date": "2016-08-01",
-    "totalFacilities": 886,
-    "totalCapacity": 8823,
+    "totalFacilities": 584,
+    "totalCapacity": 6471,
     "cityFacilities": 405,
     "cityCapacity": 4965,
     "source": "ohsome"
   },
   "2016-09-01": {
     "date": "2016-09-01",
-    "totalFacilities": 917,
-    "totalCapacity": 8893,
+    "totalFacilities": 598,
+    "totalCapacity": 6524,
     "cityFacilities": 412,
     "cityCapacity": 5010,
     "source": "ohsome"
   },
   "2016-10-01": {
     "date": "2016-10-01",
-    "totalFacilities": 952,
-    "totalCapacity": 9524,
+    "totalFacilities": 629,
+    "totalCapacity": 7132,
     "cityFacilities": 435,
     "cityCapacity": 5574,
     "source": "ohsome"
   },
   "2016-11-01": {
     "date": "2016-11-01",
-    "totalFacilities": 981,
-    "totalCapacity": 9616,
+    "totalFacilities": 636,
+    "totalCapacity": 7136,
     "cityFacilities": 440,
     "cityCapacity": 5578,
     "source": "ohsome"
   },
   "2016-12-01": {
     "date": "2016-12-01",
-    "totalFacilities": 986,
-    "totalCapacity": 9690,
+    "totalFacilities": 641,
+    "totalCapacity": 7210,
     "cityFacilities": 445,
     "cityCapacity": 5652,
     "source": "ohsome"
   },
   "2017-01-01": {
     "date": "2017-01-01",
-    "totalFacilities": 989,
-    "totalCapacity": 9800,
+    "totalFacilities": 642,
+    "totalCapacity": 7294,
     "cityFacilities": 446,
     "cityCapacity": 5736,
     "source": "ohsome"
   },
   "2017-02-01": {
     "date": "2017-02-01",
-    "totalFacilities": 997,
-    "totalCapacity": 9831,
+    "totalFacilities": 649,
+    "totalCapacity": 7325,
     "cityFacilities": 452,
     "cityCapacity": 5767,
     "source": "ohsome"
   },
   "2017-03-01": {
     "date": "2017-03-01",
-    "totalFacilities": 1001,
-    "totalCapacity": 9831,
+    "totalFacilities": 652,
+    "totalCapacity": 7325,
     "cityFacilities": 455,
     "cityCapacity": 5767,
     "source": "ohsome"
   },
   "2017-04-01": {
     "date": "2017-04-01",
-    "totalFacilities": 1012,
-    "totalCapacity": 9870,
+    "totalFacilities": 660,
+    "totalCapacity": 7354,
     "cityFacilities": 461,
     "cityCapacity": 5796,
     "source": "ohsome"
   },
   "2017-05-01": {
     "date": "2017-05-01",
-    "totalFacilities": 1030,
-    "totalCapacity": 9987,
+    "totalFacilities": 673,
+    "totalCapacity": 7430,
     "cityFacilities": 470,
     "cityCapacity": 5840,
     "source": "ohsome"
   },
   "2017-06-01": {
     "date": "2017-06-01",
-    "totalFacilities": 1039,
-    "totalCapacity": 10164,
+    "totalFacilities": 682,
+    "totalCapacity": 7607,
     "cityFacilities": 475,
     "cityCapacity": 5870,
     "source": "ohsome"
   },
   "2017-07-01": {
     "date": "2017-07-01",
-    "totalFacilities": 1053,
-    "totalCapacity": 10353,
+    "totalFacilities": 689,
+    "totalCapacity": 7645,
     "cityFacilities": 478,
     "cityCapacity": 5876,
     "source": "ohsome"
   },
   "2017-08-01": {
     "date": "2017-08-01",
-    "totalFacilities": 1060,
-    "totalCapacity": 10395,
+    "totalFacilities": 696,
+    "totalCapacity": 7687,
     "cityFacilities": 483,
     "cityCapacity": 5903,
     "source": "ohsome"
   },
   "2017-09-01": {
     "date": "2017-09-01",
-    "totalFacilities": 1063,
-    "totalCapacity": 10395,
+    "totalFacilities": 699,
+    "totalCapacity": 7687,
     "cityFacilities": 486,
     "cityCapacity": 5903,
     "source": "ohsome"
   },
   "2017-10-01": {
     "date": "2017-10-01",
-    "totalFacilities": 1076,
-    "totalCapacity": 10597,
+    "totalFacilities": 707,
+    "totalCapacity": 7751,
     "cityFacilities": 489,
     "cityCapacity": 5903,
     "source": "ohsome"
   },
   "2017-11-01": {
     "date": "2017-11-01",
-    "totalFacilities": 1094,
-    "totalCapacity": 10974,
+    "totalFacilities": 714,
+    "totalCapacity": 7827,
     "cityFacilities": 494,
     "cityCapacity": 5967,
     "source": "ohsome"
   },
   "2017-12-01": {
     "date": "2017-12-01",
-    "totalFacilities": 1116,
-    "totalCapacity": 11074,
+    "totalFacilities": 732,
+    "totalCapacity": 7875,
     "cityFacilities": 508,
     "cityCapacity": 6015,
     "source": "ohsome"
   },
   "2018-01-01": {
     "date": "2018-01-01",
-    "totalFacilities": 1122,
-    "totalCapacity": 10977,
+    "totalFacilities": 735,
+    "totalCapacity": 7778,
     "cityFacilities": 509,
     "cityCapacity": 5918,
     "source": "ohsome"
   },
   "2018-02-01": {
     "date": "2018-02-01",
-    "totalFacilities": 1132,
-    "totalCapacity": 11407,
+    "totalFacilities": 742,
+    "totalCapacity": 7909,
     "cityFacilities": 515,
     "cityCapacity": 6042,
     "source": "ohsome"
   },
   "2018-03-01": {
     "date": "2018-03-01",
-    "totalFacilities": 1162,
-    "totalCapacity": 13103,
+    "totalFacilities": 753,
+    "totalCapacity": 9565,
     "cityFacilities": 526,
     "cityCapacity": 7698,
     "source": "ohsome"
   },
   "2018-04-01": {
     "date": "2018-04-01",
-    "totalFacilities": 1243,
-    "totalCapacity": 14146,
+    "totalFacilities": 756,
+    "totalCapacity": 9944,
     "cityFacilities": 527,
     "cityCapacity": 8053,
     "source": "ohsome"
   },
   "2018-05-01": {
     "date": "2018-05-01",
-    "totalFacilities": 1283,
-    "totalCapacity": 14616,
+    "totalFacilities": 759,
+    "totalCapacity": 9984,
     "cityFacilities": 531,
     "cityCapacity": 8109,
     "source": "ohsome"
   },
   "2018-06-01": {
     "date": "2018-06-01",
-    "totalFacilities": 1308,
-    "totalCapacity": 15494,
+    "totalFacilities": 774,
+    "totalCapacity": 10760,
     "cityFacilities": 546,
     "cityCapacity": 8885,
     "source": "ohsome"
   },
   "2018-07-01": {
     "date": "2018-07-01",
-    "totalFacilities": 1333,
-    "totalCapacity": 15848,
+    "totalFacilities": 786,
+    "totalCapacity": 10966,
     "cityFacilities": 557,
     "cityCapacity": 9051,
     "source": "ohsome"
   },
   "2018-08-01": {
     "date": "2018-08-01",
-    "totalFacilities": 1361,
-    "totalCapacity": 16773,
+    "totalFacilities": 800,
+    "totalCapacity": 11547,
     "cityFacilities": 570,
     "cityCapacity": 9611,
     "source": "ohsome"
   },
   "2018-09-01": {
     "date": "2018-09-01",
-    "totalFacilities": 1392,
-    "totalCapacity": 17713,
+    "totalFacilities": 816,
+    "totalCapacity": 12017,
     "cityFacilities": 578,
     "cityCapacity": 9787,
     "source": "ohsome"
   },
   "2018-10-01": {
     "date": "2018-10-01",
-    "totalFacilities": 1409,
-    "totalCapacity": 17876,
+    "totalFacilities": 833,
+    "totalCapacity": 12157,
     "cityFacilities": 590,
     "cityCapacity": 9918,
     "source": "ohsome"
   },
   "2018-11-01": {
     "date": "2018-11-01",
-    "totalFacilities": 1424,
-    "totalCapacity": 18072,
+    "totalFacilities": 845,
+    "totalCapacity": 12253,
     "cityFacilities": 603,
     "cityCapacity": 10000,
     "source": "ohsome"
   },
   "2018-12-01": {
     "date": "2018-12-01",
-    "totalFacilities": 1450,
-    "totalCapacity": 18364,
+    "totalFacilities": 866,
+    "totalCapacity": 12409,
     "cityFacilities": 624,
     "cityCapacity": 10156,
     "source": "ohsome"
   },
   "2019-01-01": {
     "date": "2019-01-01",
-    "totalFacilities": 1467,
-    "totalCapacity": 18567,
+    "totalFacilities": 882,
+    "totalCapacity": 12612,
     "cityFacilities": 639,
     "cityCapacity": 10303,
     "source": "ohsome"
   },
   "2019-02-01": {
     "date": "2019-02-01",
-    "totalFacilities": 1474,
-    "totalCapacity": 18617,
+    "totalFacilities": 887,
+    "totalCapacity": 12662,
     "cityFacilities": 644,
     "cityCapacity": 10348,
     "source": "ohsome"
   },
   "2019-03-01": {
     "date": "2019-03-01",
-    "totalFacilities": 1480,
-    "totalCapacity": 18793,
+    "totalFacilities": 892,
+    "totalCapacity": 12792,
     "cityFacilities": 649,
     "cityCapacity": 10478,
     "source": "ohsome"
   },
   "2019-04-01": {
     "date": "2019-04-01",
-    "totalFacilities": 1485,
-    "totalCapacity": 18841,
+    "totalFacilities": 895,
+    "totalCapacity": 12806,
     "cityFacilities": 649,
     "cityCapacity": 10492,
     "source": "ohsome"
   },
   "2019-05-01": {
     "date": "2019-05-01",
-    "totalFacilities": 1500,
-    "totalCapacity": 19118,
+    "totalFacilities": 910,
+    "totalCapacity": 13029,
     "cityFacilities": 662,
     "cityCapacity": 10715,
     "source": "ohsome"
   },
   "2019-06-01": {
     "date": "2019-06-01",
-    "totalFacilities": 1522,
-    "totalCapacity": 19477,
+    "totalFacilities": 923,
+    "totalCapacity": 13192,
     "cityFacilities": 675,
     "cityCapacity": 10858,
     "source": "ohsome"
   },
   "2019-07-01": {
     "date": "2019-07-01",
-    "totalFacilities": 1527,
-    "totalCapacity": 19652,
+    "totalFacilities": 928,
+    "totalCapacity": 13339,
     "cityFacilities": 679,
     "cityCapacity": 10993,
     "source": "ohsome"
   },
   "2019-08-01": {
     "date": "2019-08-01",
-    "totalFacilities": 1544,
-    "totalCapacity": 19909,
+    "totalFacilities": 936,
+    "totalCapacity": 13523,
     "cityFacilities": 687,
     "cityCapacity": 11163,
     "source": "ohsome"
   },
   "2019-09-01": {
     "date": "2019-09-01",
-    "totalFacilities": 1562,
-    "totalCapacity": 20150,
+    "totalFacilities": 950,
+    "totalCapacity": 13757,
     "cityFacilities": 699,
     "cityCapacity": 11360,
     "source": "ohsome"
   },
   "2019-10-01": {
     "date": "2019-10-01",
-    "totalFacilities": 1578,
-    "totalCapacity": 20438,
+    "totalFacilities": 963,
+    "totalCapacity": 13965,
     "cityFacilities": 710,
     "cityCapacity": 11488,
     "source": "ohsome"
   },
   "2019-11-01": {
     "date": "2019-11-01",
-    "totalFacilities": 1595,
-    "totalCapacity": 21022,
+    "totalFacilities": 976,
+    "totalCapacity": 14549,
     "cityFacilities": 721,
     "cityCapacity": 12062,
     "source": "ohsome"
   },
   "2019-12-01": {
     "date": "2019-12-01",
-    "totalFacilities": 1605,
-    "totalCapacity": 21112,
+    "totalFacilities": 984,
+    "totalCapacity": 14621,
     "cityFacilities": 728,
     "cityCapacity": 12134,
     "source": "ohsome"
   },
   "2020-01-01": {
     "date": "2020-01-01",
-    "totalFacilities": 1612,
-    "totalCapacity": 21146,
+    "totalFacilities": 987,
+    "totalCapacity": 14649,
     "cityFacilities": 731,
     "cityCapacity": 12139,
     "source": "ohsome"
   },
   "2020-02-01": {
     "date": "2020-02-01",
-    "totalFacilities": 1617,
-    "totalCapacity": 21173,
+    "totalFacilities": 991,
+    "totalCapacity": 14676,
     "cityFacilities": 734,
     "cityCapacity": 12166,
     "source": "ohsome"
   },
   "2020-03-01": {
     "date": "2020-03-01",
-    "totalFacilities": 1628,
-    "totalCapacity": 21306,
+    "totalFacilities": 1001,
+    "totalCapacity": 14805,
     "cityFacilities": 742,
     "cityCapacity": 12280,
     "source": "ohsome"
   },
   "2020-04-01": {
     "date": "2020-04-01",
-    "totalFacilities": 1636,
-    "totalCapacity": 21611,
+    "totalFacilities": 1004,
+    "totalCapacity": 15032,
     "cityFacilities": 745,
     "cityCapacity": 12403,
     "source": "ohsome"
   },
   "2020-05-01": {
     "date": "2020-05-01",
-    "totalFacilities": 1654,
-    "totalCapacity": 21905,
+    "totalFacilities": 1019,
+    "totalCapacity": 15297,
     "cityFacilities": 755,
     "cityCapacity": 12558,
     "source": "ohsome"
   },
   "2020-06-01": {
     "date": "2020-06-01",
-    "totalFacilities": 1667,
-    "totalCapacity": 21999,
+    "totalFacilities": 1023,
+    "totalCapacity": 15337,
     "cityFacilities": 756,
     "cityCapacity": 12572,
     "source": "ohsome"
   },
   "2020-07-01": {
     "date": "2020-07-01",
-    "totalFacilities": 1686,
-    "totalCapacity": 22522,
+    "totalFacilities": 1040,
+    "totalCapacity": 15857,
     "cityFacilities": 766,
     "cityCapacity": 12671,
     "source": "ohsome"
   },
   "2020-08-01": {
     "date": "2020-08-01",
-    "totalFacilities": 1704,
-    "totalCapacity": 22769,
+    "totalFacilities": 1051,
+    "totalCapacity": 16060,
     "cityFacilities": 773,
     "cityCapacity": 12808,
     "source": "ohsome"
   },
   "2020-09-01": {
     "date": "2020-09-01",
-    "totalFacilities": 1715,
-    "totalCapacity": 22925,
+    "totalFacilities": 1053,
+    "totalCapacity": 16096,
     "cityFacilities": 775,
     "cityCapacity": 12844,
     "source": "ohsome"
   },
   "2020-10-01": {
     "date": "2020-10-01",
-    "totalFacilities": 1733,
-    "totalCapacity": 23230,
+    "totalFacilities": 1069,
+    "totalCapacity": 16321,
     "cityFacilities": 786,
     "cityCapacity": 13069,
     "source": "ohsome"
   },
   "2020-11-01": {
     "date": "2020-11-01",
-    "totalFacilities": 1744,
-    "totalCapacity": 23467,
+    "totalFacilities": 1080,
+    "totalCapacity": 16558,
     "cityFacilities": 793,
     "cityCapacity": 13291,
     "source": "ohsome"
   },
   "2020-12-01": {
     "date": "2020-12-01",
-    "totalFacilities": 1805,
-    "totalCapacity": 24318,
+    "totalFacilities": 1135,
+    "totalCapacity": 17195,
     "cityFacilities": 843,
     "cityCapacity": 13834,
     "source": "ohsome"
   },
   "2021-01-01": {
     "date": "2021-01-01",
-    "totalFacilities": 1851,
-    "totalCapacity": 24681,
+    "totalFacilities": 1180,
+    "totalCapacity": 17558,
     "cityFacilities": 884,
     "cityCapacity": 14197,
     "source": "ohsome"
   },
   "2021-02-01": {
     "date": "2021-02-01",
-    "totalFacilities": 1863,
-    "totalCapacity": 26690,
+    "totalFacilities": 1183,
+    "totalCapacity": 18360,
     "cityFacilities": 887,
     "cityCapacity": 14989,
     "source": "ohsome"
   },
   "2021-03-01": {
     "date": "2021-03-01",
-    "totalFacilities": 1868,
-    "totalCapacity": 26937,
+    "totalFacilities": 1188,
+    "totalCapacity": 18381,
     "cityFacilities": 890,
     "cityCapacity": 14991,
     "source": "ohsome"
   },
   "2021-04-01": {
     "date": "2021-04-01",
-    "totalFacilities": 1889,
-    "totalCapacity": 27448,
+    "totalFacilities": 1203,
+    "totalCapacity": 18707,
     "cityFacilities": 900,
     "cityCapacity": 15311,
     "source": "ohsome"
   },
   "2021-05-01": {
     "date": "2021-05-01",
-    "totalFacilities": 1911,
-    "totalCapacity": 27797,
+    "totalFacilities": 1222,
+    "totalCapacity": 18924,
     "cityFacilities": 920,
     "cityCapacity": 15534,
     "source": "ohsome"
   },
   "2021-06-01": {
     "date": "2021-06-01",
-    "totalFacilities": 1960,
-    "totalCapacity": 28333,
+    "totalFacilities": 1252,
+    "totalCapacity": 19104,
     "cityFacilities": 947,
     "cityCapacity": 15663,
     "source": "ohsome"
   },
   "2021-07-01": {
     "date": "2021-07-01",
-    "totalFacilities": 1977,
-    "totalCapacity": 28834,
+    "totalFacilities": 1263,
+    "totalCapacity": 19428,
     "cityFacilities": 951,
     "cityCapacity": 15947,
     "source": "ohsome"
   },
   "2021-08-01": {
     "date": "2021-08-01",
-    "totalFacilities": 1996,
-    "totalCapacity": 29194,
+    "totalFacilities": 1279,
+    "totalCapacity": 19704,
     "cityFacilities": 967,
     "cityCapacity": 16228,
     "source": "ohsome"
   },
   "2021-09-01": {
     "date": "2021-09-01",
-    "totalFacilities": 2021,
-    "totalCapacity": 29406,
+    "totalFacilities": 1301,
+    "totalCapacity": 19909,
     "cityFacilities": 980,
     "cityCapacity": 16417,
     "source": "ohsome"
   },
   "2021-10-01": {
     "date": "2021-10-01",
-    "totalFacilities": 2038,
-    "totalCapacity": 29957,
+    "totalFacilities": 1309,
+    "totalCapacity": 19950,
     "cityFacilities": 981,
     "cityCapacity": 16483,
     "source": "ohsome"
   },
   "2021-11-01": {
     "date": "2021-11-01",
-    "totalFacilities": 2071,
-    "totalCapacity": 31448,
+    "totalFacilities": 1325,
+    "totalCapacity": 20791,
     "cityFacilities": 994,
     "cityCapacity": 17284,
     "source": "ohsome"
   },
   "2021-12-01": {
     "date": "2021-12-01",
-    "totalFacilities": 2119,
-    "totalCapacity": 32277,
+    "totalFacilities": 1361,
+    "totalCapacity": 21221,
     "cityFacilities": 1016,
     "cityCapacity": 17574,
     "source": "ohsome"
   },
   "2022-01-01": {
     "date": "2022-01-01",
-    "totalFacilities": 2182,
-    "totalCapacity": 32889,
+    "totalFacilities": 1421,
+    "totalCapacity": 21825,
     "cityFacilities": 1072,
     "cityCapacity": 18155,
     "source": "ohsome"
   },
   "2022-02-01": {
     "date": "2022-02-01",
-    "totalFacilities": 2207,
-    "totalCapacity": 33183,
+    "totalFacilities": 1442,
+    "totalCapacity": 22046,
     "cityFacilities": 1089,
     "cityCapacity": 18347,
     "source": "ohsome"
   },
   "2022-03-01": {
     "date": "2022-03-01",
-    "totalFacilities": 2223,
-    "totalCapacity": 33125,
+    "totalFacilities": 1456,
+    "totalCapacity": 21960,
     "cityFacilities": 1100,
     "cityCapacity": 18244,
     "source": "ohsome"
   },
   "2022-04-01": {
     "date": "2022-04-01",
-    "totalFacilities": 2242,
-    "totalCapacity": 33449,
+    "totalFacilities": 1469,
+    "totalCapacity": 22208,
     "cityFacilities": 1111,
     "cityCapacity": 18472,
     "source": "ohsome"
   },
   "2022-05-01": {
     "date": "2022-05-01",
-    "totalFacilities": 2277,
-    "totalCapacity": 33732,
+    "totalFacilities": 1494,
+    "totalCapacity": 22427,
     "cityFacilities": 1132,
     "cityCapacity": 18565,
     "source": "ohsome"
   },
   "2022-06-01": {
     "date": "2022-06-01",
-    "totalFacilities": 2308,
-    "totalCapacity": 34550,
+    "totalFacilities": 1521,
+    "totalCapacity": 23186,
     "cityFacilities": 1157,
     "cityCapacity": 19312,
     "source": "ohsome"
   },
   "2022-07-01": {
     "date": "2022-07-01",
-    "totalFacilities": 2341,
-    "totalCapacity": 35124,
+    "totalFacilities": 1545,
+    "totalCapacity": 23472,
     "cityFacilities": 1176,
     "cityCapacity": 19500,
     "source": "ohsome"
   },
   "2022-08-01": {
     "date": "2022-08-01",
-    "totalFacilities": 2371,
-    "totalCapacity": 35661,
+    "totalFacilities": 1564,
+    "totalCapacity": 23891,
     "cityFacilities": 1190,
     "cityCapacity": 19884,
     "source": "ohsome"
   },
   "2022-09-01": {
     "date": "2022-09-01",
-    "totalFacilities": 2384,
-    "totalCapacity": 36000,
+    "totalFacilities": 1578,
+    "totalCapacity": 24398,
     "cityFacilities": 1201,
     "cityCapacity": 20387,
     "source": "ohsome"
   },
   "2022-10-01": {
     "date": "2022-10-01",
-    "totalFacilities": 2414,
-    "totalCapacity": 37171,
+    "totalFacilities": 1601,
+    "totalCapacity": 25500,
     "cityFacilities": 1215,
     "cityCapacity": 21369,
     "source": "ohsome"
   },
   "2022-11-01": {
     "date": "2022-11-01",
-    "totalFacilities": 2431,
-    "totalCapacity": 37390,
+    "totalFacilities": 1610,
+    "totalCapacity": 25677,
     "cityFacilities": 1223,
     "cityCapacity": 21525,
     "source": "ohsome"
   },
   "2022-12-01": {
     "date": "2022-12-01",
-    "totalFacilities": 2514,
-    "totalCapacity": 38045,
+    "totalFacilities": 1666,
+    "totalCapacity": 26210,
     "cityFacilities": 1276,
     "cityCapacity": 22050,
     "source": "ohsome"
   },
   "2023-01-01": {
     "date": "2023-01-01",
-    "totalFacilities": 2534,
-    "totalCapacity": 38317,
+    "totalFacilities": 1683,
+    "totalCapacity": 26466,
     "cityFacilities": 1290,
     "cityCapacity": 22270,
     "source": "ohsome"
   },
   "2023-02-01": {
     "date": "2023-02-01",
-    "totalFacilities": 2566,
-    "totalCapacity": 38861,
+    "totalFacilities": 1698,
+    "totalCapacity": 26579,
     "cityFacilities": 1297,
     "cityCapacity": 22019,
     "source": "ohsome"
   },
   "2023-03-01": {
     "date": "2023-03-01",
-    "totalFacilities": 2584,
-    "totalCapacity": 38866,
+    "totalFacilities": 1710,
+    "totalCapacity": 26561,
     "cityFacilities": 1304,
     "cityCapacity": 21993,
     "source": "ohsome"
   },
   "2023-04-01": {
     "date": "2023-04-01",
-    "totalFacilities": 2636,
-    "totalCapacity": 39228,
+    "totalFacilities": 1737,
+    "totalCapacity": 26752,
     "cityFacilities": 1327,
     "cityCapacity": 22127,
     "source": "ohsome"
   },
   "2023-05-01": {
     "date": "2023-05-01",
-    "totalFacilities": 2673,
-    "totalCapacity": 39589,
+    "totalFacilities": 1767,
+    "totalCapacity": 27068,
     "cityFacilities": 1354,
     "cityCapacity": 22366,
     "source": "ohsome"
   },
   "2023-06-01": {
     "date": "2023-06-01",
-    "totalFacilities": 2710,
-    "totalCapacity": 40766,
+    "totalFacilities": 1800,
+    "totalCapacity": 28117,
     "cityFacilities": 1382,
     "cityCapacity": 23400,
     "source": "ohsome"
   },
   "2023-07-01": {
     "date": "2023-07-01",
-    "totalFacilities": 2749,
-    "totalCapacity": 41526,
+    "totalFacilities": 1812,
+    "totalCapacity": 28624,
     "cityFacilities": 1391,
     "cityCapacity": 23849,
     "source": "ohsome"
   },
   "2023-08-01": {
     "date": "2023-08-01",
-    "totalFacilities": 2771,
-    "totalCapacity": 42068,
+    "totalFacilities": 1826,
+    "totalCapacity": 28999,
     "cityFacilities": 1399,
     "cityCapacity": 24046,
     "source": "ohsome"
   },
   "2023-09-01": {
     "date": "2023-09-01",
-    "totalFacilities": 2798,
-    "totalCapacity": 42807,
+    "totalFacilities": 1837,
+    "totalCapacity": 29493,
     "cityFacilities": 1404,
     "cityCapacity": 24459,
     "source": "ohsome"
   },
   "2023-10-01": {
     "date": "2023-10-01",
-    "totalFacilities": 2813,
-    "totalCapacity": 43213,
+    "totalFacilities": 1847,
+    "totalCapacity": 29777,
     "cityFacilities": 1412,
     "cityCapacity": 24719,
     "source": "ohsome"
   },
   "2023-11-01": {
     "date": "2023-11-01",
-    "totalFacilities": 2850,
-    "totalCapacity": 43838,
+    "totalFacilities": 1865,
+    "totalCapacity": 30024,
     "cityFacilities": 1428,
     "cityCapacity": 24916,
     "source": "ohsome"
   },
   "2023-12-01": {
     "date": "2023-12-01",
-    "totalFacilities": 2866,
-    "totalCapacity": 44074,
+    "totalFacilities": 1873,
+    "totalCapacity": 30218,
     "cityFacilities": 1434,
     "cityCapacity": 25098,
     "source": "ohsome"
   },
   "2024-01-01": {
     "date": "2024-01-01",
-    "totalFacilities": 2886,
-    "totalCapacity": 44264,
+    "totalFacilities": 1880,
+    "totalCapacity": 30280,
     "cityFacilities": 1440,
     "cityCapacity": 25160,
     "source": "ohsome"
   },
   "2024-02-01": {
     "date": "2024-02-01",
-    "totalFacilities": 2916,
-    "totalCapacity": 44551,
+    "totalFacilities": 1897,
+    "totalCapacity": 30403,
     "cityFacilities": 1453,
     "cityCapacity": 25252,
     "source": "ohsome"
   },
   "2024-03-01": {
     "date": "2024-03-01",
-    "totalFacilities": 2948,
-    "totalCapacity": 45258,
+    "totalFacilities": 1914,
+    "totalCapacity": 30933,
     "cityFacilities": 1461,
     "cityCapacity": 25590,
     "source": "ohsome"
   },
   "2024-04-01": {
     "date": "2024-04-01",
-    "totalFacilities": 3010,
-    "totalCapacity": 46110,
+    "totalFacilities": 1929,
+    "totalCapacity": 31212,
     "cityFacilities": 1466,
     "cityCapacity": 25642,
     "source": "ohsome"
   },
   "2024-05-01": {
     "date": "2024-05-01",
-    "totalFacilities": 3038,
-    "totalCapacity": 46848,
+    "totalFacilities": 1951,
+    "totalCapacity": 31571,
     "cityFacilities": 1482,
     "cityCapacity": 25955,
     "source": "ohsome"
   },
   "2024-06-01": {
     "date": "2024-06-01",
-    "totalFacilities": 3101,
-    "totalCapacity": 47726,
+    "totalFacilities": 1984,
+    "totalCapacity": 32039,
     "cityFacilities": 1508,
     "cityCapacity": 26165,
     "source": "ohsome"
   },
   "2024-07-01": {
     "date": "2024-07-01",
-    "totalFacilities": 3159,
-    "totalCapacity": 48919,
+    "totalFacilities": 2032,
+    "totalCapacity": 32839,
     "cityFacilities": 1542,
     "cityCapacity": 26695,
     "source": "ohsome"
   },
   "2024-08-01": {
     "date": "2024-08-01",
-    "totalFacilities": 3184,
-    "totalCapacity": 49477,
+    "totalFacilities": 2049,
+    "totalCapacity": 33363,
     "cityFacilities": 1548,
     "cityCapacity": 27132,
     "source": "ohsome"
   },
   "2024-09-01": {
     "date": "2024-09-01",
-    "totalFacilities": 3229,
-    "totalCapacity": 50355,
+    "totalFacilities": 2067,
+    "totalCapacity": 33747,
     "cityFacilities": 1562,
     "cityCapacity": 27308,
     "source": "ohsome"
   },
   "2024-10-01": {
     "date": "2024-10-01",
-    "totalFacilities": 3301,
-    "totalCapacity": 51256,
+    "totalFacilities": 2094,
+    "totalCapacity": 34149,
     "cityFacilities": 1586,
     "cityCapacity": 27742,
     "source": "ohsome"
   },
   "2024-11-01": {
     "date": "2024-11-01",
-    "totalFacilities": 3326,
-    "totalCapacity": 51339,
+    "totalFacilities": 2110,
+    "totalCapacity": 34135,
     "cityFacilities": 1600,
     "cityCapacity": 27671,
     "source": "ohsome"
   },
   "2024-12-01": {
     "date": "2024-12-01",
-    "totalFacilities": 3368,
-    "totalCapacity": 52052,
+    "totalFacilities": 2144,
+    "totalCapacity": 34727,
     "cityFacilities": 1614,
     "cityCapacity": 27580,
     "source": "ohsome"
   },
   "2025-01-01": {
     "date": "2025-01-01",
-    "totalFacilities": 3385,
-    "totalCapacity": 52514,
+    "totalFacilities": 2149,
+    "totalCapacity": 35032,
     "cityFacilities": 1619,
     "cityCapacity": 27805,
     "source": "ohsome"
   },
   "2025-02-01": {
     "date": "2025-02-01",
-    "totalFacilities": 3428,
-    "totalCapacity": 53248,
+    "totalFacilities": 2173,
+    "totalCapacity": 35482,
     "cityFacilities": 1636,
     "cityCapacity": 27960,
     "source": "ohsome"
   },
   "2025-03-01": {
     "date": "2025-03-01",
-    "totalFacilities": 3472,
-    "totalCapacity": 53709,
+    "totalFacilities": 2213,
+    "totalCapacity": 35904,
     "cityFacilities": 1672,
     "cityCapacity": 28318,
     "source": "ohsome"
   },
   "2025-04-01": {
     "date": "2025-04-01",
-    "totalFacilities": 3518,
-    "totalCapacity": 54386,
+    "totalFacilities": 2244,
+    "totalCapacity": 36433,
     "cityFacilities": 1690,
     "cityCapacity": 28708,
     "source": "ohsome"
   },
   "2025-05-01": {
     "date": "2025-05-01",
-    "totalFacilities": 3619,
-    "totalCapacity": 55824,
+    "totalFacilities": 2334,
+    "totalCapacity": 37813,
     "cityFacilities": 1769,
     "cityCapacity": 29808,
     "source": "ohsome"
   },
   "2025-06-01": {
     "date": "2025-06-01",
-    "totalFacilities": 3675,
-    "totalCapacity": 57138,
+    "totalFacilities": 2359,
+    "totalCapacity": 38639,
     "cityFacilities": 1787,
     "cityCapacity": 30233,
     "source": "ohsome"
   },
   "2025-07-01": {
     "date": "2025-07-01",
-    "totalFacilities": 3734,
-    "totalCapacity": 58814,
+    "totalFacilities": 2394,
+    "totalCapacity": 39690,
     "cityFacilities": 1812,
     "cityCapacity": 30542,
     "source": "ohsome"
   },
   "2025-08-01": {
     "date": "2025-08-01",
-    "totalFacilities": 3825,
-    "totalCapacity": 60723,
+    "totalFacilities": 2465,
+    "totalCapacity": 41141,
     "cityFacilities": 1830,
     "cityCapacity": 30764,
     "source": "ohsome"
   },
   "2025-09-01": {
     "date": "2025-09-01",
-    "totalFacilities": 3891,
-    "totalCapacity": 61771,
+    "totalFacilities": 2501,
+    "totalCapacity": 41342,
     "cityFacilities": 1840,
     "cityCapacity": 30813,
     "source": "ohsome"
   },
   "2025-10-01": {
     "date": "2025-10-01",
-    "totalFacilities": 3922,
-    "totalCapacity": 62242,
+    "totalFacilities": 2519,
+    "totalCapacity": 41656,
     "cityFacilities": 1843,
     "cityCapacity": 30994,
     "source": "ohsome"
   },
   "2025-11-01": {
     "date": "2025-11-01",
-    "totalFacilities": 3937,
-    "totalCapacity": 63379,
+    "totalFacilities": 2532,
+    "totalCapacity": 42025,
     "cityFacilities": 1848,
     "cityCapacity": 31072,
     "source": "ohsome"
   },
   "2025-12-01": {
     "date": "2025-12-01",
-    "totalFacilities": 3987,
-    "totalCapacity": 64538,
+    "totalFacilities": 2566,
+    "totalCapacity": 42862,
     "cityFacilities": 1877,
     "cityCapacity": 31653,
     "source": "ohsome"
   },
   "2026-01-01": {
     "date": "2026-01-01",
-    "totalFacilities": 4043,
-    "totalCapacity": 65731,
+    "totalFacilities": 2583,
+    "totalCapacity": 43237,
     "cityFacilities": 1894,
     "cityCapacity": 31898,
     "source": "ohsome"
   },
   "2026-02-01": {
     "date": "2026-02-01",
-    "totalFacilities": 4118,
-    "totalCapacity": 66730,
+    "totalFacilities": 2602,
+    "totalCapacity": 43405,
     "cityFacilities": 1906,
     "cityCapacity": 31984,
     "source": "ohsome"
   },
   "2026-03-01": {
     "date": "2026-03-01",
-    "totalFacilities": 4173,
-    "totalCapacity": 67536,
+    "totalFacilities": 2634,
+    "totalCapacity": 43931,
     "cityFacilities": 1927,
     "cityCapacity": 32299,
     "source": "ohsome"
   },
   "2026-04-01": {
     "date": "2026-04-01",
-    "totalFacilities": 4246,
-    "totalCapacity": 68596,
+    "totalFacilities": 2689,
+    "totalCapacity": 44913,
     "cityFacilities": 1962,
     "cityCapacity": 33080,
     "source": "ohsome"
   },
   "2026-05-01": {
     "date": "2026-05-01",
-    "totalFacilities": 4271,
-    "totalCapacity": 69078,
+    "totalFacilities": 2702,
+    "totalCapacity": 45290,
     "cityFacilities": 1970,
     "cityCapacity": 33439,
     "source": "ohsome"
   },
   "2026-06-01": {
     "date": "2026-06-01",
-    "totalFacilities": 4386,
-    "totalCapacity": 70365,
+    "totalFacilities": 2802,
+    "totalCapacity": 46113,
     "cityFacilities": 2068,
     "cityCapacity": 34416,
     "source": "ohsome"
   },
   "2026-07-26": {
     "date": "2026-07-26",
-    "totalFacilities": 4539,
-    "totalCapacity": 72426,
-    "cityFacilities": 2080,
-    "cityCapacity": 34514,
+    "totalFacilities": 2800,
+    "totalCapacity": 46113,
+    "cityFacilities": 2067,
+    "cityCapacity": 34416,
     "source": "build"
   }
 }

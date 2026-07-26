@@ -514,6 +514,57 @@ a {
   gap: 1rem;
 }
 
+/* Peer-group filter: the analysis tables are only comparable within a group,
+   so the switch sits between the tabs and the panel and applies to all of
+   them. */
+.app-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.app-filter__label {
+  color: var(--app-text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.app-chip {
+  border: 1px solid var(--kern-color-layout-border-variant-contextual, #c0c3d5);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--kern-color-layout-text-default-contextual, #131525);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.875rem;
+}
+
+.app-chip:hover {
+  background: var(
+    --kern-color-action-state-indicator-tint-hover-opacity,
+    rgba(48, 95, 67, 0.08)
+  );
+}
+
+.app-chip[aria-pressed="true"] {
+  background: var(--app-accent-soft);
+  border-color: var(--app-accent-strong);
+  color: var(--app-accent-strong);
+  font-weight: 700;
+}
+
+.app-subheading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1rem 0 0;
+}
+
 .app-legend {
   display: flex;
   align-items: center;

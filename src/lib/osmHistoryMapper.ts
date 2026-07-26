@@ -4,7 +4,7 @@ import { OSM_HISTORY_PATH } from "./config";
 
 export interface OsmSnapshot {
   date: string; // YYYY-MM-DD
-  // Whole dataset (Karlsruhe city + surrounding Landkreis municipalities).
+  // Whole dataset (Karlsruhe city + the surrounding Umland municipalities).
   totalFacilities: number;
   totalCapacity: number;
   // Karlsruhe city only (regionLevel 9/10). Optional: absent on snapshots
@@ -19,7 +19,7 @@ export interface OsmSnapshot {
   source?: "build" | "ohsome";
 }
 
-/** Karlsruhe city proper is admin_level 9/10; AL8 is the surrounding Landkreis. */
+/** Karlsruhe city proper is admin_level 9/10; AL8 is the surrounding Umland. */
 const isCity = (p: OsmBikeParking): boolean =>
   p.regionLevel === 9 || p.regionLevel === 10;
 

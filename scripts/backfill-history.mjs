@@ -2,9 +2,9 @@
 // ohsome API (full-history OSM). Both series are reconstructed so they line up
 // with what the build-time snapshot in src/lib/osmHistoryMapper.ts records:
 //
-//   totalFacilities — every non-private point in the Overpass bbox. The app
-//     keeps points that fall outside all boundaries (region ""), so the bbox,
-//     not the boundary union, is the matching area for this series.
+//   totalFacilities — non-private points inside the AL8+AL9+AL10 boundary
+//     union, i.e. Stadt + Landkreis Karlsruhe, which is exactly the area
+//     scripts/fetch-osm-data.mjs queries and parseOsmBikeParking keeps.
 //   cityFacilities  — points inside the AL9+AL10 districts, queried via a
 //     bpolys polygon rather than a bounding box (a rectangle around the city
 //     overshoots by ~11%, pulling in Rheinstetten/Stutensee edges).
@@ -29,8 +29,6 @@ const STADTTEILE_PATH = path.join(
 );
 
 const OHSOME_BASE = "https://api.ohsome.org/v1";
-// Same bbox as scripts/fetch-osm-data.mjs (lon/lat order for ohsome).
-const FULL_BBOX = "8.0,48.7,9.0,49.3";
 // Mirrors the access filter in parseOsmBikeParking.
 const FILTER =
   "amenity=bicycle_parking and access!=private and access!=no and access!=restricted";
@@ -72,14 +70,15 @@ async function fetchDataCutoff() {
   return to.split("T")[0];
 }
 
-/** One Feature holding all AL9+AL10 districts; they are disjoint, so the union counts each point once. */
-function cityPolygons() {
+/**
+ * One Feature holding the union of every boundary at the given admin levels.
+ * AL9+AL10 tile Karlsruhe city and AL8 covers the Landkreis; all three are
+ * mutually disjoint, so a union counts each point exactly once.
+ */
+function boundaryPolygons(levels, id) {
   const geojson = JSON.parse(fs.readFileSync(STADTTEILE_PATH, "utf8"));
   const polygons = geojson.features
-    .filter((f) => {
-      const al = String(f.properties?.admin_level);
-      return al === "9" || al === "10";
-    })
+    .filter((f) => levels.includes(String(f.properties?.admin_level)))
     .flatMap((f) =>
       f.geometry.type === "MultiPolygon"
         ? f.geometry.coordinates
@@ -87,7 +86,7 @@ function cityPolygons() {
     );
 
   if (polygons.length === 0) {
-    throw new Error(`No AL9/AL10 features in ${STADTTEILE_PATH}`);
+    throw new Error(`No AL${levels.join("/")} features in ${STADTTEILE_PATH}`);
   }
 
   return {
@@ -95,7 +94,7 @@ function cityPolygons() {
     features: [
       {
         type: "Feature",
-        properties: { id: "karlsruhe-city" },
+        properties: { id },
         geometry: { type: "MultiPolygon", coordinates: polygons },
       },
     ],
@@ -224,16 +223,22 @@ async function main() {
   console.log(`Time range: ${time}`);
   console.log(`Filter: ${FILTER}`);
 
-  const bbox = { bboxes: FULL_BBOX };
-  const city = { bpolys: JSON.stringify(cityPolygons()) };
+  const full = {
+    bpolys: JSON.stringify(
+      boundaryPolygons(["8", "9", "10"], "stadt-und-landkreis"),
+    ),
+  };
+  const city = {
+    bpolys: JSON.stringify(boundaryPolygons(["9", "10"], "karlsruhe-city")),
+  };
 
-  console.log("\nFull region (bbox) — facilities...");
-  const totalCounts = await fetchCounts(bbox, time);
+  console.log("\nFull region (AL8+AL9+AL10 polygons) — facilities...");
+  const totalCounts = await fetchCounts(full, time);
   console.log(`  ${totalCounts.size} data points`);
   await sleep(1000);
 
-  console.log("Full region (bbox) — capacity...");
-  const totalCapacities = await fetchCapacities(bbox, time);
+  console.log("Full region (AL8+AL9+AL10 polygons) — capacity...");
+  const totalCapacities = await fetchCapacities(full, time);
   await sleep(1000);
 
   console.log("City (AL9+AL10 polygons) — facilities...");

@@ -26,6 +26,22 @@ export function pointInPolygon(
   return inside;
 }
 
+/**
+ * Distance in metres between two lon/lat points, equirectangular approximation.
+ * Well under 1% error at city scale, where all our distances are.
+ */
+export function distanceM(
+  aLon: number,
+  aLat: number,
+  bLon: number,
+  bLat: number,
+): number {
+  const toRad = Math.PI / 180;
+  const dLat = (bLat - aLat) * toRad;
+  const dLon = (bLon - aLon) * toRad * Math.cos(((aLat + bLat) / 2) * toRad);
+  return Math.hypot(dLat, dLon) * EARTH_RADIUS_M;
+}
+
 /** Planar shoelace area (m²) of a single ring projected equirectangularly. */
 function ringAreaM2(ring: number[][], lat0Rad: number): number {
   if (ring.length < 3) return 0;

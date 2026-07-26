@@ -82,7 +82,7 @@ export default function Progress({
       <div className="app-page">
         <PageHeader eyebrow="Zeitreihe" title="Entwicklung über Zeit">
           Monatliche Messpunkte zeigen, wie das erfasste Fahrrad-Parkangebot in
-          Karlsruhe und im Landkreis wächst.
+          Karlsruhe und im Umland wächst.
           {summary && (
             <>
               {" "}
@@ -154,12 +154,11 @@ export default function Progress({
         )}
 
         <p className="app-muted app-note">
-          Die Messpunkte bis Juni 2026 wurden aus der OSM-Vollhistorie
-          (ohsome-API) rekonstruiert; danach schreibt jeder monatliche
-          Datenabgleich einen neuen Punkt. Gezählt wird ausschließlich
-          öffentlich zugängliches Fahrradparken. Zuwachs bedeutet dabei
-          &bdquo;neu in OpenStreetMap erfasst&ldquo; — das kann eine neue Anlage
-          oder eine bisher fehlende Kartierung sein.
+          Die Messpunkte bis Juni 2026 stammen aus der OSM-Vollhistorie
+          (ohsome-API), danach schreibt jeder monatliche Datenabgleich einen
+          neuen Punkt. Gezählt wird nur öffentlich zugängliches Fahrradparken.
+          Zuwachs heißt &bdquo;neu in OpenStreetMap erfasst&ldquo; — eine neue
+          Anlage oder eine bisher fehlende Kartierung.
         </p>
       </div>
     </>

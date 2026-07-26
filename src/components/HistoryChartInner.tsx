@@ -193,7 +193,7 @@ function StackedAreaChart({
         <Area
           type="monotone"
           dataKey={umlandKey}
-          name="Landkreis (Umland)"
+          name="Umland"
           stackId="1"
           stroke={UMLAND}
           strokeWidth={2}
@@ -241,7 +241,7 @@ function YearlyGrowthChart({ years }: { years: HistoryYear[] }) {
         />
         <Bar
           dataKey="capacityDeltaUmland"
-          name="Landkreis (Umland)"
+          name="Umland"
           stackId="1"
           fill={UMLAND}
           radius={[4, 4, 0, 0]}

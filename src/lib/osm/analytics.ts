@@ -1,10 +1,7 @@
 import { OsmBikeParking } from "@/models/osm-bike-parking";
-import { RegionInfo } from "@/models/region";
 import { Abstellanlage } from "@/models/abstellanlage";
-import { round, percent, mean, average } from "../math";
-import { increment, topKeys } from "../collections";
-import { PARKING_TYPE_SCORE, RESTRICTED_ACCESS } from "./labels";
-import { RegionLevel, RegionLevelOrNone } from "./regions";
+import { percent, mean } from "../math";
+import { RESTRICTED_ACCESS } from "./labels";
 
 const totalCapacity = (parkings: OsmBikeParking[]): number =>
   parkings.reduce((sum, p) => sum + p.capacity, 0);
@@ -68,73 +65,6 @@ export function generateOverviewStats(
   };
 }
 
-// --- Per-region aggregation ------------------------------------------------
-
-export interface RegionStats {
-  name: string;
-  level: RegionLevelOrNone;
-  facilities: number;
-  capacity: number;
-  avgCapacity: number;
-  covered: number;
-  fee: number;
-  topTypes: string[];
-}
-
-interface RegionAccumulator {
-  name: string;
-  level: RegionLevelOrNone;
-  facilities: number;
-  capacity: number;
-  covered: number;
-  fee: number;
-  typeCounts: Map<string, number>;
-}
-
-/** Group parkings by region (unassigned points fall under "Außerhalb"). */
-function accumulateByRegion(
-  parkings: OsmBikeParking[],
-): Map<string, RegionAccumulator> {
-  const map = new Map<string, RegionAccumulator>();
-  for (const p of parkings) {
-    const key = p.region || "Außerhalb";
-    let entry = map.get(key);
-    if (!entry) {
-      entry = {
-        name: key,
-        level: p.regionLevel,
-        facilities: 0,
-        capacity: 0,
-        covered: 0,
-        fee: 0,
-        typeCounts: new Map(),
-      };
-      map.set(key, entry);
-    }
-    entry.facilities += 1;
-    entry.capacity += p.capacity;
-    if (p.covered) entry.covered += 1;
-    if (p.fee) entry.fee += 1;
-    increment(entry.typeCounts, p.type);
-  }
-  return map;
-}
-
-export function generateRegionStats(parkings: OsmBikeParking[]): RegionStats[] {
-  return [...accumulateByRegion(parkings).values()]
-    .map((e) => ({
-      name: e.name,
-      level: e.level,
-      facilities: e.facilities,
-      capacity: e.capacity,
-      avgCapacity: mean(e.capacity, e.facilities),
-      covered: e.covered,
-      fee: e.fee,
-      topTypes: topKeys(e.typeCounts, 3),
-    }))
-    .sort((a, b) => b.capacity - a.capacity);
-}
-
 // --- Per-type aggregation --------------------------------------------------
 
 export interface TypeStats {
@@ -164,110 +94,6 @@ export function generateTypeStats(parkings: OsmBikeParking[]): TypeStats[] {
       avgCapacity: mean(e.capacity, e.facilities),
     }))
     .sort((a, b) => b.facilities - a.facilities);
-}
-
-// --- Supply (per-capita / per-area) ----------------------------------------
-
-export type Rating = "good" | "medium" | "poor" | "unrated";
-
-export interface SupplyEntry {
-  name: string;
-  level: RegionLevel;
-  population: number | null;
-  areaKm2: number;
-  facilities: number;
-  capacity: number;
-  perThousand: number | null;
-  perKm2: number;
-  rating: Rating;
-}
-
-export function generateSupplyAnalysis(
-  parkings: OsmBikeParking[],
-  regions: RegionInfo[],
-): SupplyEntry[] {
-  const byRegion = accumulateByRegion(parkings);
-
-  const results = regions.map((info): SupplyEntry => {
-    const acc = byRegion.get(info.name);
-    const facilities = acc?.facilities ?? 0;
-    const capacity = acc?.capacity ?? 0;
-
-    let perThousand: number | null = null;
-    let rating: Rating = "unrated";
-    if (info.population && info.population > 0) {
-      perThousand = round((capacity / info.population) * 1000);
-      rating =
-        perThousand >= 10 ? "good" : perThousand >= 3 ? "medium" : "poor";
-    }
-
-    return {
-      name: info.name,
-      level: info.adminLevel,
-      population: info.population,
-      areaKm2: info.areaKm2,
-      facilities,
-      capacity,
-      perThousand,
-      perKm2: info.areaKm2 > 0 ? round(capacity / info.areaKm2) : 0,
-      rating,
-    };
-  });
-
-  // Rated regions first (worst supply first to surface gaps), unrated last.
-  return results.sort((a, b) => {
-    if (a.perThousand === null && b.perThousand === null)
-      return b.capacity - a.capacity;
-    if (a.perThousand === null) return 1;
-    if (b.perThousand === null) return -1;
-    return a.perThousand - b.perThousand;
-  });
-}
-
-// --- Quality ---------------------------------------------------------------
-
-export interface QualityEntry {
-  name: string;
-  level: RegionLevelOrNone;
-  score: number;
-  facilities: number;
-  capacity: number;
-  coveredPercent: number;
-  feePercent: number;
-  highQuality: number;
-  mainType: string;
-}
-
-export function generateQualityAnalysis(
-  parkings: OsmBikeParking[],
-): QualityEntry[] {
-  const byRegion = accumulateByRegion(parkings.filter((p) => p.region));
-
-  const results: QualityEntry[] = [];
-  for (const acc of byRegion.values()) {
-    const scores = [...acc.typeCounts.entries()].flatMap(([type, count]) =>
-      Array<number>(count).fill(PARKING_TYPE_SCORE[type] ?? 1),
-    );
-    const coveredBonus = acc.covered / acc.facilities;
-    const feeMalus = acc.fee / acc.facilities;
-    const score = round(
-      average(scores) * 0.5 + coveredBonus * 5 - feeMalus * 2,
-    );
-
-    results.push({
-      name: acc.name,
-      level: acc.level,
-      score: Math.max(1, Math.min(10, score)),
-      facilities: acc.facilities,
-      capacity: acc.capacity,
-      coveredPercent: percent(acc.covered, acc.facilities, 0),
-      feePercent: percent(acc.fee, acc.facilities, 0),
-      highQuality: scores.filter((s) => s >= 7).length,
-      mainType: topKeys(acc.typeCounts, 1)[0] ?? "Unbekannt",
-    });
-  }
-
-  return results.sort((a, b) => b.score - a.score);
 }
 
 // --- Largest facilities ----------------------------------------------------

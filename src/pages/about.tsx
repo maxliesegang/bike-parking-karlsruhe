@@ -32,7 +32,7 @@ export default function About() {
               </Link>{" "}
               Fahrrad-Abstellanlagen (amenity=bicycle_parking). Die Daten werden
               regelmäßig über die Overpass API bezogen und decken Karlsruhe
-              sowie die Gemeinden des Landkreises Karlsruhe ab.
+              sowie die Gemeinden im Umland ab.
             </p>
             <p>
               <strong>Privates Parken</strong> (Zugang <em>private</em>,{" "}
@@ -93,12 +93,23 @@ export default function About() {
               (admin_level 8). Diese Ebenen überschneiden sich nicht.
             </p>
             <p>
-              Einwohnerzahlen und Flächen der 28 Karlsruher Stadtteile stammen
-              aus amtlichen Angaben; für Umland-Gemeinden wird die
-              Einwohnerzahl, sofern in OpenStreetMap hinterlegt, übernommen und
-              die Fläche aus der Geometrie berechnet. Verkehrsknoten wie der
-              Hauptbahnhof bündeln viele Stellplätze und können die
-              Pro-Kopf-Versorgung einer Region deutlich anheben.
+              Für den Vergleich bilden die Regionen zwei Gruppen — die{" "}
+              <strong>Karlsruher Stadtteile</strong> und die{" "}
+              <strong>Umland-Gemeinden</strong>. Bewertet und sortiert wird nur
+              innerhalb einer Gruppe, denn zwischen den beiden sagt ein direkter
+              Vergleich wenig aus.
+            </p>
+            <p>
+              Einwohnerzahlen und Flächen der Karlsruher Stadtteile stammen aus
+              amtlichen Angaben der Stadt, die der Umland-Gemeinden über{" "}
+              <Link className="kern-link" href="https://www.wikidata.org">
+                Wikidata
+              </Link>{" "}
+              aus der amtlichen Statistik; deren Fläche wird aus der Geometrie
+              berechnet. Verkehrsknoten wie der Hauptbahnhof bündeln viele
+              Stellplätze und heben die Pro-Kopf-Versorgung einer Region stark
+              an — auf der Analyse-Seite werden sie deshalb getrennt
+              ausgewiesen.
             </p>
           </section>
 

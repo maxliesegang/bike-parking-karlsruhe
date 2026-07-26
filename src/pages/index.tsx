@@ -83,9 +83,9 @@ export default function Home({ stats, topFacilities }: HomeProps) {
 
         <section className="app-section" aria-labelledby="top-heading">
           <SectionHeader id="top-heading" title="Größte Anlagen">
-            Verkehrsknoten wie der Hauptbahnhof bündeln viele Stellplätze und
-            heben die Pro-Kopf-Versorgung eines Bezirks stark an. Die Nummern
-            verbinden Tabelle und Karte.
+            Verkehrsknoten wie der Hauptbahnhof bündeln viele Stellplätze — in
+            der Analyse zählen sie deshalb getrennt. Die Nummern verbinden
+            Tabelle und Karte.
           </SectionHeader>
           <div className="app-grid app-grid--two">
             <DataTable
@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const { parkings } = getOsmData();
 
   // Emit the slim point set as a static asset the client map fetches async,
-  // keeping the ~7.5k-point array out of this page's static props.
+  // keeping the multi-thousand-point array out of this page's static props.
   writeMapData(parkings);
 
   return {

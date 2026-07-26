@@ -2,7 +2,7 @@ import { OsmSnapshot } from "../osmHistoryMapper";
 
 /**
  * One monthly measuring point, split into the two stacked series the charts
- * draw. The Umland (Landkreis) figures are derived as "total minus city"; both
+ * draw. The Umland figures are derived as "total minus city"; both
  * are null on snapshots recorded before city tracking existed, so charts skip
  * those segments instead of drawing a drop to zero.
  */
