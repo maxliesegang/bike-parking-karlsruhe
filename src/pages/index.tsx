@@ -1,7 +1,8 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { getOsmData } from "@/lib/osmDataCache";
-import { writeMapData } from "@/lib/mapDataWriter";
+import { writeCoverageData, writeMapData } from "@/lib/mapDataWriter";
+import { buildCoverageGrid } from "@/lib/osm/coverage";
 import {
   generateOverviewStats,
   generateTopFacilities,
@@ -73,12 +74,10 @@ export default function Home({ stats, topFacilities }: HomeProps) {
 
         <section className="app-section" aria-labelledby="map-heading">
           <SectionHeader id="map-heading" title="Karte">
-            Jeder Punkt ist eine Anlage; beim Herauszoomen werden sie gruppiert.
-            Klick für Details.
+            Drei Blicke auf dieselben Daten: wo die Anlagen stehen, wo es keine
+            gibt — und was sie taugen.
           </SectionHeader>
-          <div className="app-map-frame">
-            <ParkingMap />
-          </div>
+          <ParkingMap />
         </section>
 
         <section className="app-section" aria-labelledby="top-heading">
@@ -111,11 +110,13 @@ export default function Home({ stats, topFacilities }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const { parkings } = getOsmData();
+  const { parkings, districts } = getOsmData();
 
   // Emit the slim point set as a static asset the client map fetches async,
   // keeping the multi-thousand-point array out of this page's static props.
+  // The walking-distance raster rides along for the same reason.
   writeMapData(parkings);
+  writeCoverageData(buildCoverageGrid(parkings, districts));
 
   return {
     props: {

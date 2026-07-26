@@ -2,6 +2,7 @@ import { FeatureCollection } from "geojson";
 import { OsmBikeParking } from "@/models/osm-bike-parking";
 import { RegionInfo } from "@/models/region";
 import {
+  DistrictFeature,
   loadOsmBikeParkingData,
   loadStadtteilBoundaries,
   loadStadtteilGeoJSON,
@@ -14,6 +15,9 @@ import { OsmHistoryManager, OsmSnapshot } from "./osmHistoryMapper";
 export interface OsmData {
   parkings: OsmBikeParking[];
   regions: RegionInfo[];
+  // Boundary polygons in processed form — what the geo-processing works on,
+  // and what the derived map layers (choropleth, coverage raster) need.
+  districts: DistrictFeature[];
   boundaries: FeatureCollection;
   history: OsmSnapshot[];
 }
@@ -26,6 +30,7 @@ export function getOsmData(): OsmData {
       cached = {
         parkings: [],
         regions: [],
+        districts: [],
         boundaries: { type: "FeatureCollection", features: [] },
         history: [],
       };
@@ -41,6 +46,7 @@ export function getOsmData(): OsmData {
     cached = {
       parkings,
       regions,
+      districts: stadtteilData,
       boundaries: loadStadtteilGeoJSON(),
       history,
     };

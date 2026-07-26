@@ -17,4 +17,8 @@ export interface MapParking {
   access: string;
   operator: string;
   note: string;
+  // Equipment level, worst to best — what the „Ausstattung“ map view colours
+  // by. Derived from type and `covered` at build time so the map layer stays a
+  // plain lookup on one property.
+  equipment: "simple" | "covered" | "secure";
 }

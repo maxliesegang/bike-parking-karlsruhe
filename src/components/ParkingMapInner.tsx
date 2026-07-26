@@ -1,114 +1,44 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import "maplibre-gl/dist/maplibre-gl.css";
-import {
-  MAP_COLORS,
-  MAP_LABEL_FONT,
-  bindClusterZoom,
-  bindPointPopup,
-  ensurePointSource,
-  escapeHtml,
-  popupHtml,
-} from "@/lib/map/maplibre";
 import { useMapLibre } from "@/lib/map/useMapLibre";
+import { useJson } from "@/lib/map/useJson";
+import {
+  MAP_VIEWS,
+  MapView,
+  VIEW_META,
+  addCoverageLayers,
+  addParkingLayers,
+  setActiveView,
+} from "@/lib/map/parkingLayers";
+import { MapLegend } from "@/components/MapLegend";
 import { MapParking, MAP_DATA_URL } from "@/models/map-parking";
-
-const SOURCE_ID = "parkings";
-const CLUSTER_LAYER_ID = "parking-clusters";
-const POINT_LAYER_ID = "parking-points";
-
-function parkingPopup(p: MapParking): string {
-  const headline = [p.type];
-  if (p.capacity > 0) headline.push(`${p.capacity} Stellplätze`);
-
-  const properties: string[] = [];
-  if (p.covered) properties.push("überdacht");
-  if (p.fee) properties.push("kostenpflichtig");
-  if (p.access) properties.push(`Zugang: ${p.access}`);
-
-  return popupHtml([
-    `<strong>${escapeHtml(p.name || "Fahrrad-Abstellanlage")}</strong>`,
-    escapeHtml(headline.join(" · ")),
-    escapeHtml(p.region || "außerhalb der Stadtteile"),
-    properties.length > 0 && escapeHtml(properties.join(" · ")),
-    p.operator && `Betreiber: ${escapeHtml(p.operator)}`,
-    p.note && escapeHtml(p.note),
-  ]);
-}
+import { CoverageGrid, COVERAGE_DATA_URL } from "@/models/coverage";
 
 export default function ParkingMapInner() {
   const { basePath } = useRouter();
   const { containerRef, map } = useMapLibre();
-  const [parkings, setParkings] = useState<MapParking[] | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [view, setView] = useState<MapView>("anlagen");
+  // The raster is the largest asset on the page and most visitors never open
+  // its view, so it is fetched the first time that view is selected — and kept.
+  const [coverageRequested, setCoverageRequested] = useState(false);
 
-  useEffect(() => {
-    let active = true;
-    fetch(`${basePath}${MAP_DATA_URL}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((data: MapParking[]) => {
-        if (active) setParkings(data);
-      })
-      .catch(() => {
-        if (active) setFailed(true);
-      });
-    return () => {
-      active = false;
-    };
-  }, [basePath]);
+  const { data: parkings, failed } = useJson<MapParking[]>(
+    `${basePath}${MAP_DATA_URL}`,
+    true,
+  );
+
+  const { data: coverage } = useJson<CoverageGrid>(
+    `${basePath}${COVERAGE_DATA_URL}`,
+    coverageRequested,
+  );
 
   useEffect(() => {
     if (!map || !parkings) return;
-
-    // Layers and handlers are wired up together with the source; a later data
-    // change only refreshes the source.
-    if (!ensurePointSource(map, SOURCE_ID, parkings, { cluster: true })) return;
-
-    map.addLayer({
-      id: CLUSTER_LAYER_ID,
-      type: "circle",
-      source: SOURCE_ID,
-      filter: ["has", "point_count"],
-      paint: {
-        "circle-color": MAP_COLORS.accent,
-        "circle-radius": ["step", ["get", "point_count"], 18, 100, 24, 750, 32],
-        "circle-stroke-width": 2,
-        "circle-stroke-color": MAP_COLORS.onColor,
-      },
-    });
-
-    map.addLayer({
-      id: "parking-cluster-count",
-      type: "symbol",
-      source: SOURCE_ID,
-      filter: ["has", "point_count"],
-      layout: {
-        "text-field": ["get", "point_count_abbreviated"],
-        "text-font": MAP_LABEL_FONT,
-        "text-size": 12,
-      },
-      paint: { "text-color": MAP_COLORS.onColor },
-    });
-
-    map.addLayer({
-      id: POINT_LAYER_ID,
-      type: "circle",
-      source: SOURCE_ID,
-      filter: ["!", ["has", "point_count"]],
-      paint: {
-        "circle-color": MAP_COLORS.accent,
-        "circle-radius": 5,
-        "circle-stroke-width": 1,
-        "circle-stroke-color": MAP_COLORS.onColor,
-      },
-    });
-
-    bindPointPopup<MapParking>(map, POINT_LAYER_ID, parkingPopup);
-    bindClusterZoom(map, CLUSTER_LAYER_ID, SOURCE_ID);
-  }, [map, parkings]);
+    addParkingLayers(map, parkings);
+    if (coverage) addCoverageLayers(map, coverage);
+    setActiveView(map, view);
+  }, [map, parkings, coverage, view]);
 
   if (failed) {
     return (
@@ -136,5 +66,41 @@ export default function ParkingMapInner() {
     );
   }
 
-  return <div ref={containerRef} style={{ height: 460, width: "100%" }} />;
+  const meta = VIEW_META[view];
+  const waitingForCoverage = view === "erreichbarkeit" && !coverage;
+
+  return (
+    <div className="app-map">
+      <div className="app-filter" role="group" aria-label="Kartenansicht">
+        <span className="app-filter__label">Ansicht</span>
+        {MAP_VIEWS.map((option) => (
+          <button
+            key={option}
+            type="button"
+            className="app-chip"
+            aria-pressed={view === option}
+            onClick={() => {
+              setView(option);
+              if (option === "erreichbarkeit") setCoverageRequested(true);
+            }}
+          >
+            {VIEW_META[option].label}
+          </button>
+        ))}
+      </div>
+
+      <p className="app-muted app-footnote" aria-live="polite">
+        {meta.hint}
+        {waitingForCoverage && " Das Raster wird geladen …"}
+      </p>
+
+      <div className="app-map-frame">
+        <div ref={containerRef} style={{ height: 460, width: "100%" }} />
+      </div>
+
+      {meta.legend && (
+        <MapLegend stops={meta.legend} caption={meta.legendCaption} />
+      )}
+    </div>
+  );
 }

@@ -1,7 +1,13 @@
 import { RegionInfo } from "@/models/region";
 import { districtLookup } from "@/data/karlsruhe-districts";
 import { DistrictFeature } from "../osmDataFetcher";
-import { pointInPolygon, polygonAreaKm2 } from "../geoUtils";
+import {
+  boundsOf,
+  boundsOverlap,
+  inAnyPolygon,
+  pointInPolygon,
+  polygonAreaKm2,
+} from "../geoUtils";
 
 export type RegionLevel = 8 | 9 | 10;
 export type RegionLevelOrNone = RegionLevel | 0;
@@ -9,47 +15,10 @@ export type RegionLevelOrNone = RegionLevel | 0;
 // Admin levels that form the mutually-exclusive region partition:
 // AL10 (Stadtbezirk) > AL9 (Stadtteil) tile Karlsruhe city; AL8 (surrounding
 // Gemeinde) is disjoint from it. Priority order matters for assignment.
-const ASSIGNMENT_LEVELS: readonly RegionLevel[] = [10, 9, 8];
+export const ASSIGNMENT_LEVELS: readonly RegionLevel[] = [10, 9, 8];
 
 const SAMPLE_GRID = 24; // 24×24 over the bounding box
 const SUBDIVIDED_THRESHOLD = 0.95;
-
-type Bounds = {
-  minLon: number;
-  minLat: number;
-  maxLon: number;
-  maxLat: number;
-};
-
-function boundsOf(polygons: number[][][][]): Bounds {
-  const bounds: Bounds = {
-    minLon: Infinity,
-    minLat: Infinity,
-    maxLon: -Infinity,
-    maxLat: -Infinity,
-  };
-  for (const polygon of polygons) {
-    for (const [lon, lat] of polygon[0] || []) {
-      if (lon < bounds.minLon) bounds.minLon = lon;
-      if (lon > bounds.maxLon) bounds.maxLon = lon;
-      if (lat < bounds.minLat) bounds.minLat = lat;
-      if (lat > bounds.maxLat) bounds.maxLat = lat;
-    }
-  }
-  return bounds;
-}
-
-const overlaps = (a: Bounds, b: Bounds): boolean =>
-  a.minLon <= b.maxLon &&
-  a.maxLon >= b.minLon &&
-  a.minLat <= b.maxLat &&
-  a.maxLat >= b.minLat;
-
-const contains = (
-  polygons: number[][][][],
-  lon: number,
-  lat: number,
-): boolean => polygons.some((polygon) => pointInPolygon(lon, lat, polygon));
 
 /**
  * True if this AL9 district is entirely subdivided into AL10 districts, which
@@ -71,7 +40,7 @@ function isSubdivided(
   const children = districts
     .filter((d) => d.adminLevel === 10)
     .map((d) => ({ polygons: d.polygons, bounds: boundsOf(d.polygons) }))
-    .filter((d) => overlaps(bounds, d.bounds));
+    .filter((d) => boundsOverlap(bounds, d.bounds));
   if (children.length === 0) return false;
 
   // Sample interior points on a grid rather than testing the children's own
@@ -80,16 +49,16 @@ function isSubdivided(
   let sampled = 0;
   let covered = 0;
   for (let i = 0; i < SAMPLE_GRID; i++) {
-    const lon =
-      bounds.minLon +
-      ((i + 0.5) / SAMPLE_GRID) * (bounds.maxLon - bounds.minLon);
+    const lng =
+      bounds.minLng +
+      ((i + 0.5) / SAMPLE_GRID) * (bounds.maxLng - bounds.minLng);
     for (let j = 0; j < SAMPLE_GRID; j++) {
       const lat =
         bounds.minLat +
         ((j + 0.5) / SAMPLE_GRID) * (bounds.maxLat - bounds.minLat);
-      if (!contains(district.polygons, lon, lat)) continue;
+      if (!inAnyPolygon(district.polygons, lng, lat)) continue;
       sampled++;
-      if (children.some((c) => contains(c.polygons, lon, lat))) covered++;
+      if (children.some((c) => inAnyPolygon(c.polygons, lng, lat))) covered++;
     }
   }
 

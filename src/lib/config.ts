@@ -1,5 +1,7 @@
 import path from "path";
 import { MAP_DATA_URL } from "@/models/map-parking";
+import { COVERAGE_DATA_URL } from "@/models/coverage";
+import { REGION_SHAPES_URL } from "@/models/region-shape";
 
 export const JSON_URL =
   "https://mobil.trk.de/geoserver/TBA/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=TBA%3Afahrradanlagen&outputFormat=application%2Fjson";
@@ -21,3 +23,16 @@ export const OSM_HISTORY_PATH = path.join(process.cwd(), "osm-history.json");
 // Slimmed parking points emitted at build time and fetched by the client map.
 // Lives under public/ so the static export copies it into out/.
 export const MAP_DATA_PATH = path.join(process.cwd(), "public", MAP_DATA_URL);
+
+// Same idea for the two derived map layers: the walking-distance raster and the
+// simplified region polygons carrying their supply figures.
+export const COVERAGE_DATA_PATH = path.join(
+  process.cwd(),
+  "public",
+  COVERAGE_DATA_URL,
+);
+export const REGION_SHAPES_PATH = path.join(
+  process.cwd(),
+  "public",
+  REGION_SHAPES_URL,
+);

@@ -67,6 +67,10 @@ export function ensurePointSource<T extends MapPoint>(
 /**
  * Opens a popup on click and shows the pointer cursor on hover. A single popup
  * instance is reused so clicking around never stacks bubbles on the map.
+ *
+ * Point features anchor the popup to the feature itself; anything with an
+ * extent (a raster cell, a region polygon) anchors it where the click landed,
+ * which is the part of the shape the reader was pointing at.
  */
 export function bindPointPopup<T>(
   map: Map,
@@ -78,11 +82,12 @@ export function bindPointPopup<T>(
   map.on("click", layerId, (event) => {
     const feature = event.features?.[0];
     if (!feature) return;
+    const anchor =
+      feature.geometry.type === "Point"
+        ? (feature.geometry.coordinates as [number, number])
+        : event.lngLat;
     popup
-      .setLngLat((feature.geometry as GeoJSON.Point).coordinates as [
-        number,
-        number,
-      ])
+      .setLngLat(anchor)
       .setHTML(render(feature.properties as T))
       .addTo(map);
   });

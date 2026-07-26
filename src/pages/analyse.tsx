@@ -29,7 +29,10 @@ import {
 import { median } from "@/lib/math";
 import DataTable, { Column } from "@/components/DataTable";
 import { PageHeader } from "@/components/PageHeader";
+import { SectionHeader } from "@/components/SectionHeader";
 import { StatCard, RatingBadge } from "@/components/StatCard";
+import SupplyMap from "@/components/SupplyMap";
+import { writeRegionShapes } from "@/lib/mapDataWriter";
 
 interface AnalyseProps {
   supply: SupplyEntry[];
@@ -187,6 +190,12 @@ function SupplyView({
         <strong>Nächste Anlage</strong> ist die Distanz zur nächstgelegenen —
         ehrlicher als „pro km²“, das Wald und Felder verzerren.
       </p>
+      <SectionHeader id="versorgungskarte" title="Wo die Lücken liegen">
+        Dieselben Zahlen wie in der Tabelle, nur räumlich: Die Färbung ist
+        absolut, ein Stadtteil behält seine Farbe also beim Wechsel der
+        Vergleichsgruppe. Klick für die Werte einer Region.
+      </SectionHeader>
+      <SupplyMap group={filter === "alle" ? null : filter} />
       <DataTable
         data={data}
         columns={columns}
@@ -551,9 +560,13 @@ export default function Analyse({
 }
 
 export const getStaticProps: GetStaticProps<AnalyseProps> = async () => {
-  const { parkings, regions } = getOsmData();
+  const { parkings, regions, districts } = getOsmData();
   const supply = generateSupplyAnalysis(parkings, regions);
   const groups = buildPeerGroups(regions);
+
+  // Region polygons carrying these very figures, for the choropleth — emitted
+  // as a static asset rather than shipped in props, like the point set on /.
+  writeRegionShapes(supply, districts);
 
   return {
     props: {
