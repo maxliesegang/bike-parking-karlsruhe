@@ -396,6 +396,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "safe_loops",
+        "capacity": "15",
         "covered": "no",
         "name": "REWE"
       }
@@ -609,8 +610,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.5832571,
-          49.1339965
+          8.5832704,
+          49.133938
         ]
       },
       "properties": {
@@ -1636,6 +1637,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
+        "bike_ride": "yes",
         "capacity": "18",
         "covered": "no",
         "manufacturer": "Bike and Ride Fahrradparksysteme GmbH",
@@ -3230,6 +3232,7 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "anchors",
         "capacity": "24",
+        "check_date": "2026-06-09",
         "covered": "no",
         "operator": "Karlsruher Institut für Technologie",
         "supervised": "no"
@@ -6899,7 +6902,9 @@
         ]
       },
       "properties": {
-        "amenity": "bicycle_parking"
+        "amenity": "bicycle_parking",
+        "check_date": "2026-07-12",
+        "covered": "no"
       }
     },
     {
@@ -9808,8 +9813,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3948525,
-          49.0156055
+          8.3948238,
+          49.0156103
         ]
       },
       "properties": {
@@ -10388,7 +10393,10 @@
         ]
       },
       "properties": {
-        "amenity": "bicycle_parking"
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "capacity": "10",
+        "covered": "no"
       }
     },
     {
@@ -10640,7 +10648,8 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
         "capacity": "15",
-        "covered": "no"
+        "covered": "no",
+        "fee": "no"
       }
     },
     {
@@ -13860,8 +13869,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4617787,
-          49.0803825
+          8.4616981,
+          49.0804093
         ]
       },
       "properties": {
@@ -13896,8 +13905,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4062345,
-          49.0095436
+          8.406025,
+          49.0095528
         ]
       },
       "properties": {
@@ -17399,6 +17408,7 @@
       "properties": {
         "access": "yes",
         "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
         "covered": "no",
         "fee": "no"
       }
@@ -18222,64 +18232,6 @@
     },
     {
       "type": "Feature",
-      "id": 10226081312,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.4068698,
-          49.0095173
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "amenity": "bicycle_parking",
-        "bicycle_parking": "stands",
-        "capacity": "4",
-        "covered": "no",
-        "fee": "no"
-      }
-    },
-    {
-      "type": "Feature",
-      "id": 10226081313,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.4078338,
-          49.0094728
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "amenity": "bicycle_parking",
-        "bicycle_parking": "stands",
-        "capacity": "12",
-        "check_date:capacity": "2025-07-22",
-        "covered": "no",
-        "fee": "no"
-      }
-    },
-    {
-      "type": "Feature",
-      "id": 10226081314,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.4071961,
-          49.0093941
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "amenity": "bicycle_parking",
-        "bicycle_parking": "stands",
-        "capacity": "12",
-        "covered": "no",
-        "fee": "no"
-      }
-    },
-    {
-      "type": "Feature",
       "id": 10235636066,
       "geometry": {
         "type": "Point",
@@ -18452,8 +18404,8 @@
       },
       "properties": {
         "amenity": "bicycle_parking",
-        "bicycle_parking": "stands",
-        "capacity": "8",
+        "bicycle_parking": "rack",
+        "capacity": "16",
         "covered": "no"
       }
     },
@@ -19908,8 +19860,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.427293,
-          48.9998319
+          8.4272856,
+          48.9998246
         ]
       },
       "properties": {
@@ -25992,8 +25944,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3952178,
-          48.9960915
+          8.3952171,
+          48.996087
         ]
       },
       "properties": {
@@ -26011,8 +25963,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3953035,
-          48.9959773
+          8.3953021,
+          48.9959622
         ]
       },
       "properties": {
@@ -26063,7 +26015,8 @@
         ]
       },
       "properties": {
-        "amenity": "bicycle_parking"
+        "amenity": "bicycle_parking",
+        "covered": "no"
       }
     },
     {
@@ -26077,7 +26030,8 @@
         ]
       },
       "properties": {
-        "amenity": "bicycle_parking"
+        "amenity": "bicycle_parking",
+        "covered": "no"
       }
     },
     {
@@ -27680,8 +27634,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3740892,
-          49.0042321
+          8.3740542,
+          49.0042441
         ]
       },
       "properties": {
@@ -29689,24 +29643,6 @@
     },
     {
       "type": "Feature",
-      "id": 13373797543,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.4052413,
-          49.0048008
-        ]
-      },
-      "properties": {
-        "amenity": "bicycle_parking",
-        "bicycle_parking": "wall_loops",
-        "capacity": "35",
-        "covered": "no",
-        "fee": "no"
-      }
-    },
-    {
-      "type": "Feature",
       "id": 13373797544,
       "geometry": {
         "type": "Point",
@@ -30230,6 +30166,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
+        "capacity": "4",
         "covered": "no"
       }
     },
@@ -30263,6 +30200,7 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
+        "capacity": "4",
         "covered": "no"
       }
     },
@@ -31125,6 +31063,8 @@
       },
       "properties": {
         "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "7",
         "covered": "no"
       }
     },
@@ -31212,10 +31152,12 @@
         ]
       },
       "properties": {
+        "access": "yes",
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
         "capacity": "6",
-        "covered": "no"
+        "covered": "no",
+        "fee": "no"
       }
     },
     {
@@ -33704,6 +33646,250 @@
     },
     {
       "type": "Feature",
+      "id": 13919765764,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4664774,
+          48.9576109
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "4",
+        "covered": "no",
+        "model": "Kreuzberger Bügel",
+        "surface": "sett"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13935020756,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3633782,
+          49.0085332
+        ]
+      },
+      "properties": {
+        "access": "customers",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "6",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13935020757,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.358005,
+          49.0077518
+        ]
+      },
+      "properties": {
+        "access": "private",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "6",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13935020758,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3578684,
+          49.0078404
+        ]
+      },
+      "properties": {
+        "access": "private",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "6",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13935020759,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3578574,
+          49.0079167
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "8",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13937935723,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4131196,
+          49.0024985
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13938820553,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4404813,
+          48.999067
+        ]
+      },
+      "properties": {
+        "access": "private",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "rack",
+        "capacity": "10",
+        "covered": "yes"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13950315766,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4148655,
+          49.1368854
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13985329859,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3782739,
+          49.0070888
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 13988489020,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.429385,
+          49.0076051
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14006647633,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6770213,
+          49.2200708
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "ground_slots"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14019695503,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.652808,
+          49.217216
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "check_date": "2026-07-16",
+        "check_date:opening_hours": "2026-07-16",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14019701101,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6526881,
+          49.2172007
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "check_date": "2026-07-16",
+        "check_date:opening_hours": "2026-07-16",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 14019701102,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.6529942,
+          49.2165058
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "check_date": "2026-07-16",
+        "check_date:opening_hours": "2026-07-16",
+        "opening_hours": "24/7",
+        "operator": "Fotostudio Rascher"
+      }
+    },
+    {
+      "type": "Feature",
       "id": 4408558,
       "geometry": {
         "type": "Point",
@@ -33781,6 +33967,7 @@
       },
       "properties": {
         "amenity": "bicycle_parking",
+        "bicycle_parking": "wall_loops",
         "covered": "yes",
         "fee": "no"
       }
@@ -34528,7 +34715,7 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "wall_loops",
         "building:levels": "1",
-        "capacity": "65",
+        "capacity": "44",
         "covered": "yes",
         "fee": "no"
       }
@@ -35981,6 +36168,7 @@
         "lit": "yes",
         "manufacturer": "Orion",
         "model": "Beta Basis Classico",
+        "paving_stones:material": "concrete",
         "removed:amenity": "bicycle_parking",
         "start_date": "2014-04",
         "supervised": "no",
@@ -37865,9 +38053,8 @@
       "properties": {
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
-        "capacity": "130",
-        "covered": "no",
-        "fixme": "Anzahl geschätzt"
+        "capacity": "120",
+        "covered": "no"
       }
     },
     {
@@ -40807,15 +40994,14 @@
         "access": "customers",
         "amenity": "bicycle_parking",
         "bicycle_parking": "rack",
-        "capacity": "6",
+        "capacity": "15",
         "covered": "no",
         "fee": "no",
-        "fixme": "check capacity",
         "lit": "yes",
         "opening_hours": "24/7",
         "operator": "Rewe Markt GmbH Zweigniederlassung Südwest",
         "supervised": "no",
-        "surface": "paved"
+        "surface": "asphalt"
       }
     },
     {
@@ -43801,6 +43987,7 @@
         "fee": "no",
         "operator": "Hochschule Karlsruhe",
         "surface": "unhewn_cobblestone",
+        "toilets:wheelchair": "yes",
         "wheelchair": "limited"
       }
     },
@@ -45027,8 +45214,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4253138,
-          49.0002918
+          8.4252946,
+          49.000289
         ]
       },
       "properties": {
@@ -45053,7 +45240,7 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3941356,
+          8.3941355,
           48.9971669
         ]
       },
@@ -46311,8 +46498,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4238954,
-          49.0084105
+          8.4238941,
+          49.0084037
         ]
       },
       "properties": {
@@ -46895,9 +47082,9 @@
       },
       "properties": {
         "amenity": "bicycle_parking",
-        "bicycle_parking": "wall_loops",
-        "capacity": "5",
-        "covered": "no"
+        "bicycle_parking": "floor",
+        "covered": "no",
+        "note": "Kein ausgewiesener Parkplatz"
       }
     },
     {
@@ -48147,8 +48334,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.388602,
-          49.0094433
+          8.3885585,
+          49.0094448
         ]
       },
       "properties": {
@@ -51592,8 +51779,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4278879,
-          49.0113991
+          8.4278989,
+          49.0114222
         ]
       },
       "properties": {
@@ -51610,8 +51797,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4279804,
-          49.0117497
+          8.4279582,
+          49.0117422
         ]
       },
       "properties": {
@@ -52306,8 +52493,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3215421,
-          48.9677492
+          8.3216235,
+          48.9677965
         ]
       },
       "properties": {
@@ -52317,6 +52504,8 @@
         "capacity": "50",
         "covered": "no",
         "fee": "no",
+        "lit": "no",
+        "note": "2 Fahrräder pro Bügel",
         "surface": "gravel"
       }
     },
@@ -52920,6 +53109,7 @@
         "manufacturer": "Orion",
         "model": "Beta Classico höhergestellt",
         "operator": "DB InfraGO AG",
+        "paving_stones:material": "concrete",
         "surface": "paving_stones"
       }
     },
@@ -54101,8 +54291,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3200944,
-          48.9677625
+          8.320092,
+          48.9677637
         ]
       },
       "properties": {
@@ -54111,8 +54301,10 @@
         "bicycle_parking": "stands",
         "capacity": "12",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -54121,8 +54313,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3205155,
-          48.9678129
+          8.3205265,
+          48.9678186
         ]
       },
       "properties": {
@@ -54131,8 +54323,10 @@
         "bicycle_parking": "stands",
         "capacity": "30",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -54141,8 +54335,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3198925,
-          48.9676381
+          8.3198919,
+          48.9676366
         ]
       },
       "properties": {
@@ -54150,10 +54344,11 @@
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
         "capacity": "58",
-        "construction": "parking",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -54162,38 +54357,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3222362,
-          48.9682254
+          8.322221,
+          48.9682139
         ]
       },
       "properties": {
         "access": "yes",
         "amenity": "bicycle_parking",
         "bicycle_parking": "stands",
-        "capacity": "62",
+        "capacity": "66",
         "covered": "no",
+        "fee": "no",
         "lit": "no",
-        "surface": "compacted"
-      }
-    },
-    {
-      "type": "Feature",
-      "id": 1377228916,
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          8.3220662,
-          48.9680963
-        ]
-      },
-      "properties": {
-        "access": "yes",
-        "amenity": "bicycle_parking",
-        "bicycle_parking": "stands",
-        "capacity": "4",
-        "covered": "no",
-        "lit": "no",
-        "surface": "compacted"
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "gravel"
       }
     },
     {
@@ -54261,8 +54438,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3858591,
-          49.0087101
+          8.3858681,
+          49.0086939
         ]
       },
       "properties": {
@@ -54569,8 +54746,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.3062062,
-          49.0354308
+          8.3061955,
+          49.035427
         ]
       },
       "properties": {
@@ -57897,8 +58074,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          8.4281254,
-          49.0113266
+          8.4281283,
+          49.0113215
         ]
       },
       "properties": {
@@ -58272,6 +58449,174 @@
         "bicycle_parking": "wall_loops",
         "covered": "no",
         "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1527209569,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.5176363,
+          49.0496147
+        ]
+      },
+      "properties": {
+        "access": "customers",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "18",
+        "covered": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1527651414,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3115482,
+          49.0392525
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1529422961,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4029577,
+          49.001928
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "8",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1529422962,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4028639,
+          49.0018669
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "rack",
+        "covered": "no",
+        "fee": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1534914880,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4670882,
+          48.9904146
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "28"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1534951686,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3311152,
+          49.0041039
+        ]
+      },
+      "properties": {
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "30",
+        "covered": "no",
+        "note": "2 Fahrräder pro Bügel",
+        "surface": "grass_paver"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1539988176,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3883864,
+          49.0094964
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "21",
+        "covered": "yes",
+        "fee": "no",
+        "level": "0",
+        "lit": "no"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1540212328,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.418959,
+          49.0107681
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "32",
+        "check_date": "2026-07-18",
+        "covered": "no",
+        "fee": "no",
+        "lit": "yes",
+        "surface": "paving_stones"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 1540212331,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.4190273,
+          49.0103649
+        ]
+      },
+      "properties": {
+        "access": "yes",
+        "amenity": "bicycle_parking",
+        "bicycle_parking": "stands",
+        "capacity": "12",
+        "check_date": "2026-07-18",
+        "covered": "no",
+        "fee": "no",
+        "surface": "paving_stones"
       }
     }
   ]

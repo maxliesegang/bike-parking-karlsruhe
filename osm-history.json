@@ -1206,5 +1206,13 @@
     "cityFacilities": 2067,
     "cityCapacity": 34416,
     "source": "build"
+  },
+  "2026-08-01": {
+    "date": "2026-08-01",
+    "totalFacilities": 2815,
+    "totalCapacity": 46238,
+    "cityFacilities": 2077,
+    "cityCapacity": 34503,
+    "source": "build"
   }
 }
