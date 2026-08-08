@@ -1,8 +1,7 @@
 // Shared MapLibre GL setup for the two maps on the site. Client-only — every
 // helper here touches `window` via maplibre-gl, so it must be reached through a
 // `dynamic(..., { ssr: false })` component.
-import * as maplibregl from "maplibre-gl";
-import { type GeoJSONSource, type Map } from "maplibre-gl";
+import maplibregl, { type GeoJSONSource, type Map } from "maplibre-gl";
 
 export const MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
 

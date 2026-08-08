@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
-import * as maplibregl from "maplibre-gl";
-import { type Map } from "maplibre-gl";
+import maplibregl, { type Map } from "maplibre-gl";
 import {
   KARLSRUHE_CENTER,
   KARLSRUHE_ZOOM,

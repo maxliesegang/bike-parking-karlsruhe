@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import * as maplibregl from "maplibre-gl";
+import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import {
   MAP_COLORS,
