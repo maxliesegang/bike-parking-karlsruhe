@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -58,12 +58,12 @@ jobs:
             exit 1
           fi
       - name: Setup Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v7.0.0
         with:
           node-version: "26"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
-        uses: actions/configure-pages@v6
+        uses: actions/configure-pages@v6.0.0
         with:
           # Automatically inject basePath in your Next.js configuration file and disable
           # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
@@ -71,7 +71,7 @@ jobs:
           # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: next
       - name: Restore cache
-        uses: actions/cache@v6
+        uses: actions/cache@v6.1.0
         with:
           path: |
             .next/cache
@@ -105,7 +105,7 @@ jobs:
           git commit -m "chore: update OSM bike parking data" || exit 0
           git push
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: ./out
 
@@ -119,4 +119,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v5.0.0
